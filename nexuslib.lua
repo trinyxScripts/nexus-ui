@@ -1254,3 +1254,47 @@ end
 
 
 
+
+local main = Library:new{
+	Name = "Custom Name"
+}
+
+--local Tab = main:CreateTab({Icon = "rbxassetid://83262328821985"})
+local Tab = main:CreateTab({Icon = "rbxassetid://83262328821985"})
+
+local label = Tab:Label({
+	Name = "LOLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL"
+})
+
+
+local btn = Tab:Button({Name = "SKID", callback = function() label:SetText("Skibidi toilet") end})
+local Slider = Tab:Slider({
+	Name = "ss",
+	max = 1000,
+	min = 10,
+	Default = 1999,
+	callback = function(v)
+		if v > 50 then
+			print(v) 
+		end
+	end,
+})
+
+local toggle = Tab:Toggle({
+	Name = "ss",
+	State = false,
+	callback = function (v)
+		print(v)
+	end
+})
+
+local d = Tab:DropDown({Name = "Dp",callback = function(v) 
+	print((v))
+end,})
+
+d:Add("Bob", 1)
+d:Add("Bob2", 2)
+d:Add("Bob3", 3)
+d:Add("Bob4", 4)
+d:Add("Bob5", 5)
+local btn = Tab:Button({Name = "SKID", callback = function() d:Clear() end})
