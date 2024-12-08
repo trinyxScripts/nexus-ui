@@ -1250,4 +1250,3 @@ function Library:new(options)
 	
 	return GUI
 end
-
