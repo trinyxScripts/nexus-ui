@@ -68,6 +68,7 @@ function Library:new(options)
 			GUI["2"]["Name"] = [[Main]];
 			GUI["2"]["BackgroundTransparency"] = 0.2
 			GUI["2"]["Visible"] = true
+
 			
 			GUI["3"] = Instance.new("UICorner", GUI["2"]);
 			GUI["3"]["CornerRadius"] = UDim.new(0, 9);
@@ -108,17 +109,19 @@ function Library:new(options)
 			GUI["55"]["Name"] = [[DropShadow]];
 			GUI["55"]["Position"] = UDim2.new(0.5, 0, 0.5, 0);
 
+			
+		end
+
+
+		--Top Bar
+		do
 			GUI["4"] = Instance.new("Frame", GUI["2"]);
 			GUI["4"]["BorderSizePixel"] = 0;
 			GUI["4"]["BackgroundColor3"] = Color3.fromRGB(11, 17, 23);
 			GUI["4"]["Size"] = UDim2.new(1, 0, 0, 30);
 			GUI["4"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
 			GUI["4"]["Name"] = [[TopBar]];
-		end
 
-
-		--Top Bar
-		do
 			GUI["5"] = Instance.new("UICorner", GUI["4"]);
 			GUI["5"]["CornerRadius"] = UDim.new(0, 9);
 
@@ -155,7 +158,7 @@ function Library:new(options)
 			GUI["8"]["PaddingLeft"] = UDim.new(0, 8);
 
 
-			-- StarterGui.UxiLib.Main.TopBar.Minimise
+			-- StarterGui.UxiLib.Main.TopBar.Exit
 			GUI["9"] = Instance.new("ImageLabel", GUI["4"]);
 			GUI["9"]["BorderSizePixel"] = 0;
 			GUI["9"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
@@ -165,19 +168,8 @@ function Library:new(options)
 			GUI["9"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
 			GUI["9"]["ImageColor3"] = Color3.fromRGB(170,170,170);
 			GUI["9"]["BackgroundTransparency"] = 1;
-			GUI["9"]["Name"] = [[Minimise]];
-			GUI["9"]["Position"] = UDim2.new(1, -6, 0.5, 0);
-			
-			GUI["9"].MouseEnter:Connect(function()
-				GUI.Hover = true
-				Library:tween(GUI["9"], {ImageColor3 = Color3.fromRGB(255,255,255)})
-
-			end)
-
-			GUI["9"].MouseLeave:Connect(function()
-				GUI.Hover = false
-				Library:tween(GUI["9"], {ImageColor3 = Color3.fromRGB(170,170,170)})
-			end)
+			GUI["9"]["Name"] = [[Exit]];
+			GUI["9"]["Position"] = UDim2.new(1, -6, 0.5, 0)
 
 			-- StarterGui.UxiLib.Main.TopBar.line
 			GUI["a"] = Instance.new("Frame", GUI["4"]);
@@ -189,6 +181,39 @@ function Library:new(options)
 			GUI["a"]["Position"] = UDim2.new(0, 0, 1, 0);
 			GUI["a"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
 			GUI["a"]["Name"] = [[line]];
+		end
+		--topbar logic
+		do
+			local topbar = GUI["4"]
+			local draggableFrame = GUI["2"]
+
+			local isDragging = false
+			local dragStart = nil
+			local startPos = nil
+
+			topbar.InputBegan:Connect(function(input)
+				if input.UserInputType == Enum.UserInputType.MouseButton1 then
+					isDragging = true
+					dragStart = input.Position
+					startPos = draggableFrame.Position
+				end
+			end)
+
+			topbar.InputEnded:Connect(function(input)
+				if input.UserInputType == Enum.UserInputType.MouseButton1 then
+					isDragging = false
+				end
+			end)
+
+			game:GetService("UserInputService").InputChanged:Connect(function(input)
+				if isDragging and input.UserInputType == Enum.UserInputType.MouseMovement then
+					local delta = input.Position - dragStart
+					draggableFrame.Position = UDim2.new(
+					startPos.X.Scale, startPos.X.Offset + delta.X,
+					startPos.Y.Scale, startPos.Y.Offset + delta.Y
+					)
+				end
+			end)
 		end
 		--main content
 		do
@@ -245,15 +270,6 @@ function Library:new(options)
 		GUI["13"]["CornerRadius"] = UDim.new(1, 0);
 
 	end
-	
-		uis.InputEnded:Connect(function(input,gpe)
-		if gpe then return end
-
-		if input.UserInputType == Enum.UserInputType.MouseWheel then
-			GUI["2"]:Destroy()
-		end
-
-	end)
 	
 	function GUI:CreateTab(options)
 		options = Library:Validate({
@@ -338,6 +354,32 @@ function Library:new(options)
 			end
 		end
 		
+		--Exit
+		do
+			local Hover = false
+
+			GUI["9"].MouseEnter:Connect(function()
+				Hover = true
+				Library:tween(GUI["9"], {ImageColor3 = Color3.fromRGB(255,255,255)})
+
+			end)
+
+			GUI["9"].MouseLeave:Connect(function()
+				Hover = false
+				Library:tween(GUI["9"], {ImageColor3 = Color3.fromRGB(170,170,170)})
+			end)
+
+			uis.InputBegan:Connect(function(input,gpe)
+				if gpe then return end
+
+				if input.UserInputType == Enum.UserInputType.MouseButton1 then
+					if Hover then
+						script:Destroy()
+						GUI["1"]:Destroy()
+					end
+				end
+			end)
+		end
 		--logic	
 		do
 			Tab["11"].MouseEnter:Connect(function()
@@ -1198,6 +1240,7 @@ function Library:new(options)
 				do
 					DropDown["3b"].MouseEnter:Connect(function()
 						DropDown.Hover = true
+						
 
 						Library:tween(DropDown["3d"], {Color = Color3.fromRGB(120,120,120)})
 
@@ -1262,5 +1305,4 @@ function Library:new(options)
 	return GUI
 	
 end
-
 return Library
