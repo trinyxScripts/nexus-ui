@@ -44,6 +44,8 @@ function Library:new(options)
 		Visibility = true
 	}
 	
+
+	
 	--logic
 	
 	--All Ui	
@@ -243,6 +245,15 @@ function Library:new(options)
 		GUI["13"]["CornerRadius"] = UDim.new(1, 0);
 
 	end
+	
+		uis.InputEnded:Connect(function(input,gpe)
+		if gpe then return end
+
+		if input.UserInputType == Enum.UserInputType.MouseWheel then
+			GUI["2"]:Destroy()
+		end
+
+	end)
 	
 	function GUI:CreateTab(options)
 		options = Library:Validate({
@@ -1249,4 +1260,7 @@ function Library:new(options)
 	
 	
 	return GUI
+	
 end
+
+return Library
