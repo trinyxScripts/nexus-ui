@@ -184,14 +184,12 @@ function Library:new(options)
 		end
 		--topbar logic
 		do
-			local topbar = GUI["4"]
-			local draggableFrame = GUI["2"]
 
 			local isDragging = false
 			local dragStart = nil
 			local startPos = nil
 
-			topbar.InputBegan:Connect(function(input)
+			GUI["4"].InputBegan:Connect(function(input)
 				if input.UserInputType == Enum.UserInputType.MouseButton1 then
 					isDragging = true
 					dragStart = input.Position
@@ -199,13 +197,13 @@ function Library:new(options)
 				end
 			end)
 
-			topbar.InputEnded:Connect(function(input)
+			GUI["4"].InputEnded:Connect(function(input)
 				if input.UserInputType == Enum.UserInputType.MouseButton1 then
 					isDragging = false
 				end
 			end)
 
-			game:GetService("UserInputService").InputChanged:Connect(function(input)
+			 uis.InputChanged:Connect(function(input)
 				if isDragging and input.UserInputType == Enum.UserInputType.MouseMovement then
 					local delta = input.Position - dragStart
 					draggableFrame.Position = UDim2.new(
