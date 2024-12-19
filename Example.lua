@@ -1,8 +1,18 @@
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/trinyxScripts/nexus-ui/refs/heads/main/nexuslib.lua"))()
 
 local main = Library:new{
-	Name = "Custom Name"
+	Name = "Custom Name",
+	DockPos = "Bottom",
+	Theme = Themes.NexusTheme		,
+	KeySystemConfig = {
+		KeySystem = true,
+		Key = "Key",
+		KeyLink = "https://discord.gg/uusn8yjs2z",
+		Title = "Text",
+		Text = "Text"
+	},
 }
+
 local Tab = main:CreateTab({Icon = "rbxassetid://83262328821985"})
 local Tab1 = main:CreateTab({Icon = "rbxassetid://83262328821985"})
 local btn = Tab:Button({
@@ -53,3 +63,25 @@ local d = Tab:DropDown({
 d:Add("Bob", 1)
 d:Add("Second Bob", 2)
 d:Add("Third Bob", 3)
+
+local txtInput = Tab1:TextInput({
+	PlaceHolderText = "InputValueHere",
+	Text = "",
+	Title = "Toilet",
+	CallBack = function (v)  Tab:Notification({
+ Text = v,
+ Title = "Title",
+ ActiveTime = 5
+ }) end
+})
+
+local PopUp = Tab:CreatePopUp({
+			ButtonLeftText = "Yeah",
+			ButtonRightText = "Nah",
+			TitleText = "Confirm",
+			Text = "Do you want to continue with the action?",
+			callback = function()
+				print("Action confirmed!")
+				PopUp:Destroy()
+			end
+	})
