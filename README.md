@@ -3,7 +3,9 @@
 ## Features
 
 - Different Unique design
-- Themes(Coming soon!)
+- Themes
+- Customization
+- Key System
 <br/>
 
 ## 🔌 Installation
