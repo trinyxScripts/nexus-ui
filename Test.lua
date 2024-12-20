@@ -14,9 +14,8 @@ local tweenInfo = TweenInfo.new(0.2,Enum.EasingStyle.Quad,Enum.EasingDirection.I
 --did
 --toggle buttons tab main ui :()
 
-local Library = {}
-
-local Themes = {
+local Library = {
+	local Themes = {
 	DarkBlue = {
 		isDark = true,
 		BackgroundColor = Color3.fromRGB(15, 24, 32),
@@ -261,8 +260,9 @@ local Themes = {
 		NotificationStrokeColor = Color3.fromRGB(199, 138, 16),
 		NotificationSeperatorColor = Color3.fromRGB(194-20, 227-20, 255-20),
 	}
-
+	}
 }
+
 --CurrentTheme.ToggleColor
 
 local Theme = Themes.DarkRed
