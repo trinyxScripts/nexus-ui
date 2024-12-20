@@ -16,7 +16,39 @@ local tweenInfo = TweenInfo.new(0.2,Enum.EasingStyle.Quad,Enum.EasingDirection.I
 
 
 
-local Library = {
+local Library = }
+}
+
+
+
+--CurrentTheme.ToggleColor
+
+local Theme = nil
+
+function Library:Validate(defaults,options)
+
+	for i, v in pairs(defaults) do
+		if options[i] == nil then
+			options[i] = v
+		end
+	end
+	return options
+end
+function Library:tween(object, goal, time, easeStyle,EaseDirection, callback)
+	local tweenInfo = TweenInfo.new(
+		time or 0.15,
+		easeStyle or Enum.EasingStyle.Back,
+		EaseDirection or Enum.EasingDirection.Out
+	)
+	local tween = tweenService:Create(object, tweenInfo, goal)
+	tween.Completed:Connect(callback or function() end)
+	tween:Play()
+	return tween
+end
+
+
+
+function Library:new(options)
 	local Themes = {
 		DarkBlue = {
 			isDark = true,
@@ -264,38 +296,8 @@ local Library = {
 		}
 
 	}
-}
-
-
---CurrentTheme.ToggleColor
-
-local Theme = Themes.DarkRed
-
-function Library:Validate(defaults,options)
-
-	for i, v in pairs(defaults) do
-		if options[i] == nil then
-			options[i] = v
-		end
-	end
-	return options
-end
-function Library:tween(object, goal, time, easeStyle,EaseDirection, callback)
-	local tweenInfo = TweenInfo.new(
-		time or 0.15,
-		easeStyle or Enum.EasingStyle.Back,
-		EaseDirection or Enum.EasingDirection.Out
-	)
-	local tween = tweenService:Create(object, tweenInfo, goal)
-	tween.Completed:Connect(callback or function() end)
-	tween:Play()
-	return tween
-end
-
-
-
-function Library:new(options)
-
+	
+	
 	--automatic Assign Default if blank
 	options = Library:Validate({
 		name = "Default",
@@ -2477,6 +2479,88 @@ function Library:new(options)
 
 
 end
+
+local main = Library:new{
+	Name = "Custom Name",
+	DockPos = "Bottom",
+	Theme = Themes.DarkGreen,
+	KeySystemConfig = {
+		KeySystem = true,
+		Key = "He",
+		KeyLink = "https://discord.gg/uusn8yjs2z"
+	},
+}
+
+local Tab = main:CreateTab({Icon = "rbxassetid://83262328821985"})
+local Tab1 = main:CreateTab({Icon = "rbxassetid://83262328821985"})
+
+local btn = Tab:Button({
+	Name = "GGs", 
+	callback = function() print("Hi") end
+})
+
+local btn = Tab:Button({
+	Name = "GGs", 
+	callback = function() Tab:Notification() end
+})
+local btn = Tab1:Button({
+	Name = "GGs", 
+	callback = function()
+		Tab:CreatePopUp({
+			ButtonLeftText = "Yeah",
+			ButtonRightText = "Nah",
+			TitleText = "Confirm",
+			Text = "Do you want to continue with the action?",
+			callback = function()
+				print("Action confirmed!")  -- This will print when "Yeah" is clicked
+			end
+		})
+	end
+})
+
+
+local txtInput = Tab1:TextInput({
+	PlaceHolderText = "LOL",
+	Title = "Toilet",
+	CallBack = function (v) print(v, " Im here") end
+})
+
+
+local label = Tab:Label({
+	Name = "1234"
+})
+local label = Tab1:Label({
+	Name = "LOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOL"
+})
+
+local Slider = Tab:Slider({
+	Name = 'slider',
+	min = 0,
+	max = 100,
+	Default = 50,
+	callback = function(v)
+		if v > 50 then
+			print(v)
+		end
+	end
+})
+local tg = Tab:Toggle({
+	Name = 'ss',
+	State = false,
+	callback = function (v)
+		print(v)
+	end
+})
+
+local d = Tab:DropDown({
+	Name = "Dp",
+	callback = function(option) 
+		print(option)
+	end
+})
+d:Add("Bob", 1)
+d:Add("Second Bob", 2)
+d:Add("Third Bob", 3)
 
 
 return Library
