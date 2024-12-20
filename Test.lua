@@ -2476,3 +2476,4 @@ function Library:new(options)
 
 end
 return Library
+return theme
