@@ -18,7 +18,49 @@ local Library = {
 	
 }
 
-local Themes = {
+
+--CurrentTheme.ToggleColor
+
+local Theme = Themes.DarkRed
+
+function Library:Validate(defaults,options)
+
+	for i, v in pairs(defaults) do
+		if options[i] == nil then
+			options[i] = v
+		end
+	end
+	return options
+end
+function Library:tween(object, goal, time, easeStyle,EaseDirection, callback)
+	local tweenInfo = TweenInfo.new(
+		time or 0.15,
+		easeStyle or Enum.EasingStyle.Back,
+		EaseDirection or Enum.EasingDirection.Out
+	)
+	local tween = tweenService:Create(object, tweenInfo, goal)
+	tween.Completed:Connect(callback or function() end)
+	tween:Play()
+	return tween
+end
+
+
+
+function Library:new(options)
+
+	--automatic Assign Default if blank
+	options = Library:Validate({
+		name = "Default",
+		DockPos = "Bottom",
+		Theme = Themes.DarkRed,
+		KeySystemConfig = {
+			KeySystem = true,
+			Key = "",
+			KeyLink = "https://discord.gg/uusn8yjs2z"
+		},
+	},options or {})
+
+	local Themes = {
 	DarkBlue = {
 		isDark = true,
 		BackgroundColor = Color3.fromRGB(15, 24, 32),
@@ -265,47 +307,7 @@ local Themes = {
 	}
 
 }
---CurrentTheme.ToggleColor
-
-local Theme = Themes.DarkRed
-
-function Library:Validate(defaults,options)
-
-	for i, v in pairs(defaults) do
-		if options[i] == nil then
-			options[i] = v
-		end
-	end
-	return options
-end
-function Library:tween(object, goal, time, easeStyle,EaseDirection, callback)
-	local tweenInfo = TweenInfo.new(
-		time or 0.15,
-		easeStyle or Enum.EasingStyle.Back,
-		EaseDirection or Enum.EasingDirection.Out
-	)
-	local tween = tweenService:Create(object, tweenInfo, goal)
-	tween.Completed:Connect(callback or function() end)
-	tween:Play()
-	return tween
-end
-
-
-
-function Library:new(options)
-
-	--automatic Assign Default if blank
-	options = Library:Validate({
-		name = "Default",
-		DockPos = "Bottom",
-		Theme = Themes.DarkRed,
-		KeySystemConfig = {
-			KeySystem = true,
-			Key = "",
-			KeyLink = "https://discord.gg/uusn8yjs2z"
-		},
-	},options or {})
-
+	
 	Theme = options.Theme
 
 	local GUI = {
@@ -2475,5 +2477,6 @@ function Library:new(options)
 
 
 end
-return Library
 return theme
+return Library
+
