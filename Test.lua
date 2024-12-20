@@ -14,8 +14,256 @@ local tweenInfo = TweenInfo.new(0.2,Enum.EasingStyle.Quad,Enum.EasingDirection.I
 --did
 --toggle buttons tab main ui :()
 
+
+
 local Library = {
-	
+	local Themes = {
+		DarkBlue = {
+			isDark = true,
+			BackgroundColor = Color3.fromRGB(15, 24, 32),
+
+			ButtonColor = Color3.fromRGB(22, 36, 49),
+			ButtonStrokeColor = Color3.fromRGB(97, 97, 97),
+			--dropdown
+			DropDownColor = Color3.fromRGB(22, 36, 49),
+			DropDownOptionsColor = Color3.fromRGB(46, 77, 104),
+			DropDownOptionsStrokeColor = Color3.fromRGB(97, 97, 97),
+			DropDownStrokeColor = Color3.fromRGB(97, 97, 97),
+			--label
+			LabelColor = Color3.fromRGB(22, 36, 49),
+			LabelStrokeColor = Color3.fromRGB(10, 91, 97),
+			--slider
+			SliderColor = Color3.fromRGB(22, 36, 49),
+			SliderBackColor = Color3.fromRGB(14, 21, 33),
+			SliderFillColor = Color3.fromRGB(39, 59, 91),
+			SliderStrokeAll = Color3.fromRGB(97, 97, 97),
+			--toggle
+			ToggleColor = Color3.fromRGB(22, 36, 49),
+			ToggleCheckColorInactive = Color3.fromRGB(15, 24, 33),
+			ToggleCheckColor = Color3.fromRGB(42, 128, 136),
+			--not naming this shit
+			TopBar = Color3.fromRGB(10, 16, 22),
+			TopBarStrokeColor = Color3.fromRGB(10, 16, 22),
+
+			TabButtonActive = Color3.fromRGB(255, 255, 255),
+			TabButtonInactive = Color3.fromRGB(150, 182, 182),
+			DockColor = Color3.fromRGB(15, 24, 32),
+			TextColor = Color3.fromRGB(255,255,255),
+			--Pops Ups
+			PopUpColor = Color3.fromRGB(22, 36, 48),
+			PopUpButtonColor = Color3.fromRGB(36, 60, 98),
+			PopUpStroke = Color3.fromRGB(86, 86, 86),
+
+			TextInputColor = Color3.fromRGB(22, 36, 49),
+			TabColor = Color3.fromRGB(134, 134, 134),
+			NotificationColor = Color3.fromRGB(22, 36, 48),
+			NotificationStrokeColor = Color3.fromRGB(199, 138, 16),
+			NotificationSeperatorColor = Color3.fromRGB(42, 56, 68),
+		},
+		NexusTheme = {
+			isDark = true,
+			BackgroundColor = Color3.fromRGB(26, 15, 32),
+
+			ButtonColor = Color3.fromRGB(49, 27, 65),
+			ButtonStrokeColor = Color3.fromRGB(0, 0, 0),
+			--dropdown
+			DropDownColor = Color3.fromRGB(49, 27, 65),
+			DropDownOptionsColor = Color3.fromRGB(83, 46, 111),
+			DropDownOptionsStrokeColor = Color3.fromRGB(0,0,0),
+			DropDownStrokeColor = Color3.fromRGB(0,0,0),
+			--label
+			LabelColor = Color3.fromRGB(32, 18, 43),
+			LabelStrokeColor = Color3.fromRGB(66, 18, 138),
+			--slider
+			SliderColor = Color3.fromRGB(49, 27, 65),
+			SliderBackColor = Color3.fromRGB(14, 21, 33),
+			SliderFillColor = Color3.fromRGB(105, 59, 141),
+			SliderStrokeAll = Color3.fromRGB(120,120,120),
+			--toggle
+			ToggleColor = Color3.fromRGB(49, 27, 65),
+			ToggleCheckColorInactive = Color3.fromRGB(33, 18, 44),
+			ToggleCheckColor = Color3.fromRGB(118, 66, 158),
+			--not naming this shit
+			TopBar = Color3.fromRGB(47, 37, 70),
+			TopBarStrokeColor = Color3.fromRGB(10, 16, 22),
+
+			TabButtonActive = Color3.fromRGB(255, 255, 255),
+			TabButtonInactive = Color3.fromRGB(150, 182, 182),
+			DockColor = Color3.fromRGB(26, 15, 32),
+			TextColor = Color3.fromRGB(255,255,255),
+			--Pops Ups
+			PopUpColor = Color3.fromRGB(34, 19, 45),
+			PopUpButtonColor = Color3.fromRGB(91, 51, 121),
+			PopUpStroke = Color3.fromRGB(120, 103, 140),
+			TextInputColor = Color3.fromRGB(49, 27, 65),
+			TabColor = Color3.fromRGB(134, 134, 134),
+
+			NotificationColor = Color3.fromRGB(40, 21, 48),
+			NotificationStrokeColor = Color3.fromRGB(161, 9, 199),
+			NotificationSeperatorColor = Color3.fromRGB(60, 41, 68),
+		},
+		DarkGreen = {
+			isDark = true,
+			BackgroundColor = Color3.fromRGB(20, 30, 20),
+
+			ButtonColor = Color3.fromRGB(30, 45, 30),
+			ButtonStrokeColor = Color3.fromRGB(97, 97, 97),
+			TextInputColor = Color3.fromRGB(30, 45, 30),
+			--dropdown
+			DropDownColor = Color3.fromRGB(30, 45, 30),
+			DropDownOptionsColor = Color3.fromRGB(50, 80, 50),
+			DropDownOptionsStrokeColor = Color3.fromRGB(90, 90, 90),
+			DropDownStrokeColor = Color3.fromRGB(97, 97, 97),
+			--label
+			LabelColor = Color3.fromRGB(30, 45, 30),
+			LabelStrokeColor = Color3.fromRGB(20, 80, 20),
+			--slider
+			SliderColor = Color3.fromRGB(30, 45, 30),
+			SliderBackColor = Color3.fromRGB(20, 30, 20),
+			SliderFillColor = Color3.fromRGB(40, 60, 40),
+			SliderStrokeAll = Color3.fromRGB(97, 97, 97),
+			--toggle
+			ToggleColor = Color3.fromRGB(30, 45, 30),
+			ToggleCheckColorInactive = Color3.fromRGB(20, 30, 20),
+			ToggleCheckColor = Color3.fromRGB(50, 150, 50),
+			--not naming this shit
+			TopBar = Color3.fromRGB(10, 20, 10),
+			TopBarStrokeColor = Color3.fromRGB(10, 20, 10),
+
+			TabButtonActive = Color3.fromRGB(255, 255, 255),
+			TabButtonInactive = Color3.fromRGB(150, 182, 182),
+			DockColor = Color3.fromRGB(20, 30, 20),
+			TextColor = Color3.fromRGB(255,255,255),
+			PopUpColor = Color3.fromRGB(25, 39, 18),
+			PopUpButtonColor = Color3.fromRGB(35, 98, 40),PopUpStroke = Color3.fromRGB(70, 86, 60),
+			TabColor = Color3.fromRGB(134, 134, 134),
+
+			NotificationColor = Color3.fromRGB(34, (72-5), 30),
+			NotificationStrokeColor = Color3.fromRGB(159, 199, 16),
+			NotificationSeperatorColor = Color3.fromRGB(54, 87, 50),
+		},
+		DarkRed = {
+			isDark = true,
+			BackgroundColor = Color3.fromRGB(32, 15, 15),
+
+			ButtonColor = Color3.fromRGB(49, 22, 22),
+			TextInputColor = Color3.fromRGB(49, 22, 22),
+			ButtonStrokeColor = Color3.fromRGB(97, 50, 50),
+			--dropdown
+			DropDownColor = Color3.fromRGB(49, 22, 22),
+			DropDownOptionsColor = Color3.fromRGB(104, 46, 46),
+			DropDownOptionsStrokeColor = Color3.fromRGB(97, 50, 50),
+			DropDownStrokeColor = Color3.fromRGB(97, 50, 50),
+			--label
+			LabelColor = Color3.fromRGB(49, 22, 22),
+			LabelStrokeColor = Color3.fromRGB(97, 50, 50),
+			--slider
+			SliderColor = Color3.fromRGB(49, 22, 22),
+			SliderBackColor = Color3.fromRGB(33, 14, 14),
+			SliderFillColor = Color3.fromRGB(91, 39, 39),
+			SliderStrokeAll = Color3.fromRGB(97, 50, 50),
+			--toggle
+			ToggleColor = Color3.fromRGB(49, 22, 22),
+			ToggleCheckColorInactive = Color3.fromRGB(33, 15, 15),
+			ToggleCheckColor = Color3.fromRGB(136, 42, 42),
+			--not naming this shit
+			TopBar = Color3.fromRGB(22, 10, 10),
+			TopBarStrokeColor = Color3.fromRGB(22, 10, 10),
+
+			TabButtonActive = Color3.fromRGB(255, 255, 255),
+			TabButtonInactive = Color3.fromRGB(182, 150, 150),
+			DockColor = Color3.fromRGB(32, 15, 15),
+			TextColor = Color3.fromRGB(255,255,255),
+			PopUpColor = Color3.fromRGB(56, 26, 26),
+			PopUpButtonColor = Color3.fromRGB(130, 38, 38),
+			PopUpStroke = Color3.fromRGB(148, 33, 33),
+			TabColor = Color3.fromRGB(134, 134, 134),
+			NotificationColor = Color3.fromRGB(32, 15, 15),
+			NotificationStrokeColor = Color3.fromRGB(199, 138, 16),
+			NotificationSeperatorColor = Color3.fromRGB(32+20, 15+20, 15+20),
+		},
+		LightYellow = {
+			isDark = false,
+			BackgroundColor = Color3.fromRGB(234, 234, 173),
+
+			ButtonColor = Color3.fromRGB(240, 240, 200),
+			TextInputColor = Color3.fromRGB(240, 240, 200),
+			ButtonStrokeColor = Color3.fromRGB(210, 210, 170),
+			--dropdown
+			DropDownColor = Color3.fromRGB(240, 240, 200),
+			DropDownOptionsColor = Color3.fromRGB(220, 220, 190),
+			DropDownOptionsStrokeColor = Color3.fromRGB(210, 210, 170),
+			DropDownStrokeColor = Color3.fromRGB(210, 210, 170),
+			--label
+			LabelColor = Color3.fromRGB(240, 240, 200),
+			LabelStrokeColor = Color3.fromRGB(210, 210, 170),
+			--slider
+			SliderColor = Color3.fromRGB(240, 240, 200),
+			SliderBackColor = Color3.fromRGB(255, 255, 220),
+			SliderFillColor = Color3.fromRGB(230, 230, 190),
+			SliderStrokeAll = Color3.fromRGB(210, 210, 170),
+			--toggle
+			ToggleColor = Color3.fromRGB(240, 240, 200),
+			ToggleCheckColorInactive = Color3.fromRGB(255, 255, 220),
+			ToggleCheckColor = Color3.fromRGB(200, 200, 160),
+			--not naming this shit
+			TopBar = Color3.fromRGB(220, 220, 180),
+			TopBarStrokeColor = Color3.fromRGB(220, 220, 180),
+
+			TabButtonActive = Color3.fromRGB(255, 255, 255),
+			TabButtonInactive = Color3.fromRGB(182, 182, 150),
+			DockColor = Color3.fromRGB(255, 255, 220),
+			TextColor = Color3.fromRGB(0,0,0),
+			PopUpColor = Color3.fromRGB(218, 218, 162),
+			PopUpButtonColor = Color3.fromRGB(158, 156, 132),
+			PopUpStroke = Color3.fromRGB(182, 175, 76),
+			TabColor = Color3.fromRGB(67, 67, 67),
+			NotificationColor = Color3.fromRGB(234, 234, 173),
+			NotificationStrokeColor = Color3.fromRGB(199, 138, 16),
+			NotificationSeperatorColor = Color3.fromRGB(254, 254, 193),
+		},
+		LightBlue = {
+			isDark = false,
+			BackgroundColor = Color3.fromRGB(194, 227, 255),
+
+			ButtonColor = Color3.fromRGB(200, 220, 240),
+			TextInputColor = Color3.fromRGB(200, 220, 240),
+			ButtonStrokeColor = Color3.fromRGB(170, 190, 210),
+			--dropdown
+			DropDownColor = Color3.fromRGB(200, 220, 240),
+			DropDownOptionsColor = Color3.fromRGB(190, 210, 230),
+			DropDownOptionsStrokeColor = Color3.fromRGB(140, 160, 180),
+			DropDownStrokeColor = Color3.fromRGB(140, 160, 180),
+			--label
+			LabelColor = Color3.fromRGB(200, 220, 240),
+			LabelStrokeColor = Color3.fromRGB(150, 170, 190),
+			--slider
+			SliderColor = Color3.fromRGB(200, 220, 240),
+			SliderBackColor = Color3.fromRGB(220, 230, 255),
+			SliderFillColor = Color3.fromRGB(190, 210, 230),
+			SliderStrokeAll = Color3.fromRGB(130,150,170),
+			--toggle
+			ToggleColor = Color3.fromRGB(200, 220, 240),
+			ToggleCheckColorInactive = Color3.fromRGB(220, 230, 255),
+			ToggleCheckColor = Color3.fromRGB(160, 180, 200),
+			--not naming this shit
+			TopBar = Color3.fromRGB(180, 200, 220),
+			TopBarStrokeColor = Color3.fromRGB(180, 200, 220),
+
+			TabButtonActive = Color3.fromRGB(255, 255, 255),
+			TabButtonInactive = Color3.fromRGB(150, 150, 182),
+			DockColor = Color3.fromRGB(220, 230, 255),
+			TextColor = Color3.fromRGB(0,0,0),
+			PopUpColor = Color3.fromRGB(194, 218, 255),
+			PopUpButtonColor = Color3.fromRGB(175, 199, 255),
+			PopUpStroke = Color3.fromRGB(176, 176, 176),
+			TabColor = Color3.fromRGB(67, 67, 67),
+			NotificationColor = Color3.fromRGB(194, 227, 255),
+			NotificationStrokeColor = Color3.fromRGB(199, 138, 16),
+			NotificationSeperatorColor = Color3.fromRGB(194-20, 227-20, 255-20),
+		}
+
+	}
 }
 
 
@@ -60,254 +308,6 @@ function Library:new(options)
 		},
 	},options or {})
 
-	local Themes = {
-	DarkBlue = {
-		isDark = true,
-		BackgroundColor = Color3.fromRGB(15, 24, 32),
-
-		ButtonColor = Color3.fromRGB(22, 36, 49),
-		ButtonStrokeColor = Color3.fromRGB(97, 97, 97),
-		--dropdown
-		DropDownColor = Color3.fromRGB(22, 36, 49),
-		DropDownOptionsColor = Color3.fromRGB(46, 77, 104),
-		DropDownOptionsStrokeColor = Color3.fromRGB(97, 97, 97),
-		DropDownStrokeColor = Color3.fromRGB(97, 97, 97),
-		--label
-		LabelColor = Color3.fromRGB(22, 36, 49),
-		LabelStrokeColor = Color3.fromRGB(10, 91, 97),
-		--slider
-		SliderColor = Color3.fromRGB(22, 36, 49),
-		SliderBackColor = Color3.fromRGB(14, 21, 33),
-		SliderFillColor = Color3.fromRGB(39, 59, 91),
-		SliderStrokeAll = Color3.fromRGB(97, 97, 97),
-		--toggle
-		ToggleColor = Color3.fromRGB(22, 36, 49),
-		ToggleCheckColorInactive = Color3.fromRGB(15, 24, 33),
-		ToggleCheckColor = Color3.fromRGB(42, 128, 136),
-		--not naming this shit
-		TopBar = Color3.fromRGB(10, 16, 22),
-		TopBarStrokeColor = Color3.fromRGB(10, 16, 22),
-
-		TabButtonActive = Color3.fromRGB(255, 255, 255),
-		TabButtonInactive = Color3.fromRGB(150, 182, 182),
-		DockColor = Color3.fromRGB(15, 24, 32),
-		TextColor = Color3.fromRGB(255,255,255),
-		--Pops Ups
-		PopUpColor = Color3.fromRGB(22, 36, 48),
-		PopUpButtonColor = Color3.fromRGB(36, 60, 98),
-		PopUpStroke = Color3.fromRGB(86, 86, 86),
-
-		TextInputColor = Color3.fromRGB(22, 36, 49),
-		TabColor = Color3.fromRGB(134, 134, 134),
-		NotificationColor = Color3.fromRGB(22, 36, 48),
-		NotificationStrokeColor = Color3.fromRGB(199, 138, 16),
-		NotificationSeperatorColor = Color3.fromRGB(42, 56, 68),
-	},
-	NexusTheme = {
-		isDark = true,
-		BackgroundColor = Color3.fromRGB(26, 15, 32),
-
-		ButtonColor = Color3.fromRGB(49, 27, 65),
-		ButtonStrokeColor = Color3.fromRGB(0, 0, 0),
-		--dropdown
-		DropDownColor = Color3.fromRGB(49, 27, 65),
-		DropDownOptionsColor = Color3.fromRGB(83, 46, 111),
-		DropDownOptionsStrokeColor = Color3.fromRGB(0,0,0),
-		DropDownStrokeColor = Color3.fromRGB(0,0,0),
-		--label
-		LabelColor = Color3.fromRGB(32, 18, 43),
-		LabelStrokeColor = Color3.fromRGB(66, 18, 138),
-		--slider
-		SliderColor = Color3.fromRGB(49, 27, 65),
-		SliderBackColor = Color3.fromRGB(14, 21, 33),
-		SliderFillColor = Color3.fromRGB(105, 59, 141),
-		SliderStrokeAll = Color3.fromRGB(120,120,120),
-		--toggle
-		ToggleColor = Color3.fromRGB(49, 27, 65),
-		ToggleCheckColorInactive = Color3.fromRGB(33, 18, 44),
-		ToggleCheckColor = Color3.fromRGB(118, 66, 158),
-		--not naming this shit
-		TopBar = Color3.fromRGB(47, 37, 70),
-		TopBarStrokeColor = Color3.fromRGB(10, 16, 22),
-
-		TabButtonActive = Color3.fromRGB(255, 255, 255),
-		TabButtonInactive = Color3.fromRGB(150, 182, 182),
-		DockColor = Color3.fromRGB(26, 15, 32),
-		TextColor = Color3.fromRGB(255,255,255),
-		--Pops Ups
-		PopUpColor = Color3.fromRGB(34, 19, 45),
-		PopUpButtonColor = Color3.fromRGB(91, 51, 121),
-		PopUpStroke = Color3.fromRGB(120, 103, 140),
-		TextInputColor = Color3.fromRGB(49, 27, 65),
-		TabColor = Color3.fromRGB(134, 134, 134),
-
-		NotificationColor = Color3.fromRGB(40, 21, 48),
-		NotificationStrokeColor = Color3.fromRGB(161, 9, 199),
-		NotificationSeperatorColor = Color3.fromRGB(60, 41, 68),
-	},
-	DarkGreen = {
-		isDark = true,
-		BackgroundColor = Color3.fromRGB(20, 30, 20),
-
-		ButtonColor = Color3.fromRGB(30, 45, 30),
-		ButtonStrokeColor = Color3.fromRGB(97, 97, 97),
-		TextInputColor = Color3.fromRGB(30, 45, 30),
-		--dropdown
-		DropDownColor = Color3.fromRGB(30, 45, 30),
-		DropDownOptionsColor = Color3.fromRGB(50, 80, 50),
-		DropDownOptionsStrokeColor = Color3.fromRGB(90, 90, 90),
-		DropDownStrokeColor = Color3.fromRGB(97, 97, 97),
-		--label
-		LabelColor = Color3.fromRGB(30, 45, 30),
-		LabelStrokeColor = Color3.fromRGB(20, 80, 20),
-		--slider
-		SliderColor = Color3.fromRGB(30, 45, 30),
-		SliderBackColor = Color3.fromRGB(20, 30, 20),
-		SliderFillColor = Color3.fromRGB(40, 60, 40),
-		SliderStrokeAll = Color3.fromRGB(97, 97, 97),
-		--toggle
-		ToggleColor = Color3.fromRGB(30, 45, 30),
-		ToggleCheckColorInactive = Color3.fromRGB(20, 30, 20),
-		ToggleCheckColor = Color3.fromRGB(50, 150, 50),
-		--not naming this shit
-		TopBar = Color3.fromRGB(10, 20, 10),
-		TopBarStrokeColor = Color3.fromRGB(10, 20, 10),
-
-		TabButtonActive = Color3.fromRGB(255, 255, 255),
-		TabButtonInactive = Color3.fromRGB(150, 182, 182),
-		DockColor = Color3.fromRGB(20, 30, 20),
-		TextColor = Color3.fromRGB(255,255,255),
-		PopUpColor = Color3.fromRGB(25, 39, 18),
-		PopUpButtonColor = Color3.fromRGB(35, 98, 40),PopUpStroke = Color3.fromRGB(70, 86, 60),
-		TabColor = Color3.fromRGB(134, 134, 134),
-
-		NotificationColor = Color3.fromRGB(34, (72-5), 30),
-		NotificationStrokeColor = Color3.fromRGB(159, 199, 16),
-		NotificationSeperatorColor = Color3.fromRGB(54, 87, 50),
-	},
-	DarkRed = {
-		isDark = true,
-		BackgroundColor = Color3.fromRGB(32, 15, 15),
-
-		ButtonColor = Color3.fromRGB(49, 22, 22),
-		TextInputColor = Color3.fromRGB(49, 22, 22),
-		ButtonStrokeColor = Color3.fromRGB(97, 50, 50),
-		--dropdown
-		DropDownColor = Color3.fromRGB(49, 22, 22),
-		DropDownOptionsColor = Color3.fromRGB(104, 46, 46),
-		DropDownOptionsStrokeColor = Color3.fromRGB(97, 50, 50),
-		DropDownStrokeColor = Color3.fromRGB(97, 50, 50),
-		--label
-		LabelColor = Color3.fromRGB(49, 22, 22),
-		LabelStrokeColor = Color3.fromRGB(97, 50, 50),
-		--slider
-		SliderColor = Color3.fromRGB(49, 22, 22),
-		SliderBackColor = Color3.fromRGB(33, 14, 14),
-		SliderFillColor = Color3.fromRGB(91, 39, 39),
-		SliderStrokeAll = Color3.fromRGB(97, 50, 50),
-		--toggle
-		ToggleColor = Color3.fromRGB(49, 22, 22),
-		ToggleCheckColorInactive = Color3.fromRGB(33, 15, 15),
-		ToggleCheckColor = Color3.fromRGB(136, 42, 42),
-		--not naming this shit
-		TopBar = Color3.fromRGB(22, 10, 10),
-		TopBarStrokeColor = Color3.fromRGB(22, 10, 10),
-
-		TabButtonActive = Color3.fromRGB(255, 255, 255),
-		TabButtonInactive = Color3.fromRGB(182, 150, 150),
-		DockColor = Color3.fromRGB(32, 15, 15),
-		TextColor = Color3.fromRGB(255,255,255),
-		PopUpColor = Color3.fromRGB(56, 26, 26),
-		PopUpButtonColor = Color3.fromRGB(130, 38, 38),
-		PopUpStroke = Color3.fromRGB(148, 33, 33),
-		TabColor = Color3.fromRGB(134, 134, 134),
-		NotificationColor = Color3.fromRGB(32, 15, 15),
-		NotificationStrokeColor = Color3.fromRGB(199, 138, 16),
-		NotificationSeperatorColor = Color3.fromRGB(32+20, 15+20, 15+20),
-	},
-	LightYellow = {
-		isDark = false,
-		BackgroundColor = Color3.fromRGB(234, 234, 173),
-
-		ButtonColor = Color3.fromRGB(240, 240, 200),
-		TextInputColor = Color3.fromRGB(240, 240, 200),
-		ButtonStrokeColor = Color3.fromRGB(210, 210, 170),
-		--dropdown
-		DropDownColor = Color3.fromRGB(240, 240, 200),
-		DropDownOptionsColor = Color3.fromRGB(220, 220, 190),
-		DropDownOptionsStrokeColor = Color3.fromRGB(210, 210, 170),
-		DropDownStrokeColor = Color3.fromRGB(210, 210, 170),
-		--label
-		LabelColor = Color3.fromRGB(240, 240, 200),
-		LabelStrokeColor = Color3.fromRGB(210, 210, 170),
-		--slider
-		SliderColor = Color3.fromRGB(240, 240, 200),
-		SliderBackColor = Color3.fromRGB(255, 255, 220),
-		SliderFillColor = Color3.fromRGB(230, 230, 190),
-		SliderStrokeAll = Color3.fromRGB(210, 210, 170),
-		--toggle
-		ToggleColor = Color3.fromRGB(240, 240, 200),
-		ToggleCheckColorInactive = Color3.fromRGB(255, 255, 220),
-		ToggleCheckColor = Color3.fromRGB(200, 200, 160),
-		--not naming this shit
-		TopBar = Color3.fromRGB(220, 220, 180),
-		TopBarStrokeColor = Color3.fromRGB(220, 220, 180),
-
-		TabButtonActive = Color3.fromRGB(255, 255, 255),
-		TabButtonInactive = Color3.fromRGB(182, 182, 150),
-		DockColor = Color3.fromRGB(255, 255, 220),
-		TextColor = Color3.fromRGB(0,0,0),
-		PopUpColor = Color3.fromRGB(218, 218, 162),
-		PopUpButtonColor = Color3.fromRGB(158, 156, 132),
-		PopUpStroke = Color3.fromRGB(182, 175, 76),
-		TabColor = Color3.fromRGB(67, 67, 67),
-		NotificationColor = Color3.fromRGB(234, 234, 173),
-		NotificationStrokeColor = Color3.fromRGB(199, 138, 16),
-		NotificationSeperatorColor = Color3.fromRGB(254, 254, 193),
-	},
-	LightBlue = {
-		isDark = false,
-		BackgroundColor = Color3.fromRGB(194, 227, 255),
-
-		ButtonColor = Color3.fromRGB(200, 220, 240),
-		TextInputColor = Color3.fromRGB(200, 220, 240),
-		ButtonStrokeColor = Color3.fromRGB(170, 190, 210),
-		--dropdown
-		DropDownColor = Color3.fromRGB(200, 220, 240),
-		DropDownOptionsColor = Color3.fromRGB(190, 210, 230),
-		DropDownOptionsStrokeColor = Color3.fromRGB(140, 160, 180),
-		DropDownStrokeColor = Color3.fromRGB(140, 160, 180),
-		--label
-		LabelColor = Color3.fromRGB(200, 220, 240),
-		LabelStrokeColor = Color3.fromRGB(150, 170, 190),
-		--slider
-		SliderColor = Color3.fromRGB(200, 220, 240),
-		SliderBackColor = Color3.fromRGB(220, 230, 255),
-		SliderFillColor = Color3.fromRGB(190, 210, 230),
-		SliderStrokeAll = Color3.fromRGB(130,150,170),
-		--toggle
-		ToggleColor = Color3.fromRGB(200, 220, 240),
-		ToggleCheckColorInactive = Color3.fromRGB(220, 230, 255),
-		ToggleCheckColor = Color3.fromRGB(160, 180, 200),
-		--not naming this shit
-		TopBar = Color3.fromRGB(180, 200, 220),
-		TopBarStrokeColor = Color3.fromRGB(180, 200, 220),
-
-		TabButtonActive = Color3.fromRGB(255, 255, 255),
-		TabButtonInactive = Color3.fromRGB(150, 150, 182),
-		DockColor = Color3.fromRGB(220, 230, 255),
-		TextColor = Color3.fromRGB(0,0,0),
-		PopUpColor = Color3.fromRGB(194, 218, 255),
-		PopUpButtonColor = Color3.fromRGB(175, 199, 255),
-		PopUpStroke = Color3.fromRGB(176, 176, 176),
-		TabColor = Color3.fromRGB(67, 67, 67),
-		NotificationColor = Color3.fromRGB(194, 227, 255),
-		NotificationStrokeColor = Color3.fromRGB(199, 138, 16),
-		NotificationSeperatorColor = Color3.fromRGB(194-20, 227-20, 255-20),
-	}
-
-}
-	
 	Theme = options.Theme
 
 	local GUI = {
@@ -2477,6 +2477,6 @@ function Library:new(options)
 
 
 end
-return theme
-return Library
 
+
+return Library
