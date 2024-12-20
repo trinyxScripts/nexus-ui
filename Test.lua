@@ -378,7 +378,7 @@ function Library:new(options)
 		
 	end
 
-	GUI:_ToggleVisibility()
+	--GUI:_ToggleVisibility()
 
 	uis.InputBegan:Connect(function(input, gameProcessed)
 		if input.KeyCode == Enum.KeyCode.K and not gameProcessed and not GUI.IsKeySystemOn then
