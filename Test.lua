@@ -15,7 +15,10 @@ local tweenInfo = TweenInfo.new(0.2,Enum.EasingStyle.Quad,Enum.EasingDirection.I
 --toggle buttons tab main ui :()
 
 local Library = {
-	local Themes = {
+	
+}
+
+local Themes = {
 	DarkBlue = {
 		isDark = true,
 		BackgroundColor = Color3.fromRGB(15, 24, 32),
@@ -260,9 +263,8 @@ local Library = {
 		NotificationStrokeColor = Color3.fromRGB(199, 138, 16),
 		NotificationSeperatorColor = Color3.fromRGB(194-20, 227-20, 255-20),
 	}
-	}
-}
 
+}
 --CurrentTheme.ToggleColor
 
 local Theme = Themes.DarkRed
@@ -1917,8 +1919,9 @@ function Library:new(options)
 					TextInput["6"]["BackgroundTransparency"] = 1;
 					TextInput["6"]["Size"] = UDim2.new(0, 310, 1, -5);
 					TextInput["6"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
-					TextInput["6"]["Name"] = options.Title;
+					TextInput["6"]["Name"] = ("TextInput " .. options.Title);
 					TextInput["6"]["Position"] = UDim2.new(0, 0, 0, -15);
+					TextInput["6"]["Text"] = options.Title
 
 
 					-- StarterGui.ScreenGui.TextInput.Icon
@@ -2177,13 +2180,14 @@ function Library:new(options)
 				end
 				Notif()
 			end
-
+			
+			--Exit
 			do
 				local Minimise = Instance.new("ImageButton")
 
 				--Properties:
 
-				Minimise.Name = "Minimise"
+				Minimise.Name = "Exit"
 				Minimise.Parent = GUI["4"]
 				Minimise.Active = false
 				Minimise.AnchorPoint = Vector2.new(1, 0.5)
@@ -2205,10 +2209,10 @@ function Library:new(options)
 					if not IsClicked then
 						IsClicked = true
 						Tab:CreatePopUp({
-							ButtonLeftText = "Yeah",
-							ButtonRightText = "Nah",
-							TitleText = "Confirm",
-							Text = "Do you want to continue with the action?",
+							ButtonLeftText = "Confirm",
+							ButtonRightText = "Go Back",
+							TitleText = "Warning",
+							Text = "Do you Want to UnLoad The Library",
 							callbackButtonLeft = function()
 								GUI:_Destroy()
 							end,
@@ -2446,4 +2450,6 @@ function Library:new(options)
 
 
 end
+
+
 return Library
