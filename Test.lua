@@ -312,6 +312,7 @@ function Library:new(options)
 		Active = false,
 		CurrentTab = nil,
 		Visibility = true,
+		HasKeyBeenInputed = not options.KeySystemConfig.KeySystem
 	}
 
 	local function addColors(color1, color2)
@@ -368,8 +369,11 @@ function Library:new(options)
 
 
 	function GUI:_ToggleVisibility()
-		GUI.Visibility = not GUI.Visibility
-		GUI["2"]["Visible"] = GUI.Visibility
+		if GUI.HasKeyBeenInputed then
+			GUI.Visibility = not GUI.Visibility
+			GUI["2"]["Visible"] = GUI.Visibility
+		end
+		
 	end
 
 	GUI:_ToggleVisibility()
@@ -396,9 +400,9 @@ function Library:new(options)
 		sound:Play()
 
 		sound.Ended:Connect(function()
-
-			script:Destroy()
+			GUI["2"]:Destroy()
 			GUI["1"]:Destroy()
+			script:Destroy()
 		end)
 	end
 
@@ -2431,8 +2435,7 @@ function Library:new(options)
 
 				Library:tween(KeySystem, {Size = UDim2.new(0, 0,0, 0)}, 1,Enum.EasingStyle.Quint, Enum.EasingDirection.InOut)
 				sound.Ended:Connect(function()
-					-- your code here that runs after sound ends
-
+					GUI.HasKeyBeenInputed = true
 					task.wait(2)
 					KeySystem:Destroy()
 				end)
@@ -2451,5 +2454,86 @@ function Library:new(options)
 
 end
 
+local main = Library:new{
+	Name = "Custom Name",
+	DockPos = "Bottom",
+	Theme = Themes.DarkGreen,
+	KeySystemConfig = {
+		KeySystem = false,
+		Key = "He",
+		KeyLink = "https://discord.gg/uusn8yjs2z"
+	},
+}
+
+local Tab = main:CreateTab({Icon = "rbxassetid://83262328821985"})
+local Tab1 = main:CreateTab({Icon = "rbxassetid://83262328821985"})
+
+local btn = Tab:Button({
+	Name = "GGs", 
+	callback = function() print("Hi") end
+})
+
+local btn = Tab:Button({
+	Name = "GGs", 
+	callback = function() Tab:Notification() end
+})
+local btn = Tab1:Button({
+	Name = "GGs", 
+	callback = function()
+		Tab:CreatePopUp({
+			ButtonLeftText = "Yeah",
+			ButtonRightText = "Nah",
+			TitleText = "Confirm",
+			Text = "Do you want to continue with the action?",
+			callback = function()
+				print("Action confirmed!")  -- This will print when "Yeah" is clicked
+			end
+		})
+	end
+})
+
+
+local txtInput = Tab1:TextInput({
+	PlaceHolderText = "LOL",
+	Title = "Toilet",
+	CallBack = function (v) print(v, " Im here") end
+})
+
+
+local label = Tab:Label({
+	Name = "1234"
+})
+local label = Tab1:Label({
+	Name = "LOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOLLOL"
+})
+
+local Slider = Tab:Slider({
+	Name = 'slider',
+	min = 0,
+	max = 100,
+	Default = 50,
+	callback = function(v)
+		if v > 50 then
+			print(v)
+		end
+	end
+})
+local tg = Tab:Toggle({
+	Name = 'ss',
+	State = false,
+	callback = function (v)
+		print(v)
+	end
+})
+
+local d = Tab:DropDown({
+	Name = "Dp",
+	callback = function(option) 
+		print(option)
+	end
+})
+d:Add("Bob", 1)
+d:Add("Second Bob", 2)
+d:Add("Third Bob", 3)
 
 return Library
