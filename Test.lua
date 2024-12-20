@@ -300,7 +300,7 @@ function Library:new(options)
 		DockPos = "Bottom",
 		Theme = Themes.DarkRed,
 		KeySystemConfig = {
-			KeySystem = false,
+			KeySystem = true,
 			Key = "",
 			KeyLink = "https://discord.gg/uusn8yjs2z"
 		},
@@ -312,7 +312,7 @@ function Library:new(options)
 		Active = false,
 		CurrentTab = nil,
 		Visibility = not options.KeySystemConfig.KeySystem,
-		HasKeyBeenInputed = not options.KeySystemConfig.KeySystem
+		HasKeyBeenInputed = not options.KeySystemConfig.KeySystem,
 	}
 
 	local function addColors(color1, color2)
@@ -335,7 +335,6 @@ function Library:new(options)
 	GUI["2"]["AnchorPoint"] = Vector2.new(0.5, 0.5);
 	GUI["2"]["Size"] = UDim2.new(0, 401, 0, 300);
 	GUI.Visibility =  options.KeySystemConfig.KeySystem
-	GUI["2"]["Visible"] =  options.KeySystemConfig.KeySystem
 	GUI["2"]["Position"] = UDim2.new(0.5,0,2,0)
 
 
@@ -367,17 +366,42 @@ function Library:new(options)
 	GUI["54"]["Name"] = [[DropShadowHolder]];
 	GUI["54"]["BackgroundTransparency"] = 1;
 
+	local Transparency = GUI["2"].Transparency
+
+	local isAnimating = false
 
 	function GUI:_ToggleVisibility()
+		if not GUI.HasKeyBeenInputed then
+			GUI["2"]["Visible"] = false 
+			GUI.Visibility = false
+			
+		elseif GUI.Visibility == true and GUI.HasKeyBeenInputed and not isAnimating then
+			isAnimating = true
+			GUI["2"].ClipsDescendants = true
 			GUI.Visibility = not GUI.Visibility
-			GUI["2"]["Visible"] = GUI.Visibility
+			Library:tween(GUI["2"], {Size = UDim2.new(0,0,0,0)}, 0.6, Enum.EasingStyle.Back, Enum.EasingDirection.In,function()
+				GUI["2"]["Visible"] = false
+				isAnimating = false
+			end)
+		elseif GUI.Visibility == false and GUI.HasKeyBeenInputed and not isAnimating then
+			isAnimating = true
+			GUI["2"]["Visible"] = true 
+			GUI.Visibility = not GUI.Visibility
+			Library:tween(GUI["2"], {Size = UDim2.new(0,401,0,300)}, 0.6, Enum.EasingStyle.Back, Enum.EasingDirection.Out,function()
+				GUI["2"].ClipsDescendants = false
+				isAnimating = false
+			end)
+		end
+		
 	end
-
 	GUI:_ToggleVisibility()
 
 	uis.InputBegan:Connect(function(input, gameProcessed)
 		if input.KeyCode == Enum.KeyCode.K and not gameProcessed and not GUI.IsKeySystemOn then
 			GUI:_ToggleVisibility()
+			print(tostring(GUI.FirstTime).. " first time")
+			print(tostring(GUI.HasKeyBeenInputed).. " hasbeeninputed")
+			print(tostring(GUI.Visibility).. " vis")
 		end
 	end)
 
@@ -386,7 +410,7 @@ function Library:new(options)
 		local viewport = workspace.CurrentCamera.ViewportSize
 
 		GUI["2"]["AnchorPoint"] = Vector2.new(0.5, 0.5);
-		Library:tween(GUI["2"], {Position = UDim2.new(0.5,0,1.7,0)}, 1, Enum.EasingStyle.Quint, Enum.EasingDirection.InOut)
+		Library:tween(GUI["2"], {Position = UDim2.new(GUI["2"].Position.X.Scale,0,1.7,0)}, 1, Enum.EasingStyle.Quint, Enum.EasingDirection.InOut)
 
 
 		local sound = Instance.new("Sound")  -- its SoundId not soundID
@@ -2400,6 +2424,8 @@ function Library:new(options)
 					wait(1.2)
 					GUI["2"]["Visible"] = true
 					GUI:Move()
+					GUI.HasKeyBeenInputed = true
+					GUI:_ToggleVisibility()
 					task.wait(1.1)
 					KeySystem:Destroy()
 				else 
@@ -2421,7 +2447,7 @@ function Library:new(options)
 			ImageButton.MouseButton1Click:Connect(function()
 				sound.SoundId = "rbxassetid://1524543584"
 				sound:Play()
-				Library:tween(KeySystem, {Size = UDim2.new(0, 82,0, 58)}, 1,Enum.EasingStyle.Quint, Enum.EasingDirection.InOut,function()
+				Library:tween(KeySystem, {Size = UDim2.new(0, 82,0, 58)}, 1,Enum.EasingStyle.Back, Enum.EasingDirection.Out,function()
 					for _, child in ipairs(KeySystem:GetChildren()) do
 						if child:IsA("UICorner") or child:IsA("UIStroke") then
 							continue
@@ -2430,9 +2456,8 @@ function Library:new(options)
 					end
 				end)
 
-				Library:tween(KeySystem, {Size = UDim2.new(0, 0,0, 0)}, 1,Enum.EasingStyle.Quint, Enum.EasingDirection.InOut)
+				Library:tween(KeySystem, {Size = UDim2.new(0, 0,0, 0)}, 1,Enum.EasingStyle.Back, Enum.EasingDirection.In)
 				sound.Ended:Connect(function()
-					GUI.HasKeyBeenInputed = true
 					task.wait(2)
 					KeySystem:Destroy()
 				end)
@@ -2442,13 +2467,12 @@ function Library:new(options)
 
 	end
 
-	if options.KeySystemConfig.KeySystem then
+	if options.KeySystemConfig.KeySystem == true then
 		GUI:KeySystem()
 	end
-
+		
 	return GUI
 
 
 end
-
 return Library
