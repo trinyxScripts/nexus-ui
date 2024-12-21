@@ -13,11 +13,11 @@ local tweenInfo = TweenInfo.new(0.2,Enum.EasingStyle.Quad,Enum.EasingDirection.I
 
 --did
 --toggle buttons tab main ui :()
-
+local Library = {}
 
 local Themes = {
 	
-	vDarkBlue = {
+	DarkBlue = {
 		isDark = true,
 		BackgroundColor = Color3.fromRGB(15, 24, 32),
 
@@ -263,7 +263,7 @@ local Themes = {
 	}
 }
 
-local Library = {}
+Library.Theme = Themes
 
 local Theme = nil
 
@@ -2471,5 +2471,4 @@ function Library:new(options)
 
 
 end
-
 return Library,Themes
