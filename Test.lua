@@ -309,8 +309,7 @@ function Library:new(options)
 	},options or {})
 
 	
-
-	local GUI = {
+local GUI = {
 		Active = false,
 		CurrentTab = nil,
 		Visibility = not options.KeySystemConfig.KeySystem,
@@ -318,9 +317,11 @@ function Library:new(options)
 	}
 	Theme = Themes.LightBlue
 	if options.Theme == nil then
-		 Theme = Themes.LightBlue
+		Theme = Themes.DarkBlue
+		local CurrentTheme = Themes.DarkBlue
 	else
 		Theme = options.Theme
+		local CurrentTheme = options.Theme
 	end
 
 	local function addColors(color1, color2)
@@ -333,7 +334,7 @@ function Library:new(options)
 	--logic
 
 	--All Ui	
-	local CurrentTheme = options.Theme
+	
 	GUI["1"] = Instance.new("ScreenGui", runServices:IsStudio() and players.LocalPlayer:WaitForChild("PlayerGui") or coreGui);
 	GUI["1"]["Name"] = [[UxiLib]];
 	GUI["1"]["IgnoreGuiInset"] = true
