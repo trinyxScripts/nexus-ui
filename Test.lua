@@ -263,7 +263,7 @@ local Themes = {
 	}
 }
 
-Library.Theme = Themes
+--Library.Theme = Themes
 
 local Theme = nil
 
@@ -294,7 +294,7 @@ function Library:new(options)
 	options = Library:Validate({
 		name = "Default",
 		DockPos = "Bottom",
-		Theme = Themes.DarkRed,
+		Theme = nil,
 		KeySystemConfig = {
 			KeySystem = true,
 			Key = "",
@@ -302,7 +302,7 @@ function Library:new(options)
 		},
 	},options or {})
 
-	Theme = options.Theme
+	
 
 	local GUI = {
 		Active = false,
@@ -310,6 +310,11 @@ function Library:new(options)
 		Visibility = not options.KeySystemConfig.KeySystem,
 		HasKeyBeenInputed = not options.KeySystemConfig.KeySystem,
 	}
+	if options.Theme == nil then
+		 Theme = Themes.LightBlue
+	else
+		Theme = options.Theme
+	end
 
 	local function addColors(color1, color2)
 		return Color3.new(
@@ -2471,4 +2476,5 @@ function Library:new(options)
 
 
 end
-return Library
+
+return Library,Themes
