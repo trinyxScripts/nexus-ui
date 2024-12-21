@@ -22,15 +22,15 @@ local Themes = {
 		BackgroundColor = Color3.fromRGB(15, 24, 32),
 
 		ButtonColor = Color3.fromRGB(22, 36, 49),
-		ButtonStrokeColor = Color3.fromRGB(97, 97, 97),
+		ButtonInputStrokeColor = Color3.fromRGB(97, 97, 97),
 		--dropdown
 		DropDownColor = Color3.fromRGB(22, 36, 49),
 		DropDownOptionsColor = Color3.fromRGB(46, 77, 104),
-		DropDownOptionsStrokeColor = Color3.fromRGB(97, 97, 97),
-		DropDownStrokeColor = Color3.fromRGB(97, 97, 97),
+		DropDownOptionsInputStrokeColor = Color3.fromRGB(97, 97, 97),
+		DropDownInputStrokeColor = Color3.fromRGB(97, 97, 97),
 		--label
 		LabelColor = Color3.fromRGB(22, 36, 49),
-		LabelStrokeColor = Color3.fromRGB(10, 91, 97),
+		LabelInputStrokeColor = Color3.fromRGB(10, 91, 97),
 		--slider
 		SliderColor = Color3.fromRGB(22, 36, 49),
 		SliderBackColor = Color3.fromRGB(14, 21, 33),
@@ -42,7 +42,7 @@ local Themes = {
 		ToggleCheckColor = Color3.fromRGB(42, 128, 136),
 		--not naming this shit
 		TopBar = Color3.fromRGB(10, 16, 22),
-		TopBarStrokeColor = Color3.fromRGB(10, 16, 22),
+		TopBarInputStrokeColor = Color3.fromRGB(10, 16, 22),
 
 		TabButtonActive = Color3.fromRGB(255, 255, 255),
 		TabButtonInactive = Color3.fromRGB(150, 182, 182),
@@ -52,11 +52,12 @@ local Themes = {
 		PopUpColor = Color3.fromRGB(22, 36, 48),
 		PopUpButtonColor = Color3.fromRGB(36, 60, 98),
 		PopUpStroke = Color3.fromRGB(86, 86, 86),
+		InputStrokeColor = Color3.fromRGB(97, 97, 97),
 
 		TextInputColor = Color3.fromRGB(22, 36, 49),
 		TabColor = Color3.fromRGB(134, 134, 134),
 		NotificationColor = Color3.fromRGB(22, 36, 48),
-		NotificationStrokeColor = Color3.fromRGB(199, 138, 16),
+		NotificationInputStrokeColor = Color3.fromRGB(199, 138, 16),
 		NotificationSeperatorColor = Color3.fromRGB(42, 56, 68),
 	},
 	NexusTheme = {
@@ -64,15 +65,15 @@ local Themes = {
 		BackgroundColor = Color3.fromRGB(26, 15, 32),
 
 		ButtonColor = Color3.fromRGB(49, 27, 65),
-		ButtonStrokeColor = Color3.fromRGB(0, 0, 0),
+		ButtonInputStrokeColor = Color3.fromRGB(0, 0, 0),
 		--dropdown
 		DropDownColor = Color3.fromRGB(49, 27, 65),
 		DropDownOptionsColor = Color3.fromRGB(83, 46, 111),
-		DropDownOptionsStrokeColor = Color3.fromRGB(0,0,0),
-		DropDownStrokeColor = Color3.fromRGB(0,0,0),
+		DropDownOptionsInputStrokeColor = Color3.fromRGB(0,0,0),
+		DropDownInputStrokeColor = Color3.fromRGB(0,0,0),
 		--label
 		LabelColor = Color3.fromRGB(32, 18, 43),
-		LabelStrokeColor = Color3.fromRGB(66, 18, 138),
+		LabelInputStrokeColor = Color3.fromRGB(66, 18, 138),
 		--slider
 		SliderColor = Color3.fromRGB(49, 27, 65),
 		SliderBackColor = Color3.fromRGB(14, 21, 33),
@@ -84,12 +85,13 @@ local Themes = {
 		ToggleCheckColor = Color3.fromRGB(118, 66, 158),
 		--not naming this shit
 		TopBar = Color3.fromRGB(47, 37, 70),
-		TopBarStrokeColor = Color3.fromRGB(10, 16, 22),
+		TopBarInputStrokeColor = Color3.fromRGB(10, 16, 22),
 
 		TabButtonActive = Color3.fromRGB(255, 255, 255),
 		TabButtonInactive = Color3.fromRGB(150, 182, 182),
 		DockColor = Color3.fromRGB(26, 15, 32),
 		TextColor = Color3.fromRGB(255,255,255),
+		InputStrokeColor = Color3.fromRGB(0, 0, 0),
 		--Pops Ups
 		PopUpColor = Color3.fromRGB(34, 19, 45),
 		PopUpButtonColor = Color3.fromRGB(91, 51, 121),
@@ -98,7 +100,7 @@ local Themes = {
 		TabColor = Color3.fromRGB(134, 134, 134),
 
 		NotificationColor = Color3.fromRGB(40, 21, 48),
-		NotificationStrokeColor = Color3.fromRGB(161, 9, 199),
+		NotificationInputStrokeColor = Color3.fromRGB(161, 9, 199),
 		NotificationSeperatorColor = Color3.fromRGB(60, 41, 68),
 	},
 	DarkGreen = {
@@ -106,16 +108,17 @@ local Themes = {
 		BackgroundColor = Color3.fromRGB(20, 30, 20),
 
 		ButtonColor = Color3.fromRGB(30, 45, 30),
-		ButtonStrokeColor = Color3.fromRGB(97, 97, 97),
+		ButtonInputStrokeColor = Color3.fromRGB(97, 97, 97),
 		TextInputColor = Color3.fromRGB(30, 45, 30),
+		InputStrokeColor = Color3.fromRGB(97, 97, 97),
 		--dropdown
 		DropDownColor = Color3.fromRGB(30, 45, 30),
 		DropDownOptionsColor = Color3.fromRGB(50, 80, 50),
-		DropDownOptionsStrokeColor = Color3.fromRGB(90, 90, 90),
-		DropDownStrokeColor = Color3.fromRGB(97, 97, 97),
+		DropDownOptionsInputStrokeColor = Color3.fromRGB(90, 90, 90),
+		DropDownInputStrokeColor = Color3.fromRGB(97, 97, 97),
 		--label
 		LabelColor = Color3.fromRGB(30, 45, 30),
-		LabelStrokeColor = Color3.fromRGB(20, 80, 20),
+		LabelInputStrokeColor = Color3.fromRGB(20, 80, 20),
 		--slider
 		SliderColor = Color3.fromRGB(30, 45, 30),
 		SliderBackColor = Color3.fromRGB(20, 30, 20),
@@ -127,7 +130,7 @@ local Themes = {
 		ToggleCheckColor = Color3.fromRGB(50, 150, 50),
 		--not naming this shit
 		TopBar = Color3.fromRGB(10, 20, 10),
-		TopBarStrokeColor = Color3.fromRGB(10, 20, 10),
+		TopBarInputStrokeColor = Color3.fromRGB(10, 20, 10),
 
 		TabButtonActive = Color3.fromRGB(255, 255, 255),
 		TabButtonInactive = Color3.fromRGB(150, 182, 182),
@@ -138,7 +141,7 @@ local Themes = {
 		TabColor = Color3.fromRGB(134, 134, 134),
 
 		NotificationColor = Color3.fromRGB(34, (72-5), 30),
-		NotificationStrokeColor = Color3.fromRGB(159, 199, 16),
+		NotificationInputStrokeColor = Color3.fromRGB(159, 199, 16),
 		NotificationSeperatorColor = Color3.fromRGB(54, 87, 50),
 	},
 	DarkRed = {
@@ -147,15 +150,16 @@ local Themes = {
 
 		ButtonColor = Color3.fromRGB(49, 22, 22),
 		TextInputColor = Color3.fromRGB(49, 22, 22),
-		ButtonStrokeColor = Color3.fromRGB(97, 50, 50),
+		ButtonInputStrokeColor = Color3.fromRGB(97, 50, 50),
+		InputStrokeColor = Color3.fromRGB(97, 50, 50),
 		--dropdown
 		DropDownColor = Color3.fromRGB(49, 22, 22),
 		DropDownOptionsColor = Color3.fromRGB(104, 46, 46),
-		DropDownOptionsStrokeColor = Color3.fromRGB(97, 50, 50),
-		DropDownStrokeColor = Color3.fromRGB(97, 50, 50),
+		DropDownOptionsInputStrokeColor = Color3.fromRGB(97, 50, 50),
+		DropDownInputStrokeColor = Color3.fromRGB(97, 50, 50),
 		--label
 		LabelColor = Color3.fromRGB(49, 22, 22),
-		LabelStrokeColor = Color3.fromRGB(97, 50, 50),
+		LabelInputStrokeColor = Color3.fromRGB(97, 50, 50),
 		--slider
 		SliderColor = Color3.fromRGB(49, 22, 22),
 		SliderBackColor = Color3.fromRGB(33, 14, 14),
@@ -167,7 +171,7 @@ local Themes = {
 		ToggleCheckColor = Color3.fromRGB(136, 42, 42),
 		--not naming this shit
 		TopBar = Color3.fromRGB(22, 10, 10),
-		TopBarStrokeColor = Color3.fromRGB(22, 10, 10),
+		TopBarInputStrokeColor = Color3.fromRGB(22, 10, 10),
 
 		TabButtonActive = Color3.fromRGB(255, 255, 255),
 		TabButtonInactive = Color3.fromRGB(182, 150, 150),
@@ -178,7 +182,7 @@ local Themes = {
 		PopUpStroke = Color3.fromRGB(148, 33, 33),
 		TabColor = Color3.fromRGB(134, 134, 134),
 		NotificationColor = Color3.fromRGB(32, 15, 15),
-		NotificationStrokeColor = Color3.fromRGB(199, 138, 16),
+		NotificationInputStrokeColor = Color3.fromRGB(199, 138, 16),
 		NotificationSeperatorColor = Color3.fromRGB(32+20, 15+20, 15+20),
 	},
 	LightYellow = {
@@ -187,15 +191,16 @@ local Themes = {
 
 		ButtonColor = Color3.fromRGB(240, 240, 200),
 		TextInputColor = Color3.fromRGB(240, 240, 200),
-		ButtonStrokeColor = Color3.fromRGB(210, 210, 170),
+		ButtonInputStrokeColor = Color3.fromRGB(210, 210, 170),
+		InputStrokeColor = Color3.fromRGB(210, 210, 170),
 		--dropdown
 		DropDownColor = Color3.fromRGB(240, 240, 200),
 		DropDownOptionsColor = Color3.fromRGB(220, 220, 190),
-		DropDownOptionsStrokeColor = Color3.fromRGB(210, 210, 170),
-		DropDownStrokeColor = Color3.fromRGB(210, 210, 170),
+		DropDownOptionsInputStrokeColor = Color3.fromRGB(210, 210, 170),
+		DropDownInputStrokeColor = Color3.fromRGB(210, 210, 170),
 		--label
 		LabelColor = Color3.fromRGB(240, 240, 200),
-		LabelStrokeColor = Color3.fromRGB(210, 210, 170),
+		LabelInputStrokeColor = Color3.fromRGB(210, 210, 170),
 		--slider
 		SliderColor = Color3.fromRGB(240, 240, 200),
 		SliderBackColor = Color3.fromRGB(255, 255, 220),
@@ -207,7 +212,7 @@ local Themes = {
 		ToggleCheckColor = Color3.fromRGB(200, 200, 160),
 		--not naming this shit
 		TopBar = Color3.fromRGB(220, 220, 180),
-		TopBarStrokeColor = Color3.fromRGB(220, 220, 180),
+		TopBarInputStrokeColor = Color3.fromRGB(220, 220, 180),
 
 		TabButtonActive = Color3.fromRGB(255, 255, 255),
 		TabButtonInactive = Color3.fromRGB(182, 182, 150),
@@ -218,7 +223,7 @@ local Themes = {
 		PopUpStroke = Color3.fromRGB(182, 175, 76),
 		TabColor = Color3.fromRGB(67, 67, 67),
 		NotificationColor = Color3.fromRGB(234, 234, 173),
-		NotificationStrokeColor = Color3.fromRGB(199, 138, 16),
+		NotificationInputStrokeColor = Color3.fromRGB(199, 138, 16),
 		NotificationSeperatorColor = Color3.fromRGB(254, 254, 193),
 	},
 	LightBlue = {
@@ -227,15 +232,16 @@ local Themes = {
 
 		ButtonColor = Color3.fromRGB(200, 220, 240),
 		TextInputColor = Color3.fromRGB(200, 220, 240),
-		ButtonStrokeColor = Color3.fromRGB(170, 190, 210),
+		ButtonInputStrokeColor = Color3.fromRGB(170, 190, 210),
+		InputStrokeColor = Color3.fromRGB(170, 190, 210),
 		--dropdown
 		DropDownColor = Color3.fromRGB(200, 220, 240),
 		DropDownOptionsColor = Color3.fromRGB(190, 210, 230),
-		DropDownOptionsStrokeColor = Color3.fromRGB(140, 160, 180),
-		DropDownStrokeColor = Color3.fromRGB(140, 160, 180),
+		DropDownOptionsInputStrokeColor = Color3.fromRGB(140, 160, 180),
+		DropDownInputStrokeColor = Color3.fromRGB(140, 160, 180),
 		--label
 		LabelColor = Color3.fromRGB(200, 220, 240),
-		LabelStrokeColor = Color3.fromRGB(150, 170, 190),
+		LabelInputStrokeColor = Color3.fromRGB(150, 170, 190),
 		--slider
 		SliderColor = Color3.fromRGB(200, 220, 240),
 		SliderBackColor = Color3.fromRGB(220, 230, 255),
@@ -247,7 +253,7 @@ local Themes = {
 		ToggleCheckColor = Color3.fromRGB(160, 180, 200),
 		--not naming this shit
 		TopBar = Color3.fromRGB(180, 200, 220),
-		TopBarStrokeColor = Color3.fromRGB(180, 200, 220),
+		TopBarInputStrokeColor = Color3.fromRGB(180, 200, 220),
 
 		TabButtonActive = Color3.fromRGB(255, 255, 255),
 		TabButtonInactive = Color3.fromRGB(150, 150, 182),
@@ -258,14 +264,14 @@ local Themes = {
 		PopUpStroke = Color3.fromRGB(176, 176, 176),
 		TabColor = Color3.fromRGB(67, 67, 67),
 		NotificationColor = Color3.fromRGB(194, 227, 255),
-		NotificationStrokeColor = Color3.fromRGB(199, 138, 16),
+		NotificationInputStrokeColor = Color3.fromRGB(199, 138, 16),
 		NotificationSeperatorColor = Color3.fromRGB(194-20, 227-20, 255-20),
 	}
 }
 
 --Library.Theme = Themes
 
-local Theme = nil
+local Theme = Themes.DarkBlue
 
 function Library:Validate(defaults,options)
 
@@ -310,6 +316,7 @@ function Library:new(options)
 		Visibility = not options.KeySystemConfig.KeySystem,
 		HasKeyBeenInputed = not options.KeySystemConfig.KeySystem,
 	}
+	Theme = Themes.LightBlue
 	if options.Theme == nil then
 		 Theme = Themes.LightBlue
 	else
@@ -500,7 +507,7 @@ function Library:new(options)
 		GUI["a"] = Instance.new("Frame", GUI["4"]);
 		GUI["a"]["ZIndex"] = 2;
 		GUI["a"]["BorderSizePixel"] = 0;
-		GUI["a"]["BackgroundColor3"] = Theme.TopBarStrokeColor;
+		GUI["a"]["BackgroundColor3"] = Theme.TopBarInputStrokeColor;
 		GUI["a"]["AnchorPoint"] = Vector2.new(0, 1);
 		GUI["a"]["Size"] = UDim2.new(1, 0, 0, 1);
 		GUI["a"]["Position"] = UDim2.new(0, 0, 1, 0);
@@ -770,7 +777,7 @@ function Library:new(options)
 
 					-- StarterGui.UxiLib.Main.MainContent.HomeTab.Button.UIStroke
 					Button["18"] = Instance.new("UIStroke", Button["16"]);
-					Button["18"]["Color"] = Theme.ButtonStrokeColor;
+					Button["18"]["Color"] = Theme.ButtonInputStrokeColor;
 					Button["18"]["Thickness"] = 2
 					Button["18"]["ApplyStrokeMode"] = Enum.ApplyStrokeMode.Border;
 
@@ -814,9 +821,9 @@ function Library:new(options)
 
 				Button["16"].MouseEnter:Connect(function()
 					if Theme.isDark then
-						Library:tween(Button["18"], {Color = addColors(Theme.ButtonStrokeColor, Color3.fromRGB(15,15,15))},0.3)
+						Library:tween(Button["18"], {Color = addColors(Theme.ButtonInputStrokeColor, Color3.fromRGB(15,15,15))},0.3)
 					else
-						Library:tween(Button["18"], {Color = addColors(Theme.ButtonStrokeColor, Color3.fromRGB(-15,-15,-15))},0.3)
+						Library:tween(Button["18"], {Color = addColors(Theme.ButtonInputStrokeColor, Color3.fromRGB(-15,-15,-15))},0.3)
 					end
 
 
@@ -825,14 +832,14 @@ function Library:new(options)
 				Button["16"].MouseLeave:Connect(function()
 
 					if not Button.MouseDown then
-						Library:tween(Button["18"], {Color = Theme.ButtonStrokeColor})
+						Library:tween(Button["18"], {Color = Theme.ButtonInputStrokeColor})
 					end
 				end)
 
 				Button["16"].MouseButton1Down:Connect(function()
 					Button.MouseDown = true
 					Library:tween(Button["16"], {BackgroundColor3 = addColors(Theme.ButtonColor, Color3.fromRGB(30,30,30))},0.3)
-					Library:tween(Button["18"], {Color = Theme.ButtonStrokeColor},0.5)
+					Library:tween(Button["18"], {Color = Theme.ButtonInputStrokeColor},0.5)
 					options.callback()
 				end)
 
@@ -840,10 +847,10 @@ function Library:new(options)
 					Button.MouseDown = false
 					if Button.Hover then
 						Library:tween(Button["16"], {BackgroundColor3 = Theme.ButtonColor},0.3)
-						Library:tween(Button["18"], {Color = Theme.ButtonStrokeColor},0.3)
+						Library:tween(Button["18"], {Color = Theme.ButtonInputStrokeColor},0.3)
 					else
 						Library:tween(Button["16"], {BackgroundColor3 = Theme.ButtonColor},0.3)
-						Library:tween(Button["18"], {Color = Theme.ButtonStrokeColor},0.3)
+						Library:tween(Button["18"], {Color = Theme.ButtonInputStrokeColor},0.3)
 					end
 				end)
 
@@ -891,7 +898,7 @@ function Library:new(options)
 					-- StarterGui.s.Main.MainContent.HomeTab.ToggleInactive.UIStroke
 					Toggle["3x"] = Instance.new("UIStroke", Toggle["1t"]);
 					Toggle["3x"]["ApplyStrokeMode"] = Enum.ApplyStrokeMode.Border;
-					Toggle["3x"]["Color"] = Theme.ButtonStrokeColor;
+					Toggle["3x"]["Color"] = Theme.ButtonInputStrokeColor;
 					Toggle["3x"]["Thickness"] = 2;
 
 
@@ -979,7 +986,7 @@ function Library:new(options)
 					Toggle["1t"].MouseEnter:Connect(function()
 						Toggle.Hover = true
 
-						Library:tween(Toggle["3x"], {Color =Theme.ButtonStrokeColor},0.5)
+						Library:tween(Toggle["3x"], {Color =Theme.ButtonInputStrokeColor},0.5)
 
 					end)
 
@@ -987,7 +994,7 @@ function Library:new(options)
 						Toggle.Hover = false
 
 						if not Toggle.MouseDown then
-							Library:tween(Toggle["3x"], {Color = Theme.ButtonStrokeColor},0.5)
+							Library:tween(Toggle["3x"], {Color = Theme.ButtonInputStrokeColor},0.5)
 						end
 					end)
 
@@ -997,7 +1004,7 @@ function Library:new(options)
 						if input.UserInputType == Enum.UserInputType.MouseButton1 and Toggle.Hover then
 							Toggle.MouseDown = true
 							Library:tween(Toggle["1t"], {BackgroundColor3 =  addColors(Theme.ToggleColor, Color3.fromRGB(30,30,30))},0.5)
-							Library:tween(Toggle["3x"], {Color = Theme.ButtonStrokeColor},0.5)
+							Library:tween(Toggle["3x"], {Color = Theme.ButtonInputStrokeColor},0.5)
 							Toggle:UpdateToggle()
 						end
 
@@ -1009,11 +1016,11 @@ function Library:new(options)
 						if input.UserInputType == Enum.UserInputType.MouseButton1 then
 							Toggle.MouseDown = false
 							if Toggle.Hover then
-								Library:tween(Toggle["3x"], {Color = Theme.ButtonStrokeColor},0.5)
+								Library:tween(Toggle["3x"], {Color = Theme.ButtonInputStrokeColor},0.5)
 								Library:tween(Toggle["1t"], {BackgroundColor3 = Theme.ToggleColor},0.5)
 							else
 								Library:tween(Toggle["1t"], {BackgroundColor3 = Theme.ToggleColor},0.5)
-								Library:tween(Toggle["3x"], {Color = Theme.ButtonStrokeColor},0.5)
+								Library:tween(Toggle["3x"], {Color = Theme.ButtonInputStrokeColor},0.5)
 							end
 						end
 
@@ -1050,7 +1057,7 @@ function Library:new(options)
 					-- StarterGui.s.Main.MainContent.HomeTab.Label.UIStroke
 					Label["38"] = Instance.new("UIStroke", Label["36"]);
 					Label["38"]["Thickness"] = 2;
-					Label["38"]["Color"] = Theme.LabelStrokeColor;
+					Label["38"]["Color"] = Theme.LabelInputStrokeColor;
 
 
 					-- StarterGui.s.Main.MainContent.HomeTab.Label.Title
@@ -1364,7 +1371,7 @@ function Library:new(options)
 
 					-- StarterGui.s.Main.MainContent.HomeTab.DropDown.UIStroke
 					DropDown["3d"] = Instance.new("UIStroke", DropDown["3b"]);
-					DropDown["3d"].Color = Theme.DropDownStrokeColor;
+					DropDown["3d"].Color = Theme.DropDownInputStrokeColor;
 					DropDown["3d"].Thickness = 2;
 					DropDown["3d"].ApplyStrokeMode = Enum.ApplyStrokeMode.Border;
 					--DropDown["3d"].Thickness = 1;
@@ -1459,7 +1466,7 @@ function Library:new(options)
 						-- StarterGui.s.Main.MainContent.HomeTab.DropDown.OptionHolder.inactiveOption.UIStroke
 						DropDown.Items[id].instance["44"] = Instance.new("UIStroke", DropDown.Items[id].instance["43"]);
 						DropDown.Items[id].instance["44"]["ApplyStrokeMode"] = Enum.ApplyStrokeMode.Border;
-						DropDown.Items[id].instance["44"]["Color"] = Theme.DropDownOptionsStrokeColor;
+						DropDown.Items[id].instance["44"]["Color"] = Theme.DropDownOptionsInputStrokeColor;
 
 
 						-- StarterGui.s.Main.MainContent.HomeTab.DropDown.OptionHolder.inactiveOption.UICorner
@@ -1469,15 +1476,15 @@ function Library:new(options)
 
 						DropDown.Items[id].instance["43"].MouseEnter:Connect(function()
 							if Theme.isDark then
-								Library:tween(DropDown.Items[id].instance["44"], {Color = addColors(Theme.DropDownStrokeColor, Color3.fromRGB(20,20,20))}, 0.3, Enum.EasingStyle.Quint)
+								Library:tween(DropDown.Items[id].instance["44"], {Color = addColors(Theme.DropDownInputStrokeColor, Color3.fromRGB(20,20,20))}, 0.3, Enum.EasingStyle.Quint)
 							else
-								Library:tween(DropDown.Items[id].instance["44"], {Color = addColors(Theme.DropDownStrokeColor, Color3.fromRGB(-20,-20,-20))}, 0.3, Enum.EasingStyle.Quint)
+								Library:tween(DropDown.Items[id].instance["44"], {Color = addColors(Theme.DropDownInputStrokeColor, Color3.fromRGB(-20,-20,-20))}, 0.3, Enum.EasingStyle.Quint)
 							end
 
 						end)
 
 						DropDown.Items[id].instance["43"].MouseLeave:Connect(function()
-							Library:tween(DropDown.Items[id].instance["44"], {Color = Theme.DropDownStrokeColor}, 0.3, Enum.EasingStyle.Quint)
+							Library:tween(DropDown.Items[id].instance["44"], {Color = Theme.DropDownInputStrokeColor}, 0.3, Enum.EasingStyle.Quint)
 						end)
 
 						DropDown.Items[id].instance["43"].MouseButton1Down:Connect(function()
@@ -1543,15 +1550,15 @@ function Library:new(options)
 
 					DropDown["3b"].MouseEnter:Connect(function()
 						if Theme.isDark then
-							Library:tween(DropDown["3d"], {Color = addColors(Theme.DropDownStrokeColor, Color3.fromRGB(20,20,20))}, 0.3, Enum.EasingStyle.Quint)
+							Library:tween(DropDown["3d"], {Color = addColors(Theme.DropDownInputStrokeColor, Color3.fromRGB(20,20,20))}, 0.3, Enum.EasingStyle.Quint)
 						else
-							Library:tween(DropDown["3d"], {Color = addColors(Theme.DropDownStrokeColor, Color3.fromRGB(-20,-20,-20))}, 0.3, Enum.EasingStyle.Quint)
+							Library:tween(DropDown["3d"], {Color = addColors(Theme.DropDownInputStrokeColor, Color3.fromRGB(-20,-20,-20))}, 0.3, Enum.EasingStyle.Quint)
 						end
 
 					end)
 
 					DropDown["3b"].MouseLeave:Connect(function()
-						Library:tween(DropDown["3d"], {Color = Theme.DropDownStrokeColor}, 0.3, Enum.EasingStyle.Quint)
+						Library:tween(DropDown["3d"], {Color = Theme.DropDownInputStrokeColor}, 0.3, Enum.EasingStyle.Quint)
 					end)
 
 					DropDown["3b"].MouseButton1Down:Connect(function()
@@ -1822,7 +1829,7 @@ function Library:new(options)
 				UiStroke.Name = "PopUpUIPadding"
 				UiStroke.Parent = TextBox
 				UiStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
-				UiStroke.Color = Theme.ButtonStrokeColor
+				UiStroke.Color = Theme.ButtonInputStrokeColor
 				UiStroke.LineJoinMode = Enum.LineJoinMode.Round
 				UiStroke.Thickness = 2
 
@@ -1931,6 +1938,8 @@ function Library:new(options)
 					-- StarterGui.ScreenGui.TextInput.UIStroke
 					TextInput["5"] = Instance.new("UIStroke", TextInput["2"]);
 					TextInput["5"]["ApplyStrokeMode"] = Enum.ApplyStrokeMode.Border;
+					TextInput["5"]["Color"] = Theme.InputStrokeColor
+					TextInput["5"]["Thickness"] = 2
 
 
 					-- StarterGui.ScreenGui.TextInput.Title
@@ -1983,7 +1992,11 @@ function Library:new(options)
 					TextInput["8"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
 					TextInput["8"]["Text"] = [[]];
 					TextInput["8"]["PlaceholderText"] = options.PlaceHolderText
-
+					if Theme.isDark then
+						TextInput["8"]["PlaceholderColor3"] = addColors(Theme.TextColor, Color3.fromRGB(-70,-70,-70));
+					else
+						TextInput["8"]["PlaceholderColor3"] = addColors(Theme.TextColor, Color3.fromRGB(70,70,70));
+					end
 
 					-- StarterGui.ScreenGui.TextInput.TextBox.UICorner
 					TextInput["9"] = Instance.new("UICorner", TextInput["8"]);
@@ -2088,7 +2101,7 @@ function Library:new(options)
 				UIStrokeNotif.Name = "PopUpUIPadding"
 				UIStrokeNotif.Parent = Notificaton
 				UIStrokeNotif.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
-				UIStrokeNotif.Color = Theme.NotificationStrokeColor
+				UIStrokeNotif.Color = Theme.NotificationInputStrokeColor
 				UIStrokeNotif.LineJoinMode = Enum.LineJoinMode.Round
 				UIStrokeNotif.Thickness = 2
 
@@ -2448,13 +2461,8 @@ function Library:new(options)
 			ImageButton.MouseButton1Click:Connect(function()
 				sound.SoundId = "rbxassetid://1524543584"
 				sound:Play()
+				KeySystem.ClipsDescendants = true
 				Library:tween(KeySystem, {Size = UDim2.new(0, 82,0, 58)}, 1,Enum.EasingStyle.Back, Enum.EasingDirection.Out,function()
-					for _, child in ipairs(KeySystem:GetChildren()) do
-						if child:IsA("UICorner") or child:IsA("UIStroke") then
-							continue
-						end
-						child.Visible = false
-					end
 				end)
 
 				Library:tween(KeySystem, {Size = UDim2.new(0, 0,0, 0)}, 1,Enum.EasingStyle.Back, Enum.EasingDirection.In)
@@ -2476,5 +2484,4 @@ function Library:new(options)
 
 
 end
-
 return Library,Themes
