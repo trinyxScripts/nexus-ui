@@ -10,6 +10,18 @@ local mouse = pl:GetMouse()
 local viewport = workspace.CurrentCamera.ViewportSize
 local tweenInfo = TweenInfo.new(0.2,Enum.EasingStyle.Quad,Enum.EasingDirection.InOut)
 
+print([[
+╔═══════════════════════════════════════╗
+║ ██╗  ██╗███████╗██╗  ██╗██╗   ██╗███████╗║
+║ ███╗ ██║██╔════╝╚██╗██╔╝██║   ██║██╔════╝║
+║ ██╔╝██╔╝█████╗   ╚███╔╝ ██║   ██║███████╗║
+║ ██║ ██║ ██╔══╝   ██╔██╗ ██║   ██║╚════██║║
+║ ██║ ██║ ███████╗██╔╝ ██╗╚██████╔╝███████║║
+║ ╚═╝ ╚═╝ ╚══════╝╚═╝  ╚═╝ ╚═════╝ ╚══════╝║
+║          by trinyx | v2.1.0             ║
+╚═══════════════════════════════════════╝
+]])
+
 
 --did
 --toggle buttons tab main ui :()
