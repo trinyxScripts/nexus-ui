@@ -1502,7 +1502,7 @@ local GUI = {
 
 						DropDown.Items[id].instance["43"].MouseButton1Down:Connect(function()
 							Library:tween(DropDown.Items[id].instance["43"], {BackgroundColor3 = addColors(Theme.DropDownColor, Color3.fromRGB(20,20,20))}, 0.2, Enum.EasingStyle.Quint)
-							options.callback()
+							options.callback(id)
 							DropDown:Toggle()
 						end)
 
