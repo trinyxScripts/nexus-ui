@@ -18,7 +18,7 @@ print([[
 ║ ██║ ██║ ██╔══╝   ██╔██╗ ██║   ██║╚════██║║
 ║ ██║ ██║ ███████╗██╔╝ ██╗╚██████╔╝███████║║
 ║ ╚═╝ ╚═╝ ╚══════╝╚═╝  ╚═╝ ╚═════╝ ╚══════╝║
-║          by trinyx | v2.1.0             ║
+║          by trinyx | v2.2.0             ║
 ╚═══════════════════════════════════════╝
 ]])
 
@@ -1581,7 +1581,7 @@ local GUI = {
 
 					DropDown["3b"].MouseButton1Up:Connect(function()
 						Library:tween(DropDown["3b"], {BackgroundColor3 = Theme.DropDownColor}, 0.2, Enum.EasingStyle.Quint)
-						options.callback()
+						--options.callback()
 						if not DropDown.hoveringItem then
 							DropDown:Toggle()
 						end
