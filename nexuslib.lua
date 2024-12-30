@@ -348,7 +348,7 @@ local GUI = {
 	--All Ui	
 	
 	GUI["1"] = Instance.new("ScreenGui")
-GUI["2"].Parent = game:GetService("RunService"):IsStudio() and game.Players.LocalPlayer.PlayerGui or game.StarterGui
+GUI["1"].Parent = game:GetService("RunService"):IsStudio() and game.Players.LocalPlayer.PlayerGui or game.StarterGui
 	GUI["1"]["Name"] = [[UxiLib]];
 	GUI["1"]["IgnoreGuiInset"] = true	
 	GUI["1"].ResetOnSpawn = false
