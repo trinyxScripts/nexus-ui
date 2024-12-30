@@ -347,7 +347,7 @@ local GUI = {
 
 	--All Ui	
 	
-	GUI["1"] = Instance.new("ScreenGui", runServices:IsStudio() and players.LocalPlayer:WaitForChild("PlayerGui") or coreGui);
+	GUI["1"] = Instance.new("ScreenGui", runServices:IsStudio() and players.LocalPlayer:WaitForChild("PlayerGui") or game.coreGui);
 	GUI["1"]["Name"] = [[UxiLib]];
 	GUI["1"]["IgnoreGuiInset"] = true	
 	GUI["1"].ResetOnSpawn = false
