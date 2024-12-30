@@ -300,13 +300,27 @@ function Library:new(options)
 	options = Library:Validate({
 		name = "Default",
 		DockPos = "Bottom",
-		Theme = nil,
+		Theme = "LightBlue",
 		KeySystemConfig = {
 			KeySystem = true,
 			Key = "",
 			KeyLink = "https://discord.gg/uusn8yjs2z"
 		},
 	},options or {})
+
+if options.Theme == "LightBlue" then
+	options.Theme = Themes.LightBlue
+	else if options.Theme == "DarkBlue"
+options.Theme = Themes.DarkBlue
+	else if options.Theme == "LightYellow"
+options.Theme = Themes.LightYellow
+	else if options.Theme == "DarkRed"
+options.Theme = Themes.DarkRed
+	else if options.Theme == "DarkGreen"
+options.Theme = Themes.DarkGreen
+	else if options.Theme == "NexusTheme"
+	options.Theme = Themes.NexusTheme
+end
 
 	
 local GUI = {
@@ -315,14 +329,7 @@ local GUI = {
 		Visibility = not options.KeySystemConfig.KeySystem,
 		HasKeyBeenInputed = not options.KeySystemConfig.KeySystem,
 	}
-	Theme = Themes.LightBlue
-	if options.Theme == nil then
-		Theme = Themes.DarkBlue
-		local CurrentTheme = Themes.DarkBlue
-	else
-		Theme = options.Theme
-		local CurrentTheme = options.Theme
-	end
+	
 
 	local function addColors(color1, color2)
 		return Color3.new(
