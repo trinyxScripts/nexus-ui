@@ -349,7 +349,9 @@ local GUI = {
 	
 	GUI["1"] = Instance.new("ScreenGui", runServices:IsStudio() and players.LocalPlayer:WaitForChild("PlayerGui") or coreGui);
 	GUI["1"]["Name"] = [[UxiLib]];
-	GUI["1"]["IgnoreGuiInset"] = true
+	GUI["1"]["IgnoreGuiInset"] = true	
+	GUI["1"].ResetOnSpawn = false
+	
 	GUI["2"] = Instance.new("Frame", GUI["1"]);
 	GUI["2"]["BorderSizePixel"] = 0;
 	GUI["2"]["BackgroundColor3"] = Theme.BackgroundColor;
