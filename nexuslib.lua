@@ -505,7 +505,7 @@ local GUI = {
 		GUI["7"]["BackgroundTransparency"] = 1;
 		GUI["7"]["Size"] = UDim2.new(0.5, 0, 1, 0);
 		GUI["7"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
-		GUI["7"]["Text"] = options.Name;
+		GUI["7"]["Text"] = options["name"];
 		GUI["7"]["Name"] = [[Title]];
 
 
