@@ -348,7 +348,7 @@ local GUI = {
 	--All Ui	
 	
 	GUI["1"] = Instance.new("ScreenGui")
-GUI["1"].Parent = GUI["1"].Parent = pl.PlayerGui or game.StarterGui
+	GUI["1"].Parent = pl.PlayerGui or game.StarterGui
 	GUI["1"]["Name"] = [[UxiLib]];
 	GUI["1"]["IgnoreGuiInset"] = true	
 	GUI["1"].ResetOnSpawn = false
