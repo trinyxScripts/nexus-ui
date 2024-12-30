@@ -13,7 +13,7 @@
 You can Get Nexus through a GitHub Release:
 
 ```lua
-local Library =  loadstring(game:HttpGet("https://raw.githubusercontent.com/trinyxScripts/nexus-ui/refs/heads/main/nexuslib.lua"))()
+local Library,themes =  loadstring(game:HttpGet("https://raw.githubusercontent.com/trinyxScripts/nexus-ui/refs/heads/main/nexuslib.lua"))()
 ```
 <br/>
 
