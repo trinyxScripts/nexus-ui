@@ -310,15 +310,15 @@ function Library:new(options)
 
 if options.Theme == "LightBlue" then
 	options.Theme = Themes.LightBlue
-	else if options.Theme == "DarkBlue" then
+	elseif options.Theme == "DarkBlue" then
 options.Theme = Themes.DarkBlue
-	else if options.Theme == "LightYellow" then
+	elseif options.Theme == "LightYellow" then
 options.Theme = Themes.LightYellow
-	else if options.Theme == "DarkRed" then
+	elseif options.Theme == "DarkRed" then
 options.Theme = Themes.DarkRed
-	else if options.Theme == "DarkGreen" then
+	elseif options.Theme == "DarkGreen" then
 options.Theme = Themes.DarkGreen
-	else if options.Theme == "NexusTheme" then
+	elseif options.Theme == "NexusTheme" then
 	options.Theme = Themes.NexusTheme
 end
 
