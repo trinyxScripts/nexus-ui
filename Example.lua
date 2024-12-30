@@ -1,4 +1,4 @@
-local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/trinyxScripts/nexus-ui/refs/heads/main/nexuslib.lua"))()
+local Library,Themes = loadstring(game:HttpGet("https://raw.githubusercontent.com/trinyxScripts/nexus-ui/refs/heads/main/nexuslib.lua"))()
 
 local main = Library:new{
 	Name = "Custom Name",
@@ -66,7 +66,6 @@ d:Add("Third Bob", 3)
 
 local txtInput = Tab1:TextInput({
 	PlaceHolderText = "InputValueHere",
-	Text = "",
 	Title = "Toilet",
 	CallBack = function (v)  Tab:Notification({
  Text = v,
