@@ -854,7 +854,7 @@ function Library:new(options)
 			Tab["FadeGradient"]["Rotation"] = 90;
 			Tab["FadeGradient"]["Transparency"] = NumberSequence.new{NumberSequenceKeypoint.new(0.000, 0),NumberSequenceKeypoint.new(0.463, 0.275),NumberSequenceKeypoint.new(1.000, 1)};
 			Tab["FadeGradient"]["Color"] =  ColorSequence.new{ColorSequenceKeypoint.new(0.000, Theme.BackgroundColor),ColorSequenceKeypoint.new(1.000, Theme.BackgroundColor)};
-			
+			Tab["Fade"].Visible = false
 			
 			if Tab["15"].CanvasPosition.Y == 0 then
 				Tab["Fade"].Position = UDim2.new(0, 0,-0.5,0)
