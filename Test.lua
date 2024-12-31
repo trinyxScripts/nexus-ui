@@ -116,7 +116,7 @@ local Themes = {
 		NotificationSeperatorColor = Color3.fromRGB(60, 41, 68),
 		
 		SeperatorColor = Color3.fromRGB(49, 27, 65),
-		SeperatorStrokeColor= Color3.fromRGB(75, 75, 75)
+		SeperatorStrokeColor= Color3.fromRGB(0, 0, 0)
 	},
 	DarkGreen = {
 		isDark = true,
@@ -125,7 +125,7 @@ local Themes = {
 		ButtonColor = Color3.fromRGB(30, 45, 30),
 		
 		SeperatorColor = Color3.fromRGB(30, 45, 30),
-		SeperatorStrokeColor= Color3.fromRGB(75, 75, 75),
+		SeperatorStrokeColor= Color3.fromRGB(97, 97, 97),
 		
 		ButtonInputStrokeColor = Color3.fromRGB(97, 97, 97),
 		TextInputColor = Color3.fromRGB(30, 45, 30),
@@ -169,7 +169,7 @@ local Themes = {
 
 		ButtonColor = Color3.fromRGB(49, 22, 22),
 		SeperatorColor = Color3.fromRGB(49, 22, 22),
-		SeperatorStrokeColor= Color3.fromRGB(75, 75, 75),
+		SeperatorStrokeColor= Color3.fromRGB(97, 50, 50),
 		
 		TextInputColor = Color3.fromRGB(49, 22, 22),
 		ButtonInputStrokeColor = Color3.fromRGB(97, 50, 50),
@@ -3511,7 +3511,7 @@ function Library:new(options)
 			KeySystem.BorderColor3 = Color3.fromRGB(0, 0, 0)
 			KeySystem.BorderSizePixel = 0
 			KeySystem.Size = UDim2.new(0, 400, 0, 180)
-			KeySystem.Position = UDim2.new(0.5,0,1,75)
+			KeySystem.Position = UDim2.new(0.5,0,1,100)
 			KeySystem.Transparency = 0.1
 
 			local Pos = UDim2.new(0.5,0,0.5,0)
