@@ -3418,7 +3418,7 @@ function Library:new(options)
 					local d = Settings:DropDown({
 						Name = "Style",
 						callback = function(option) 
-							if option == "Fixed" then
+							if option == "Fixed" and GUI.DockPos ~= "Fixed" then
 								--GUI["2"].Size = UDim2.new(0, 601.5, 0, 450);
 								Library:tween(GUI["2"], {Size =  UDim2.new(0, 601.5, 0, 450)}, 0.8, Enum.EasingStyle.Quint)
 								GUI["b"].Parent = GUI["1"];
@@ -3432,7 +3432,7 @@ function Library:new(options)
 								GUI["b"].AnchorPoint = Vector2.new(0.5,0.5)
 								isFixed = true
 								GUI.DockPos = "Fixed"
-							elseif option == "Dock Bellow" then
+							elseif option == "Dock Bellow" and GUI.DockPos ~= "Bottom" then
 								isFixed = false
 								Library:tween(GUI["2"], {Size =UDim2.new(0, 401, 0, 300)}, 0.8, Enum.EasingStyle.Quint)
 								GUI["b"].Parent = GUI["2"];
@@ -3445,7 +3445,7 @@ function Library:new(options)
 									GUI["b"].Visible = not GUI["b"].Visible
 								end
 								GUI.DockPos = "Bottom"
-							elseif option == "Dock Top" then
+							elseif option == "Dock Top"  and GUI.DockPos ~= "Top" then
 								isFixed = false
 								GUI["b"].Parent = GUI["2"];
 								Library:tween(GUI["2"], {Size =UDim2.new(0, 401, 0, 300)}, 0.8, Enum.EasingStyle.Quint)
@@ -3462,6 +3462,7 @@ function Library:new(options)
 							end
 
 						end
+					})
 					})
 					d:Add("Fixed", 1)
 					d:Add("Dock Bellow", 2)
