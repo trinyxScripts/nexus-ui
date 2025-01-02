@@ -22,6 +22,8 @@ print([[
 ╚═══════════════════════════════════════╝
 ]])
 
+
+
 local Library = {}
 
 local Themes = {
@@ -375,8 +377,13 @@ function Library:new(options)
 		)
 	end
 	--logic
+	local parent = identifyexecutor and ((gethui and gethui()) or game.CoreGui) or game.Players.LocalPlayer.PlayerGui
 
-	--All Ui	
+	for _, existing in ipairs(parent:GetChildren()) do
+		if existing.Name == [[UxiLib]] then
+			existing:Destroy()
+		end
+	end
 
 	GUI["1"] = Instance.new("ScreenGui", pl.PlayerGui or game.StarterGui);
 	GUI["1"]["Name"] = [[UxiLib]];
