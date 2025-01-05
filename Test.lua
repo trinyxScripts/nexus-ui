@@ -755,8 +755,8 @@ function Library:new(options)
 			GUI["b"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
 			GUI["b"]["BackgroundTransparency"] = 0
 			GUI["2"].Transparency = 0
-			GUI["b"]["Position"] = UDim2.new(0,0,0,0)
-			GUI["b"]["Size"] = UDim2.new(0, 60, 1,0)
+			GUI["b"]["Position"] = UDim2.new(0,0,0,30)
+			GUI["b"]["Size"] = UDim2.new(0, 60, 1,-30)
 			GUI["b"]["AnchorPoint"] = Vector2.new(0, 0)
 			GUI["b"]["ZIndex"] = 0
 			
@@ -779,15 +779,15 @@ function Library:new(options)
 			GUI["c"].ScrollingDirection = Enum.ScrollingDirection.Y
 			
 			GUI["d"] = Instance.new("UIPadding", GUI["c"]);
-			GUI["d"]["PaddingTop"] = UDim.new(0, 40);
-			GUI["d"]["PaddingLeft"] = UDim.new(0, 9);
-			GUI["d"]["PaddingBottom"] = UDim.new(0, 5);
-			GUI["d"]["PaddingRight"] = UDim.new(0, 9);
+			GUI["d"]["PaddingTop"] = UDim.new(0, 10);
+			GUI["d"]["PaddingLeft"] = UDim.new(0, 10);
+			GUI["d"]["PaddingBottom"] = UDim.new(0, 10);
+			GUI["d"]["PaddingRight"] = UDim.new(0, 5);
 
 			-- StarterGui.UxiLib.Main.Navigation.Button Holder.UIListLayout
 			GUI["e"] = Instance.new("UIListLayout", GUI["c"]);
 			GUI["e"]["Padding"] = UDim.new(0, 10);
-			GUI["e"]["SortOrder"] = Enum.SortOrder.LayoutOrder;
+			GUI["e"]["SortOrder"] = Enum.SortOrder.Name;
 			GUI["e"]["FillDirection"] = Enum.FillDirection.Vertical;
 			
 			GUI["13"] = Instance.new("UICorner", GUI["b"]);
@@ -804,8 +804,8 @@ function Library:new(options)
 			GUI["Time"]["Position"] = UDim2.new(0, 0, 1, 0)
 			GUI["Time"]["AnchorPoint"] = Vector2.new(0,1)
 			GUI["Time"]["Text"] = os.date("%H:%M")
-			GUI["Time"].TextSize = 19
-			GUI["Time"]["FontFace"] = fontall
+			GUI["Time"].TextSize = fontSize
+			GUI["Time"]["Font"] = fontall
 			GUI["Time"].TextXAlignment = Enum.TextXAlignment.Center
 			GUI["Time"].TextYAlignment = Enum.TextYAlignment.Center
 			
@@ -818,7 +818,7 @@ function Library:new(options)
 			GUI["Ext"].BorderSizePixel = 0
 			
 			GUI["Sep"] = Instance.new("Frame", GUI["b"])
-			GUI["Sep"].Size = UDim2.new(0, 2, 1, -30)
+			GUI["Sep"].Size = UDim2.new(0, 2, 1, 0)
 			GUI["Sep"].Position = UDim2.new(1, 5, 1, 0)
 			GUI["Sep"]["AnchorPoint"] = Vector2.new(1, 1)
 			GUI["Sep"].BackgroundColor3 = Color3.fromRGB(0,0,0)
