@@ -805,7 +805,7 @@ function Library:new(options)
 			GUI["Time"]["AnchorPoint"] = Vector2.new(0,1)
 			GUI["Time"]["Text"] = os.date("%H:%M")
 			GUI["Time"].TextSize = fontSize
-			GUI["Time"]["Font"] = fontall
+			GUI["Time"]["Font"] = Enum.Font.Gotham
 			GUI["Time"].TextXAlignment = Enum.TextXAlignment.Center
 			GUI["Time"].TextYAlignment = Enum.TextYAlignment.Center
 			
