@@ -18,13 +18,17 @@ print([[
 ║ ██║ ██║ ██╔══╝   ██╔██╗ ██║   ██║╚════██║║
 ║ ██║ ██║ ███████╗██╔╝ ██╗╚██████╔╝███████║║
 ║ ╚═╝ ╚═╝ ╚══════╝╚═╝  ╚═╝ ╚═════╝ ╚══════╝║
-║          by trinyx | v3.0.0             ║
+║          by trinyx | v2.1.0             ║
 ╚═══════════════════════════════════════╝
 ]])
 
-
-
 local Library = {}
+
+local fontall = Enum.Font.Gotham
+local fontSize = 20
+
+--local fontone = "rbxassetid://12187365364"
+--fontall = Font.new("rbxasset://fonts/GothamSSm-Bold.otf", Enum.FontWeight.Regular, Enum.FontStyle.Normal);
 
 local Themes = {
 
@@ -294,9 +298,53 @@ local Themes = {
 		NotificationColor = Color3.fromRGB(194, 227, 255),
 		NotificationInputStrokeColor = Color3.fromRGB(199, 138, 16),
 		NotificationSeperatorColor = Color3.fromRGB(194-20, 227-20, 255-20),
+	},
+	Black = {
+		isDark = true,
+		BackgroundColor = Color3.fromRGB(32, 32, 32),
+
+		ButtonColor = Color3.fromRGB(49, 49, 49),
+		SeperatorColor = Color3.fromRGB(49, 49, 49),
+		SeperatorStrokeColor= Color3.fromRGB(97, 97, 97),
+
+		TextInputColor = Color3.fromRGB(49, 49, 49),
+		ButtonInputStrokeColor = Color3.fromRGB(97, 97, 97),
+		InputStrokeColor = Color3.fromRGB(97, 97, 97),
+		--dropdown
+		DropDownColor = Color3.fromRGB(49, 49, 49),
+		DropDownOptionsColor = Color3.fromRGB(104, 104, 104),
+		DropDownOptionsInputStrokeColor = Color3.fromRGB(97, 97, 97),
+		DropDownInputStrokeColor = Color3.fromRGB(97, 97, 97),
+		--label
+		LabelColor = Color3.fromRGB(49, 49, 49),
+		LabelInputStrokeColor = Color3.fromRGB(97, 97, 97),
+		--slider
+		SliderColor = Color3.fromRGB(49, 49, 49),
+		SliderBackColor = Color3.fromRGB(33, 33, 33),
+		SliderFillColor = Color3.fromRGB(91, 91, 91),
+		SliderStrokeAll = Color3.fromRGB(97, 97, 97),
+		--toggle
+		ToggleColor = Color3.fromRGB(49, 49, 49),
+		ToggleCheckColorInactive = Color3.fromRGB(33, 33, 33),
+		ToggleCheckColor = Color3.fromRGB(136, 136, 136),
+		--not naming this shit
+		TopBar = Color3.fromRGB(22, 22, 22),
+		TopBarInputStrokeColor = Color3.fromRGB(22, 22, 22),
+
+		TabButtonActive = Color3.fromRGB(255, 255, 255),
+		TabButtonInactive = Color3.fromRGB(182, 182, 182),
+		DockColor = Color3.fromRGB(32, 32, 32),
+		TextColor = Color3.fromRGB(255, 255, 255),
+		PopUpColor = Color3.fromRGB(185, 185, 185),
+		PopUpButtonColor = Color3.fromRGB(130, 130, 130),
+		PopUpStroke = Color3.fromRGB(108, 108, 108),
+		TabColor = Color3.fromRGB(134, 134, 134),
+		NotificationColor = Color3.fromRGB(32, 32, 32),
+		NotificationInputStrokeColor = Color3.fromRGB(199, 199, 199),
+		NotificationSeperatorColor = Color3.fromRGB(52, 52, 52),
 	}
+
 }
---Library.Theme = Themes
 
 local Theme = Themes.DarkBlue
 local AnimationStatus = true
@@ -335,8 +383,9 @@ local allthings = {}
 function Library:new(options)
 	options = Library:Validate({
 		name = "Default",
-		DockPos = "Bottom",
-		Theme = nil,
+		Style = "Bottom",
+		Theme = "Dark",
+		DockPos = nil,
 		ToggleKey = Enum.KeyCode.RightShift,
 		KeySystemConfig = {
 			KeySystem = true,
@@ -345,11 +394,36 @@ function Library:new(options)
 			KeySystemText = {
 				Text = "Text",
 				Title = "Title",
-				SmallTitle = "Small Title"
+				--deprecated/removed
+				SmallTitle = nil
 			}
 		},
 	},options or {})
-
+	
+	if options.DockPos ~= nil then
+		options.Style = options.DockPos
+	end
+	--Themes
+do
+	if options.Theme == "Dark" then
+		Theme = Themes.Black
+	elseif options.Theme == "LightBlue" then
+		Theme = Themes.LightBlue
+	elseif options.Theme == "LightYellow" then
+		Theme = Themes.LightYellow
+	elseif options.Theme == "DarkGreen" then
+		Theme = Themes.DarkGreen
+	elseif options.Theme == "DarkRed" then
+		Theme = Themes.DarkRed
+	elseif options.Theme == "DarkBlue" then
+		Theme = Themes.DarkBlue
+	elseif options.Theme == "Nexus" then
+		Theme = Themes.NexusTheme
+	else
+		Theme = Themes.Black
+	end
+end
+	local CurrentTheme = Themes.DarkBlue
 
 	local GUI = {
 		Active = false,
@@ -358,17 +432,17 @@ function Library:new(options)
 		HasKeyBeenInputed = not options.KeySystemConfig.KeySystem,
 		IsAPopUpCreated = false,
 		currentKey = options.ToggleKey,
-		DockPos = options.DockPos
+		Style = options.Style
 	}
-	Theme = Themes.LightBlue
-	if options.Theme == nil then
-		Theme = Themes.DarkBlue
-		local CurrentTheme = Themes.DarkBlue
-	else
-		Theme = options.Theme
-		local CurrentTheme = options.Theme
-	end
 
+	export type Asset = {
+		IconName: string, -- "icon-name"
+		Id: number, -- 123456789
+		Url: string, -- "rbxassetid://123456789"
+		ImageRectSize: Vector2, -- Vector2.new(48, 48)
+		ImageRectOffset: Vector2, -- Vector2.new(648, 266)
+	}
+	
 	local function addColors(color1, color2)
 		return Color3.new(
 			math.min(color1.R + color2.R, 1),
@@ -376,7 +450,284 @@ function Library:new(options)
 			math.min(color1.B + color2.B, 1)
 		)
 	end
-	--logic
+	--LUCIDE
+
+	local Icons = loadstring(game:HttpGet("https://pastebin.com/raw/JuJMrK3F"))()
+	local VersionInfo = {
+		PackageVersion = "0.1.3", -- The version of this `lucide-roblox` package
+		LucideVersion = "0.363.0" -- The version of the Lucide icon set itself the package ver noted above is on
+	}
+	
+	local Type = typeof or type
+	local function CheckArgTypes(funcName: string, inputArgs: {any}, typeEntries: {[number]: {string}})
+		for ArgIndex, TypeEntryArray in typeEntries do
+			local ArgName = TypeEntryArray[1]
+			local ExpectedType = TypeEntryArray[2]
+			
+			local InputArg = inputArgs[ArgIndex]
+			local InputArgType = Type(InputArg)
+	
+			if InputArgType ~= ExpectedType then
+				error(funcName .. ": Argument " .. ArgIndex .. " (" .. ArgName .. "): expected type `" .. ExpectedType .. "`, got `" .. InputArgType .. "`", 3)
+			end
+		end
+	end
+	
+	local function TrimIconIdentifier(inputIconIdentifier: string): string
+		return string.match(string.lower(inputIconIdentifier), "^%s*(.*)%s*$") :: string
+	end
+	
+	local function ApplyToInstance(object: Instance, properties: {[string]: any}): Instance
+		if properties then
+			for Property, Value in properties do
+				if Property ~= "Parent" then
+					object[Property] = Value
+				end
+			end
+	
+			if properties.Parent then
+				object.Parent = properties.Parent
+			end
+		end
+	
+		return object
+	end
+	
+	-- See /version-info.luau
+	local Lucide = {
+		PackageVersion = VersionInfo.PackageVersion,
+		LucideVersion = VersionInfo.LucideVersion,
+	}
+	
+	-- Add all icon names to an array
+	do
+		local IconNames: {string} = {}
+		local _, FirstIconIndex = next(Icons) -- If it's actually `{}`, we're in trouble..
+		FirstIconIndex = FirstIconIndex or {}
+	
+		for IconName in FirstIconIndex do
+			table.insert(IconNames, IconName)
+		end
+	
+		table.sort(IconNames)
+		table.freeze(IconNames)
+		Lucide.IconNames = IconNames
+	end
+	
+	--[[
+		Attempts to retrieve and wrap an asset object from a specified icon name, with
+		an optional target icon size argument, fetching the closest to what's supported
+	
+		*Will* throw an error if the icon name provided is invalid/not found
+	
+		*Example:*
+		```lua
+		local Asset = Lucide.GetAsset("server", 48) -- iconSize will default to `256` if not provided
+		assert(Asset, "Failed to fetch asset!")
+	
+		print(Asset.IconName) -- "server"
+		print(Asset.Id) -- 15269177520
+		print(Asset.Url) -- "rbxassetid://15269177520"
+		print(Asset.ImageRectSize) -- Vector2.new(48, 48)
+		print(Asset.ImageRectOffset) -- Vector2.new(0, 771)
+		```
+	]]
+	function Lucide.GetAsset(iconName: string, iconSize: number?): Asset
+		local IconSize = if iconSize == nil then 256 else iconSize
+	
+		CheckArgTypes("Lucide.GetAsset", {iconName, IconSize}, {
+			[1] = {"iconName", "string"},
+			[2] = {"iconSize", "number"},
+		})
+	
+		local IconName = TrimIconIdentifier(iconName)
+	
+		-- If reading directly from a UI obj w/ a negative size..?
+		if IconSize < 0 then
+			IconSize = -IconSize
+		end
+	
+		local RealSizeIndex = if IconSize <= 48 then "48px" else "256px"
+		local IconIndexDict = Icons[RealSizeIndex]
+	
+		if not IconIndexDict then
+			error("Lucide.GetAsset: Internal error: Failed to find icon index for specified size")
+		end
+	
+		local RawAsset = IconIndexDict[IconName]
+		local RawAsset = IconIndexDict[IconName]
+if not RawAsset then
+    return {
+        IconName = "blank",
+        Id = 10709790468, -- your fallback icon id
+        Url = "rbxassetid://10709790468",
+        ImageRectSize = Vector2.new(48, 48),
+        ImageRectOffset = Vector2.new(0, 0)
+    }
+end
+	
+		local Id = RawAsset[1]
+		local RawImageRectSize = RawAsset[2]
+		local RawImageRectOffset = RawAsset[3]
+	
+		if type(Id) ~= "number" or type(RawImageRectSize) ~= "table" or type(RawImageRectOffset) ~= "table" then
+			error("Lucide.GetAsset: Internal error: Invalid auto-generated asset entry")
+		end
+	
+		local Url = "rbxassetid://" .. Id
+		local ImageRectSize = Vector2.new(RawImageRectSize[1], RawImageRectSize[2])
+		local ImageRectOffset = Vector2.new(RawImageRectOffset[1], RawImageRectOffset[2])
+	
+		local Asset: Asset = {
+			IconName = IconName,
+			Id = Id,
+			Url = Url,
+			ImageRectSize = ImageRectSize,
+			ImageRectOffset = ImageRectOffset,
+		}
+	
+		return Asset
+	end
+	
+
+
+
+
+	
+	function Lucide.GetAllAssets(inputSize: number?): {Asset}
+		local InputSize = if inputSize == nil then 256 else inputSize
+	
+		CheckArgTypes("Lucide.GetAllAssets", {InputSize}, {
+			[1] = {"inputSize", "number"},
+		})
+	
+		local Assets = {}
+	
+		for _, IconName in Lucide.IconNames do
+			local Asset = Lucide.GetAsset(IconName, InputSize)
+			if Asset then
+				table.insert(Assets, Asset)
+			end
+		end
+	
+		-- `Lucide.IconNames` is already pre-sorted
+		return Assets
+	end
+	
+	--[[
+		Wrapper around `Lucide.GetAsset()` that fetches asset info for the specified
+		icon name and size, anc creates an `ImageLabel` Instance. Accepts an additional
+		optional argument for providing a table of properties to automatically apply
+		after the asset has been applied to said `ImageLabel`
+	
+		Without providing any extra property overrides, the icon is colored to its
+		default of #FFFFFF, and theinput from the `imageSize` argument is the
+		offset value of `ImageLabel.Size`
+	
+		Throws an error under the same terms as `Lucide.GetAsset()`
+	
+		*Example:*
+		```lua
+		local PlayerGui = game:GetService("Players").LocalPlayer.PlayerGui
+		local ScreenGui = Instance.new("ScreenGui")
+	
+		Lucide.ImageLabel("server-crash", 256, {
+			AnchorPoint = Vector2.new(0.5, 0.5),
+			Position = UDim2.fromScale(0.5, 0.5),
+	
+			Parent = ScreenGui,
+		})
+	
+		ScreenGui.Parent = PlayerGui
+		```
+	]]
+	function Lucide.ImageLabel(iconName: string, imageSize: number?, propertyOverrides: {[string]: any}?): ImageLabel
+		local ImageSize = if imageSize == nil then 256 else imageSize
+		local PropertyOverrides = if propertyOverrides == nil then {} else propertyOverrides
+	
+		CheckArgTypes("Lucide.ImageLabel", {iconName, imageSize, propertyOverrides}, {
+			[1] = {"iconName", "string"},
+			[2] = {"imageSize", "number"},
+			[3] = {"propertyOverrides", "table"}
+		})
+	
+		local Asset = Lucide.GetAsset(iconName, ImageSize)
+	
+		local ImageLabel = ApplyToInstance(Instance.new("ImageLabel"), {
+			Name = Asset.IconName,
+	
+			Size = UDim2.fromOffset(ImageSize, ImageSize),
+	
+			BackgroundColor3 = Color3.new(0, 0, 0),
+			BackgroundTransparency = 1,
+			BorderSizePixel = 0,
+	
+			Image = Asset.Url,
+			ImageRectSize = Asset.ImageRectSize,
+			ImageRectOffset = Asset.ImageRectOffset,
+			ImageColor3 = Color3.new(1, 1, 1), -- #FFFFFF
+			ScaleType = Enum.ScaleType.Fit,
+		})
+	
+		-- Apply any provided overrides
+		ApplyToInstance(ImageLabel, PropertyOverrides)
+	
+		return ImageLabel
+	end
+	
+	table.freeze(Lucide)
+	
+	--return Lucide
+	--END LUCIDE 
+	
+	--[[REFERENCES FOR THEMES AND FONTS WHICH ARENT USED]]
+	--Dock
+	local TabTextRef = {}
+	local TabRef = {}
+	local tabcur = nil
+	
+	-- Button references
+	local buttonRef = {}
+	local TextAllref = {}
+	local buttonStrokeRef = {}
+
+	-- Slider references
+	local sliderRef = {}
+	local sliderStrokeRef = {}
+
+	-- Toggle references
+	local toggleRef = {}
+	local toggleCheckMarkRef = {}
+	local toggleThirdRef = {}
+	local toggleStrokeRef = {}
+
+	-- Dropdown references
+	local dropdownRef = {}
+	local dropdownStrokeRef ={}
+
+	-- Separator references
+	local separatorRef = {}
+	local separatorStrokeRef = {}
+
+	-- Text input references
+	local textInputRef = {}
+	local textInputStrokeRef = {}
+
+	-- Key input references
+	local keyInputRef = {}
+	local keyInputStrokeRef = {}
+
+	-- Notification references
+	local notificationRef = {}
+	local notificationStrokeRef = {}
+
+	-- Popup references
+	local popupRef = {}
+	local popupStrokeRef = {}
+
+	
+	--[[End group]]	
+	
 	local parent = identifyexecutor and ((gethui and gethui()) or game.CoreGui) or game.Players.LocalPlayer.PlayerGui
 
 	for _, existing in ipairs(parent:GetChildren()) do
@@ -386,12 +737,13 @@ function Library:new(options)
 	end
 
 	GUI["1"] = Instance.new("ScreenGui", pl.PlayerGui or game.StarterGui);
+	GUI["1"].Parent = identifyexecutor and ((gethui and gethui()) or game.CoreGui) or game.Players.LocalPlayer.PlayerGui
 	GUI["1"]["Name"] = [[UxiLib]];
 	GUI["1"]["IgnoreGuiInset"] = true
 	GUI["1"].ResetOnSpawn = false
 	
 	local isFixed = false
-	if options.DockPos == "Fixed" then
+	if options.Style == "Fixed" then
 		isFixed = true
 	end
 	
@@ -403,6 +755,8 @@ function Library:new(options)
 	local GUI2PosLOl
 	if isFixed then
 		GUI2PosLOl = UDim2.new(0, 601.5, 0, 450);
+	elseif GUI.Style == "Classic" then
+		GUI2PosLOl= UDim2.new(0, 461, 0, 300);
 	else
 		GUI2PosLOl= UDim2.new(0, 401, 0, 300);
 	end
@@ -434,7 +788,7 @@ function Library:new(options)
 
 
 	GUI["3"] = Instance.new("UICorner", GUI["2"]);
-	GUI["3"]["CornerRadius"] = UDim.new(0, 9);
+	GUI["3"]["CornerRadius"] = UDim.new(0, 12);
 
 	GUI["54"] = Instance.new("Frame", GUI["2"]);
 	GUI["54"]["ZIndex"] = 0;
@@ -498,7 +852,7 @@ function Library:new(options)
 		GUI["55"]["BackgroundTransparency"] = 1;
 		GUI["55"]["Name"] = [[DropShadow]];
 		GUI["55"]["Position"] = UDim2.new(0.5, 0, 0.5, 0);
-		GUI["55"]["ImageColor3"] = Theme.TextColor;
+		GUI["55"]["ImageColor3"] = Color3.fromRGB(0,0,0);
 	end
 
 	--Top Bar
@@ -511,8 +865,7 @@ function Library:new(options)
 		GUI["4"]["Name"] = [[TopBar]];
 
 		GUI["5"] = Instance.new("UICorner", GUI["4"]);
-		GUI["5"]["CornerRadius"] = UDim.new(0, 9);
-
+		GUI["5"]["CornerRadius"] = UDim.new(0, 12);
 
 		-- StarterGui.UxiLib.Main.TopBar.Extention
 		GUI["6"] = Instance.new("Frame", GUI["4"]);
@@ -530,8 +883,8 @@ function Library:new(options)
 		GUI["7"]["BorderSizePixel"] = 0;
 		GUI["7"]["TextXAlignment"] = Enum.TextXAlignment.Left;
 		GUI["7"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
-		GUI["7"]["TextSize"] = 20;
-		GUI["7"]["FontFace"] = Font.new([[rbxasset://fonts/families/ubuntu.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
+		GUI["7"]["TextSize"] = 21;
+		GUI["7"]["Font"] = Enum.Font.Gotham;
 		GUI["7"]["TextColor3"] = Theme.TextColor;
 		GUI["7"]["BackgroundTransparency"] = 1;
 		GUI["7"]["Size"] = UDim2.new(0.5, 0, 1, 0);
@@ -605,133 +958,256 @@ function Library:new(options)
 		GUI["14"] = Instance.new("Frame", GUI["2"]);
 		GUI["14"]["BorderSizePixel"] = 0;
 		GUI["14"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
-		GUI["14"]["Size"] = UDim2.new(1,0,1,-30);
-		GUI["14"]["Position"] = UDim2.new(0, 0, 0, 30);
+		if GUI.Style == "Classic" then
+			GUI["14"]["Size"] = UDim2.new(1,-60,1,-30);
+			GUI["14"]["Position"] = UDim2.new(0, 60, 0, 30);
+		else
+			GUI["14"]["Size"] = UDim2.new(1,0,1,-30);
+			GUI["14"]["Position"] = UDim2.new(0, 0, 0, 30);
+		end
+		
+		
 		GUI["14"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
 		GUI["14"]["Name"] = [[MainContent]];
 		GUI["14"]["BackgroundTransparency"] = 1;
 	end
 	--make the dock
 	do
-		if options.DockPos == "Bottom" then
+		if options.Style == "Bottom" then
 			Position = UDim2.new(0, 0,0, 350)
-		elseif options.DockPos == "Top" then
+		elseif options.Style == "Top" then
 			Position = UDim2.new(0, 0,0,-100)
-		elseif options.DockPos == "Fixed" then
+		elseif options.Style == "Fixed" then
 			isFixed = true
 			Position = UDim2.new(0.5,0,1, 60);
 		else
 			Position = UDim2.new(0.5,0,1,-50)
 		end
 	end
+	
 	-- Navigation
 	do
-		if isFixed then
-			GUI["b"] = Instance.new("Frame", GUI["1"]);
+		
+		if GUI.Style ~= "Classic"  then
+			GUI["b"] = Instance.new("Frame", isFixed and GUI["1"] or GUI["2"])
+			GUI["b"]["Name"] = "Navigation"
+			GUI["b"]["BorderSizePixel"] = 0
+			GUI["b"]["BackgroundColor3"] = Theme.DockColor
+			GUI["b"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
+			GUI["b"]["BackgroundTransparency"] = 0.05
+			GUI["b"]["Position"] = Position
+			GUI["b"]["Size"] = isFixed and UDim2.new(0, 650, 0, 60) or UDim2.new(1, 0, 0, 60)
+			GUI["b"]["AnchorPoint"] = isFixed and Vector2.new(0.5, 0.5) or Vector2.new(0, 0)
+			
+			GUI["c"] = Instance.new("ScrollingFrame", GUI["b"]);
+			GUI["c"]["BorderSizePixel"] = 0;
+			GUI["c"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+			GUI["c"]["Size"] = UDim2.new(1,-80,1,0);
+			GUI["c"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+			GUI["c"]["Name"] = [[Button Holder]];
+			GUI["c"]["BackgroundTransparency"] = 1;
+			GUI["c"]["ScrollBarThickness"] = 0;
+			GUI["c"].ScrollBarImageColor3 = addColors(Theme.BackgroundColor, Color3.fromRGB(95,82,101))
+			--CHANG
+			GUI["c"].AutomaticCanvasSize = Enum.AutomaticSize.X
+			GUI["c"]["Visible"] = true;
+			GUI["c"].CanvasSize = UDim2.new(1,0,1,-80)
+			GUI["c"]["VerticalScrollBarInset"] = Enum.ScrollBarInset.None;
+			GUI["c"].ScrollingDirection = Enum.ScrollingDirection.X
+			
+			GUI["d"] = Instance.new("UIPadding", GUI["c"]);
+			GUI["d"]["PaddingTop"] = UDim.new(0, 7);
+			GUI["d"]["PaddingLeft"] = UDim.new(0, 15);
+			GUI["d"]["PaddingBottom"] = UDim.new(0, 5);
+			GUI["d"]["PaddingRight"] = UDim.new(0, 15);
+			-- StarterGui.UxiLib.Main.Navigation.Button Holder.UIListLayout
+			GUI["e"] = Instance.new("UIListLayout", GUI["c"]);
+			GUI["e"]["Padding"] = UDim.new(0, 10);
+			GUI["e"]["SortOrder"] = Enum.SortOrder.LayoutOrder;
+			GUI["e"]["FillDirection"] = Enum.FillDirection.Horizontal;
+			
+			GUI["13"] = Instance.new("UICorner", GUI["b"]);
+			GUI["13"]["CornerRadius"] = UDim.new(0,20);
+			
+			GUI["Time"] = Instance.new("TextLabel", GUI["b"])
+			GUI["Time"]["BorderSizePixel"] = 0
+			GUI["Time"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255)
+			GUI["Time"]["Size"] = UDim2.new(0, 80, 1, 0)
+			GUI["Time"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
+			GUI["Time"]["Name"] = "Time"
+			GUI["Time"]["BackgroundTransparency"] = 1
+			GUI["Time"]["TextColor3"] = Theme.TextColor
+			GUI["Time"]["Position"] = UDim2.new(1, 0, 0, 0)
+			GUI["Time"]["AnchorPoint"] = Vector2.new(1, 0)
+			GUI["Time"]["Text"] = os.date("%H:%M")
+			GUI["Time"].TextSize = fontSize
+			GUI["Time"]["Font"] = fontall
 		else
-			GUI["b"] = Instance.new("Frame", GUI["2"]);
+			GUI["b"] = Instance.new("Frame",GUI["2"])
+
+			GUI["b"]["Name"] = "Navigation"
+			GUI["b"]["BorderSizePixel"] = 0
+			GUI["b"]["BackgroundColor3"] = Theme.DockColor
+			GUI["b"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
+			GUI["b"]["BackgroundTransparency"] = 0
+			GUI["2"].Transparency = 0
+			GUI["b"]["Position"] = UDim2.new(0,0,0,30)
+			GUI["b"]["Size"] = UDim2.new(0, 60, 1,-30)
+			GUI["b"]["AnchorPoint"] = Vector2.new(0, 0)
+			GUI["b"]["ZIndex"] = 0
+			
+			GUI["4"]["Size"] = UDim2.new(1, 0,0, 30);
+			GUI["4"]["Position"] = UDim2.new(0,0,0,0);
+			
+			GUI["c"] = Instance.new("ScrollingFrame", GUI["b"]);
+			GUI["c"]["BorderSizePixel"] = 0;
+			GUI["c"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+			GUI["c"]["Size"] = UDim2.new(1,0,1,-40);
+			GUI["c"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+			GUI["c"]["Name"] = [[Button Holder]];
+			GUI["c"]["BackgroundTransparency"] = 1;
+			GUI["c"]["ScrollBarThickness"] = 0;
+			GUI["c"].ScrollBarImageColor3 = addColors(Theme.BackgroundColor, Color3.fromRGB(95,82,101))
+			GUI["c"].AutomaticCanvasSize = Enum.AutomaticSize.Y
+			GUI["c"]["Visible"] = true;
+			GUI["c"].CanvasSize = UDim2.new(1,0,1,-80)
+			GUI["c"]["VerticalScrollBarInset"] = Enum.ScrollBarInset.None;
+			GUI["c"].ScrollingDirection = Enum.ScrollingDirection.Y
+			
+			GUI["d"] = Instance.new("UIPadding", GUI["c"]);
+			GUI["d"]["PaddingTop"] = UDim.new(0, 10);
+			GUI["d"]["PaddingLeft"] = UDim.new(0, 10);
+			GUI["d"]["PaddingBottom"] = UDim.new(0, 10);
+			GUI["d"]["PaddingRight"] = UDim.new(0, 5);
+
+			-- StarterGui.UxiLib.Main.Navigation.Button Holder.UIListLayout
+			GUI["e"] = Instance.new("UIListLayout", GUI["c"]);
+			GUI["e"]["Padding"] = UDim.new(0, 10);
+			GUI["e"]["SortOrder"] = Enum.SortOrder.LayoutOrder;
+			GUI["e"]["FillDirection"] = Enum.FillDirection.Vertical;
+			
+			GUI["13"] = Instance.new("UICorner", GUI["b"]);
+			GUI["13"]["CornerRadius"] = UDim.new(0,12);
+			
+			GUI["Time"] = Instance.new("TextLabel", GUI["b"])
+			GUI["Time"]["BorderSizePixel"] = 0
+			GUI["Time"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255)
+			GUI["Time"]["Size"] = UDim2.new(1, 0, 0, 40)
+			GUI["Time"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
+			GUI["Time"]["Name"] = "Time"
+			GUI["Time"]["BackgroundTransparency"] = 1
+			GUI["Time"]["TextColor3"] = Theme.TextColor
+			GUI["Time"]["Position"] = UDim2.new(0, 0, 1, 0)
+			GUI["Time"]["AnchorPoint"] = Vector2.new(0,1)
+			GUI["Time"]["Text"] = os.date("%H:%M")
+			GUI["Time"].TextSize = fontSize
+			GUI["Time"]["Font"] = fontall
+			GUI["Time"].TextXAlignment = Enum.TextXAlignment.Center
+			GUI["Time"].TextYAlignment = Enum.TextYAlignment.Center
+			
+			GUI["Ext"] = Instance.new("Frame", GUI["b"])
+			GUI["Ext"].Size = UDim2.new(0, 20, 0, 10)
+			GUI["Ext"].Position = UDim2.new(1, 10, 1, 0)
+			GUI["Ext"]["AnchorPoint"] = Vector2.new(1, 1)
+			GUI["Ext"].BackgroundColor3 = Theme.BackgroundColor
+			GUI["Ext"].BackgroundTransparency = 0
+			GUI["Ext"].BorderSizePixel = 0
+			
+			GUI["Sep"] = Instance.new("Frame", GUI["b"])
+			GUI["Sep"].Size = UDim2.new(0, 2, 1, 0)
+			GUI["Sep"].Position = UDim2.new(1, 5, 1, 0)
+			GUI["Sep"]["AnchorPoint"] = Vector2.new(1, 1)
+			GUI["Sep"].BackgroundColor3 = Theme.TopBar
+			GUI["Sep"].BackgroundTransparency = 0
+			GUI["Sep"].BorderSizePixel = 0
+			GUI["Sep"].Name = [[Seperator]]
 		end
 		
-		GUI["b"]["BorderSizePixel"] = 0;
-		GUI["b"]["BackgroundColor3"] = Theme.DockColor;
-		if isFixed then
-			GUI["b"]["Size"] = UDim2.new(0,650, 0, 60);
-		else
-			GUI["b"]["Size"] = UDim2.new(1,0, 0, 60);
-		end
-		GUI["b"]["Position"] = Position;
-		GUI["b"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
-		GUI["b"]["Name"] = [[Navigation]];
-		GUI["b"]["Transparency"] = 0.05
-		if isFixed then
-			GUI["b"].AnchorPoint = Vector2.new(0.5,0.5)
-		end
-		
-		
-		GUI["c"] = Instance.new("ScrollingFrame", GUI["b"]);
-		GUI["c"]["BorderSizePixel"] = 0;
-		GUI["c"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
-		GUI["c"]["Size"] = UDim2.new(1,0,1,0);
-		GUI["c"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
-		GUI["c"]["Name"] = [[Button Holder]];
-		GUI["c"]["BackgroundTransparency"] = 1;
-		GUI["c"]["ScrollBarThickness"] = 0;
-		GUI["c"].ScrollBarImageColor3 = addColors(Theme.BackgroundColor, Color3.fromRGB(95,82,101))
-		--CHANG
-		GUI["c"].AutomaticCanvasSize = Enum.AutomaticSize.X
-		GUI["c"]["Visible"] = true;
-		GUI["c"].CanvasSize = UDim2.new(1,0,1,0)
-		GUI["c"]["VerticalScrollBarInset"] = Enum.ScrollBarInset.Always;
-		GUI["c"].ScrollingDirection = Enum.ScrollingDirection.X
-
-
-		-- StarterGui.UxiLib.Main.Navigation.Button Holder.UIPadding
-		GUI["d"] = Instance.new("UIPadding", GUI["c"]);
-		GUI["d"]["PaddingTop"] = UDim.new(0, 7);
-		GUI["d"]["PaddingLeft"] = UDim.new(0, 15);
-		GUI["d"]["PaddingBottom"] = UDim.new(0, 5);
-		GUI["d"]["PaddingRight"] = UDim.new(0, 15);
-
-
-		-- StarterGui.UxiLib.Main.Navigation.Button Holder.UIListLayout
-		GUI["e"] = Instance.new("UIListLayout", GUI["c"]);
-		GUI["e"]["Padding"] = UDim.new(0, 10);
-		GUI["e"]["SortOrder"] = Enum.SortOrder.LayoutOrder;
-		GUI["e"]["FillDirection"] = Enum.FillDirection.Horizontal;
-
-		--Ui corner
-		GUI["13"] = Instance.new("UICorner", GUI["b"]);
-		GUI["13"]["CornerRadius"] = UDim.new(0,20);
-
-	end
+		task.spawn(function()
+			while task.wait(60 - tonumber(os.date("%S"))) do
+				GUI["Time"]["Text"] = os.date("%H:%M")
+			end
+		end)
+	end	
 	
 	function GUI:_ToggleVisibility()
 		if not GUI.HasKeyBeenInputed then
-			GUI["2"]["Visible"] = false 
 			GUI.Visibility = false
-
-			if isFixed then
-				for _, child in ipairs(GUI["1"]:GetChildren()) do
-					if child.Name:match("^Navigation") then -- checks if name starts with "Notification"
-						child.Position = UDim2.new(0.5,0,1, 60);
-					end
-				end
-			end
-
-
-		elseif GUI.Visibility == true and GUI.HasKeyBeenInputed and not isAnimating then
+			GUI["2"].Visible = false
+		elseif GUI.Visibility == true and GUI.HasKeyBeenInputed and not isAnimating then	
 			isAnimating = true
-			GUI["2"].ClipsDescendants = true
+			if GUI.Style == "Classic" then
 			GUI.Visibility = not GUI.Visibility
-			Library:tween(GUI["2"], {Size = UDim2.new(0,0,0,0)}, 0.6, Enum.EasingStyle.Back, Enum.EasingDirection.In,function()
-				GUI["2"]["Visible"] = false
-				isAnimating = false
-			end)
+				Library:tween(GUI["2"], {Size = UDim2.new(0,0,0,0)}, 0.6, Enum.EasingStyle.Back, Enum.EasingDirection.In,function()
+					GUI["2"]["Visible"] = false
+					isAnimating = false
+				end)
+			end
 			if isFixed then
 				for _, child in ipairs(GUI["1"]:GetChildren()) do
 					if child.Name:match("^Navigation") then -- checks if name starts with "Notification"
-						Library:tween(child, {Position =UDim2.new(0.5,0,1, 60)}, 0.6, Enum.EasingStyle.Back, Enum.EasingDirection.Out)
+						Library:tween(child, {Position = UDim2.new(0.5,0,1, 60)}, 0.6, Enum.EasingStyle.Back, Enum.EasingDirection.Out)
 					end
 				end
+				isAnimating = true
+				--GUI["2"].ClipsDescendants = true
+				
+			elseif GUI.Style ~= "Classic" then
+				isAnimating = true
+				for _, child in ipairs(GUI["b"]:GetChildren()) do
+					if child.Name:match("^Settings") then 
+						Library:tween(child, {Position = UDim2.new(0.9,0,0.5,0)}, 0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out,function()
+							GUI["b"].ClipsDescendants = true
+							Library:tween(GUI["b"], {Position = UDim2.new(0,0,1,0)}, 0.4, Enum.EasingStyle.Quint, Enum.EasingDirection.Out)
+							Library:tween(GUI["b"], {Size = UDim2.new(1,0,0,0)}, 0.4, Enum.EasingStyle.Quint, Enum.EasingDirection.Out)
+							GUI.Visibility = not GUI.Visibility
+							Library:tween(GUI["2"], {Size = UDim2.new(0,0,0,0)}, 0.6, Enum.EasingStyle.Back, Enum.EasingDirection.In,function()
+
+								GUI["2"]["Visible"] = false
+								isAnimating = false
+							end)
+							wait(0.4)
+							GUI["2"].ClipsDescendants = true
+						end)
+						Library:tween(child, {Size = UDim2.new(0,0,0,0)}, 0.4, Enum.EasingStyle.Quint, Enum.EasingDirection.Out)
+					end
+				end
+				
 			end
+			
 		elseif GUI.Visibility == false and GUI.HasKeyBeenInputed and not isAnimating then
 			isAnimating = true
 			GUI["2"]["Visible"] = true 
 			GUI.Visibility = not GUI.Visibility
+			GUI["2"].ClipsDescendants = false
 			Library:tween(GUI["2"], {Size = GUI2PosLOl}, 0.6, Enum.EasingStyle.Back, Enum.EasingDirection.Out,function()
-				GUI["2"].ClipsDescendants = false
+				
 				isAnimating = false
 			end)
 			if isFixed then
 				for _, child in ipairs(GUI["1"]:GetChildren()) do
 					if child.Name:match("^Navigation") then 
-						Library:tween(child, {Position =UDim2.new(0.5,0,1, -60)}, 0.6, Enum.EasingStyle.Back, Enum.EasingDirection.Out)
+						Library:tween(child, {Position =UDim2.new(0.5,0,1, -60)}, 0.5, Enum.EasingStyle.Back, Enum.EasingDirection.Out)
 					end
 				end
+			elseif GUI.Style ~= "Classic" then
+				GUI["b"].Size = UDim2.new(1, 0, 0, 1)
+				Library:tween(GUI["b"], {Position = Position}, 0.3, Enum.EasingStyle.Quint, Enum.EasingDirection.In,function()
+					Library:tween(GUI["b"], {Size = UDim2.new(1, 0, 0, 60)}, 0.3, Enum.EasingStyle.Quint, Enum.EasingDirection.Out,function()
+						for _, child in ipairs(GUI["b"]:GetChildren()) do
+							if child.Name:match("^Settings") then 
+								GUI["b"].ClipsDescendants = false
+								Library:tween(child, {Position = UDim2.new(1, 10, 0.5, 0)}, 0.5, Enum.EasingStyle.Quint, Enum.EasingDirection.Out)
+								Library:tween(child, {Size = UDim2.new(0,45,0,45)}, 0.5, Enum.EasingStyle.Quint, Enum.EasingDirection.Out)
+							end
+						end
+					end)
+				end)
+				
 			end
 		end
-
 	end
+	
 	GUI:_ToggleVisibility()
 	--NotifHokder
 	local NotificationHolder = Instance.new("Frame")
@@ -758,7 +1234,8 @@ function Library:new(options)
 	
 	local NotifTransparency = 0.3
 	local PopUpTransparency = 0.02
-	
+	local firstCreated = nil
+	local isFirstCreated = false
 	
 	function GUI:CreateTab(options)
 		options = Library:Validate({
@@ -792,13 +1269,22 @@ function Library:new(options)
 			Tab["4"]["BorderSizePixel"] = 0;
 			Tab["4"]["BackgroundColor3"] = Color3.fromRGB(15, 24, 32);
 			Tab["4"]["AnchorPoint"] = Vector2.new(0.56, 0);
-			Tab["4"]["Image"] = options.Icon;
 			Tab["4"]["ImageColor3"] = addColors(Theme.TextColor, Color3.fromRGB(-50,-50,-50));
+			if string.find(options.Icon, "rbxassetid") then
+				Tab["4"]["Image"] = options.Icon
+			else
+				local Asset = Lucide.GetAsset(options.Icon, 30)
+				assert(Asset, "Failed to fetch asset!")
+				Tab["4"]["Image"] = Asset.Url
+				Tab["4"]["ImageRectSize"] = Asset.ImageRectSize
+			Tab["4"]["ImageRectOffset"] = Asset.ImageRectOffset
+				end
+			TabRef[#TabRef + 1] = Tab["4"]
 			Tab["4"]["Size"] = UDim2.new(0, 30, 0, 30);
 			Tab["4"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
 			Tab["4"]["BackgroundTransparency"] = 1;
 			Tab["4"]["Name"] = [[Icon]];
-			Tab["4"]["Position"] = UDim2.new(0.5, 0, 0, 0);
+			Tab["4"]["Position"] = UDim2.new(0.5, 2, 0, 0);
 
 			-- StarterGui.ScreenGui.Activetext.TextLabel
 			Tab["6"] = Instance.new("TextLabel", Tab["11"]);
@@ -806,8 +1292,9 @@ function Library:new(options)
 			Tab["6"]["BorderSizePixel"] = 0;
 			Tab["6"]["TextStrokeColor3"] = Color3.fromRGB(255, 255, 255);
 			Tab["6"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
-			Tab["6"]["TextSize"] = 19;
-			Tab["6"]["FontFace"] = Font.new([[rbxasset://fonts/families/ubuntu.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
+			Tab["6"]["TextSize"] = 16;
+			Tab["6"]["Font"] =fontall;
+			TabTextRef[#TabTextRef + 1] = Tab["6"]
 			Tab["6"]["TextColor3"] = Theme.TextColor
 			Tab["6"]["BackgroundTransparency"] = 1;
 			Tab["6"]["AnchorPoint"] = Vector2.new(0, 1);
@@ -825,26 +1312,25 @@ function Library:new(options)
 			Tab["15"]["Selectable"] = false;
 			Tab["15"]["Size"] = UDim2.new(1, 0, 1, 0);
 			Tab["15"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
-			--CHANGEDX
 			Tab["15"]["ScrollBarThickness"] = 10;
-			Tab["15"].ScrollBarImageColor3 = addColors(Theme.BackgroundColor, Color3.fromRGB(95,82,101))
+			Tab["15"].ScrollBarImageColor3 = addColors(Theme.BackgroundColor, Color3.fromRGB(95,95,95))
 			--CHANGEDX
 			Tab["15"].AutomaticCanvasSize = Enum.AutomaticSize.Y
 			Tab["15"]["BackgroundTransparency"] = 1;
 			Tab["15"]["Visible"] = true;
-			Tab["15"].CanvasSize = UDim2.new(1,0,1,0)
+			Tab["15"].CanvasSize = UDim2.new(1,0,1.6,0)
 			Tab["15"]["VerticalScrollBarInset"] = Enum.ScrollBarInset.Always;
 			Tab["15"].ScrollingDirection = Enum.ScrollingDirection.Y
 
 			Tab["99"] = Instance.new("UIPadding", Tab["15"]);
 			Tab["99"]["PaddingTop"] = UDim.new(0, 6);
-			local OffsetBar = 3
+			local OffsetBar = 5
 			Tab["99"]["PaddingRight"] = UDim.new(0,(Tab["15"].ScrollBarThickness + OffsetBar));
-			Tab["99"]["PaddingLeft"] = UDim.new(0, 10);
+			Tab["99"]["PaddingLeft"] = UDim.new(0, 13);
 			Tab["99"]["PaddingBottom"] = UDim.new(0, 1);
 
 			Tab["88"] = Instance.new("UIListLayout", Tab["15"]);
-			Tab["88"]["Padding"] = UDim.new(0, 8);
+			Tab["88"]["Padding"] = UDim.new(0, 12);
 			Tab["88"]["SortOrder"] = Enum.SortOrder.LayoutOrder;
 	
 			Tab["Fade"] = Instance.new("Frame", GUI["14"]);
@@ -880,18 +1366,18 @@ function Library:new(options)
 					Tab.Active = false
 					Tab.Hover = false
 					if not isFirstTime then
-						if Theme.isDark == false then Library:tween(Tab["4"], {ImageColor3 = addColors(InactivatedColor, Color3.fromRGB(80,80,80))},0.1) else Library:tween(Tab["4"], {ImageColor3 = addColors(InactivatedColor, Color3.fromRGB(-80,-80,-80))},0.1)end
+						if Theme.isDark == false then Library:tween(Tab["4"], {ImageColor3 = addColors(InactivatedColor, Color3.fromRGB(100,100,100))},0.1) else Library:tween(Tab["4"], {ImageColor3 = addColors(InactivatedColor, Color3.fromRGB(-100,-100,-100))},0.1)end
 						Tab["15"].ScrollBarThickness = 0
 						Library:tween(Tab["15"], {Size = UDim2.new(0, 0, 1, 0)},WaitTime,Enum.EasingStyle.Linear, Enum.EasingDirection.Out,function()
 							Tab["15"].Visible = false
 						end)
 					else
-						if Theme.isDark == false then Library:tween(Tab["4"], {ImageColor3 = addColors(InactivatedColor, Color3.fromRGB(80,80,80))},0.1) else Library:tween(Tab["4"], {ImageColor3 = addColors(InactivatedColor, Color3.fromRGB(-80,-80,-80))},0.1)end
+						if Theme.isDark == false then Library:tween(Tab["4"], {ImageColor3 = addColors(InactivatedColor, Color3.fromRGB(100,100,100))},0.1) else Library:tween(Tab["4"], {ImageColor3 = addColors(InactivatedColor, Color3.fromRGB(-100,-100,-100))},0.1)end
 						Tab["15"].ScrollBarThickness = 0
 						Tab["15"].Visible = false
 						Tab["15"].Size = UDim2.new(0, 0, 1, 0)
 					end
-					
+
 					if Tab["15"].CanvasPosition.Y == 0 then
 						Tab["Fade"].Position = UDim2.new(0, 0,-0.5,0)
 						GUI["14"].ClipsDescendants = true
@@ -908,15 +1394,14 @@ function Library:new(options)
 						wait(WaitTime / 2)
 						Tab.Active = true
 						Tab["15"].Visible = true
-						Library:tween(Tab["4"], {ImageColor3 = ActivatedColor},0.1)
+						if Theme.isDark == false then Library:tween(Tab["4"], {ImageColor3 = addColors(InactivatedColor, Color3.fromRGB(10,10,10))},0.1) else Library:tween(Tab["4"], {ImageColor3 = addColors(InactivatedColor, Color3.fromRGB(-10,-10,-10))},0.1)end
 						Library:tween(Tab["15"], {Size = UDim2.new(1, 0, 1, 0)},WaitTime,Enum.EasingStyle.Linear, Enum.EasingDirection.Out,function()
 							Library:tween(Tab["15"], {ScrollBarThickness = 10},0.5,Enum.EasingStyle.Back, Enum.EasingDirection.Out)
 						end)
 					else
 						Tab.Active = true
 						Tab["15"].Visible = true
-						
-						Library:tween(Tab["4"], {ImageColor3 = ActivatedColor},0.1)
+						if Theme.isDark == false then Library:tween(Tab["4"], {ImageColor3 = addColors(InactivatedColor, Color3.fromRGB(10,10,10))},0.1) else Library:tween(Tab["4"], {ImageColor3 = addColors(InactivatedColor, Color3.fromRGB(-10,-10,-10))},0.1)end
 						Tab["15"].Size = UDim2.new(1, 0, 1, 0)
 						Tab["15"].ScrollBarThickness = 10
 					end
@@ -929,8 +1414,24 @@ function Library:new(options)
 				end
 			end
 			
-			Tab:Activate()
+			--I MANAGED TO MAKE THIS AFTER 4 UPDATES 
+			if isFirstCreated == false then
+				firstCreated = table.clone(Tab)
+				isFirstCreated = true
+			else
+				Tab:Activate()
+				task.spawn(function()
+					task.wait(WaitTime + 0.001)
+					firstCreated:Activate()
+				end)
+			end
+			isFirstTime = true
+			
+			if not GUI.CurrentTab then
+				Tab:Deactivate()
+			end
 			isFirstTime = false
+			
 			
 			Tab["15"]:GetPropertyChangedSignal("CanvasPosition"):Connect(function()
 				if Tab["15"].CanvasPosition.Y > 32 then
@@ -960,12 +1461,6 @@ function Library:new(options)
 					Tab:Activate()
 				end)
 			end
-			--Exit
-			if GUI.CurrentTab == nil then
-				Tab:Activate()
-			end
-
-
 			function Tab:Button(options)
 				options = Library:Validate({
 					Name = "Button",
@@ -979,19 +1474,23 @@ function Library:new(options)
 
 				--make button
 				do
-
 					-- StarterGui.UxiLib.Main.MainContent.HomeTab.Button
 					Button["16"] = Instance.new("TextButton", Tab["15"])
+					buttonRef[#buttonRef + 1] = Button["16"]
 					Button["16"]["BorderSizePixel"] = 0
 					Button["16"]["BackgroundColor3"] = Theme.ButtonColor
 					Button["16"]["AnchorPoint"] = Vector2.new(0.5, 0)
-					Button["16"]["Size"] = UDim2.new(1, 0, 0, 40)
+					if GUI.Style == "Classic" then
+						Button["16"]["Size"] = UDim2.new(1/1.15, 0, 0, 40/1.1)
+					else
+						Button["16"]["Size"] = UDim2.new(1, 0, 0, 40)
+					end
+
 					Button["16"]["Position"] = UDim2.new(0.5, 0, 0, 0)
 					Button["16"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
 					Button["16"]["Name"] = "Button"
 					Button["16"].AutoButtonColor = false
 					Button["16"].TextTransparency = 1
-
 
 					-- StarterGui.UxiLib.Main.MainContent.HomeTab.Button.UICorner
 					Button["X"] = Instance.new("UICorner", Button["16"]);
@@ -1003,6 +1502,7 @@ function Library:new(options)
 					Button["18"]["Color"] = Theme.ButtonInputStrokeColor;
 					Button["18"]["Thickness"] = 2
 					Button["18"]["ApplyStrokeMode"] = Enum.ApplyStrokeMode.Border;
+					buttonStrokeRef[#buttonStrokeRef + 1] = Button["18"]
 
 
 					-- StarterGui.UxiLib.Main.MainContent.HomeTab.Button.Title
@@ -1010,9 +1510,10 @@ function Library:new(options)
 					Button["19"]["BorderSizePixel"] = 0;
 					Button["19"]["TextXAlignment"] = Enum.TextXAlignment.Left;
 					Button["19"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
-					Button["19"]["TextSize"] = 20;
-					Button["19"]["FontFace"] = Font.new([[rbxasset://fonts/families/Ubuntu.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
+					Button["19"]["TextSize"] = fontSize;
+					Button["19"]["Font"] =fontall;
 					Button["19"]["TextColor3"] = Theme.TextColor;
+					TextAllref[#TextAllref + 1] = Button["19"]
 					Button["19"]["BackgroundTransparency"] = 1;
 					Button["19"]["Size"] = UDim2.new(1, 0, 1, 0);
 					Button["19"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
@@ -1109,13 +1610,20 @@ function Library:new(options)
 				do
 					Toggle["1t"] = Instance.new("Frame", Tab["15"]);
 					Toggle["1t"]["BorderSizePixel"] = 0;
+					toggleRef[#toggleRef + 1] = Toggle["1t"]
 					Toggle["1t"]["BackgroundColor3"] = Theme.ToggleColor;
 					Toggle["1t"]["AnchorPoint"] = Vector2.new(0.5, 0);
 					Toggle["1t"]["Size"] = UDim2.new(1, 0, 0, 40);
 					Toggle["1t"]["Position"] = UDim2.new(0.5, 0, 0, 0);
 					Toggle["1t"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
 					Toggle["1t"]["Name"] = [[ToggleInactive]];
-
+					
+					
+					if GUI.Style == "Classic" then
+						Toggle["1t"]["Size"] = UDim2.new(1/1.15, 0, 0, 40/1.1)
+					else
+						Toggle["1t"]["Size"] = UDim2.new(1, 0, 0, 40)
+					end
 
 					-- StarterGui.s.Main.MainContent.HomeTab.ToggleInactive.UICorner
 					Toggle["dx"] = Instance.new("UICorner", Toggle["1t"]);
@@ -1124,6 +1632,7 @@ function Library:new(options)
 					Toggle["3x"] = Instance.new("UIStroke", Toggle["1t"]);
 					Toggle["3x"]["ApplyStrokeMode"] = Enum.ApplyStrokeMode.Border;
 					Toggle["3x"]["Color"] = Theme.ButtonInputStrokeColor;
+					toggleStrokeRef[#toggleStrokeRef + 1] = Toggle["3x"]
 					Toggle["3x"]["Thickness"] = 2;
 
 
@@ -1132,8 +1641,9 @@ function Library:new(options)
 					Toggle["2x"]["BorderSizePixel"] = 0;
 					Toggle["2x"]["TextXAlignment"] = Enum.TextXAlignment.Left;
 					Toggle["2x"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
-					Toggle["2x"]["TextSize"] = 20;
-					Toggle["2x"]["FontFace"] = Font.new([[rbxasset://fonts/families/Ubuntu.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
+					Toggle["2x"]["TextSize"] = fontSize;
+					TextAllref[#TextAllref + 1] = Toggle["2x"]
+					Toggle["2x"]["Font"] =fontall;
 					Toggle["2x"]["TextColor3"] = Theme.TextColor;
 					Toggle["2x"]["BackgroundTransparency"] = 1;
 					Toggle["2x"]["Size"] = UDim2.new(1, -120, 1, 0);
@@ -1144,19 +1654,20 @@ function Library:new(options)
 
 					-- StarterGui.s.Main.MainContent.HomeTab.ToggleInactive.UIPadding
 					Toggle["4x"] = Instance.new("UIPadding", Toggle["1t"]);
-					Toggle["4x"]["PaddingTop"] = UDim.new(0, 6);
+					Toggle["4x"]["PaddingTop"] = UDim.new(0, 5);
 					Toggle["4x"]["PaddingRight"] = UDim.new(0, 8);
 					Toggle["4x"]["PaddingLeft"] = UDim.new(0, 6);
-					Toggle["4x"]["PaddingBottom"] = UDim.new(0, 6);
+					Toggle["4x"]["PaddingBottom"] = UDim.new(0, 5);
 
 
 					-- StarterGui.s.Main.MainContent.HomeTab.ToggleInactive.CheckMarkHolder
 					Toggle["1z"] = Instance.new("Frame", Toggle["1t"]);
 					Toggle["1z"]["BorderSizePixel"] = 0;
 					Toggle["1z"]["BackgroundColor3"] = Theme.ToggleCheckColorInactive;
-					Toggle["1z"]["AnchorPoint"] = Vector2.new(1, 0);
+					Toggle["1z"]["AnchorPoint"] = Vector2.new(1, 0.5);
+					toggleCheckMarkRef[#toggleCheckMarkRef + 1] = Toggle["1z"]
 					Toggle["1z"]["Size"] = UDim2.new(0, 20, 0, 20);
-					Toggle["1z"]["Position"] = UDim2.new(1, -5, 0, 5);
+					Toggle["1z"]["Position"] = UDim2.new(1, -5, 0.5,0);
 					Toggle["1z"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
 					Toggle["1z"]["Name"] = [[CheckMarkHolder]];
 
@@ -1168,6 +1679,7 @@ function Library:new(options)
 					Toggle["1e"]["ImageTransparency"] = 1;
 					Toggle["1e"]["Image"] = [[rbxassetid://129387373527527]];
 					Toggle["1e"]["ImageColor3"]  = Theme.TextColor;
+					toggleThirdRef[#toggleThirdRef + 1] = Toggle["1e"]
 					Toggle["1e"]["Size"] = UDim2.new(1, 0, 1, 0);
 					Toggle["1e"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
 					Toggle["1e"]["BackgroundTransparency"] = 1;
@@ -1273,7 +1785,12 @@ function Library:new(options)
 					Label["36"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
 					Label["36"]["Name"] = [[Label]];
 
-
+					if GUI.Style == "Classic" then
+						Label["36"]["Size"] = UDim2.new(1/1.15, 0, 0, 40/1.1)
+					else
+						Label["36"]["Size"]  = UDim2.new(1, 0, 0, 40)
+					end
+					
 					-- StarterGui.s.Main.MainContent.HomeTab.Label.UICorner
 					Label["37"] = Instance.new("UICorner", Label["36"]);
 
@@ -1290,8 +1807,8 @@ function Library:new(options)
 					Label["39"]["BorderSizePixel"] = 0;
 					Label["39"]["TextXAlignment"] = Enum.TextXAlignment.Left;
 					Label["39"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
-					Label["39"]["TextSize"] = 20;
-					Label["39"]["FontFace"] = Font.new([[rbxasset://fonts/families/Ubuntu.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
+					Label["39"]["TextSize"] = fontSize;
+					Label["39"]["Font"] =fontall;
 					Label["39"]["TextColor3"] = Theme.TextColor;
 					Label["39"]["BackgroundTransparency"] = 1;
 					Label["39"]["Size"] = UDim2.new(1, 0, 1, 0);
@@ -1322,7 +1839,6 @@ function Library:new(options)
 					Label["39"].Size = UDim2.new(Label["39"].Size.X.Scale, Label["39"].Size.X.Offset, 0, math.huge)
 					Label["39"].Size = UDim2.new(Label["39"].Size.X.Scale, Label["39"].Size.X.Offset, 0, Label["39"].TextBounds.Y)
 					Library:tween(Label["36"], {Size = UDim2.new(Label["36"].Size.X.Scale, Label["36"].Size.X.Offset, 0,Label["39"].TextBounds.Y + 14)},0.5)
-
 				end
 
 
@@ -1356,8 +1872,16 @@ function Library:new(options)
 					Slider["2a"]["Position"] = UDim2.new(0.5, 0, 0, 0);
 					Slider["2a"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
 					Slider["2a"]["Name"] = [[Slider]];
-
-
+					sliderRef[#sliderRef + 1] = Slider["2a"]
+					
+					
+					if GUI.Style == "Classic" then
+						Slider["2a"]["Size"] = UDim2.new(1/1.15, 0, 0, 50)
+					else
+						Slider["2a"]["Size"] = UDim2.new(1, 0, 0, 50)
+					end
+					
+					
 					-- StarterGui.s.Main.MainContent.HomeTab.Slider.UICorner
 					Slider["2b"] = Instance.new("UICorner", Slider["2a"]);
 
@@ -1365,7 +1889,7 @@ function Library:new(options)
 
 					-- StarterGui.s.Main.MainContent.HomeTab.Slider.UIStroke
 					Slider["2c"] = Instance.new("UIStroke", Slider["2a"]);
-					Slider["2c"].Color = Color3.fromRGB(82,82,82)
+					Slider["2c"].Color = Theme.SliderStrokeAll
 					Slider["2c"].ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 					Slider["2c"].Thickness = 2
 
@@ -1375,8 +1899,8 @@ function Library:new(options)
 					Slider["2d"]["TextXAlignment"] = Enum.TextXAlignment.Left;
 					Slider["2d"]["TextYAlignment"] = Enum.TextYAlignment.Top;
 					Slider["2d"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
-					Slider["2d"]["TextSize"] = 20;
-					Slider["2d"]["FontFace"] = Font.new([[rbxasset://fonts/families/Ubuntu.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
+					Slider["2d"]["TextSize"] = fontSize;
+					Slider["2d"]["Font"] =fontall;
 					Slider["2d"]["TextColor3"] =Theme.TextColor;
 					Slider["2d"]["BackgroundTransparency"] = 1;
 					Slider["2d"]["Size"] = UDim2.new(0, 310, 1, -5);
@@ -1399,8 +1923,8 @@ function Library:new(options)
 					Slider["2f"]["TextYAlignment"] = Enum.TextYAlignment.Center;
 					Slider["2f"]["TextScaled"] = true;
 					Slider["2f"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
-					Slider["2f"]["TextSize"] = 20;
-					Slider["2f"]["FontFace"] = Font.new([[rbxasset://fonts/families/Ubuntu.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
+					Slider["2f"]["TextSize"] = 21;
+					Slider["2f"]["Font"] =fontall;
 					Slider["2f"]["TextColor3"] = Theme.TextColor;
 					Slider["2f"]["BackgroundTransparency"] = 1;
 					Slider["2f"]["AnchorPoint"] = Vector2.new(1, 0);
@@ -1450,8 +1974,6 @@ function Library:new(options)
 					Slider["35"] = Instance.new("UIStroke", Slider["33"]);
 					Slider["35"]["Color"] = Color3.fromRGB(73, 73, 73);
 				end
-
-
 				do  --Methods
 
 					function Slider:SetValue(v)
@@ -1480,20 +2002,67 @@ function Library:new(options)
 					--end	
 
 				end
+--[[
+				Button["16"].MouseEnter:Connect(function()
+					if Theme.isDark then
+						Library:tween(Button["18"], {Color = addColors(Theme.ButtonInputStrokeColor, Color3.fromRGB(15,15,15))},0.3)
+					else
+						Library:tween(Button["18"], {Color = addColors(Theme.ButtonInputStrokeColor, Color3.fromRGB(-15,-15,-15))},0.3)
+					end
+					Button.Hover = true
+
+				end)
+
+				Button["16"].MouseLeave:Connect(function()
+					Button.Hover = false
+					if not Button.MouseDown then
+						Library:tween(Button["18"], {Color = Theme.ButtonInputStrokeColor})
+					else
+						
+					end
+				end)
+
+				Button["16"].MouseButton1Down:Connect(function()
+					Button.MouseDown = true
+					Library:tween(Button["16"], {BackgroundColor3 = addColors(Theme.ButtonColor, Color3.fromRGB(30,30,30))},0.3)
+					Library:tween(Button["18"], {Color = Theme.ButtonInputStrokeColor},0.5)
+					options.callback()
+				end)
+
+				Button["16"].MouseButton1Up:Connect(function()
+					Button.MouseDown = false
+					if Button.Hover then
+						Library:tween(Button["16"], {BackgroundColor3 = Theme.ButtonColor},0.3)
+						Library:tween(Button["18"], {Color = Theme.ButtonInputStrokeColor},0.3)
+					else
+						Library:tween(Button["16"], {BackgroundColor3 = Theme.ButtonColor},0.3)
+						Library:tween(Button["18"], {Color = Theme.ButtonInputStrokeColor},0.3)
+					end
+				end)
+]]
+
+
 
 				do -- logic
 					Slider["2a"].MouseEnter:Connect(function()
 						Slider.Hover = true
 
-						Library:tween(Slider["2c"], {Color = addColors(Theme.SliderStrokeAll,Color3.fromRGB(38,38,38))},0.5)
-						Library:tween(Slider["32"], {Color = addColors(Theme.SliderStrokeAll,Color3.fromRGB(38,38,38))},0.5)
-						Library:tween(Slider["35"], {Color = addColors(Theme.SliderStrokeAll,Color3.fromRGB(38,38,38))},0.5)
+						if Theme.isDark then
+							Library:tween(Slider["2c"], {Color = addColors(Theme.SliderStrokeAll,Color3.fromRGB(38,38,38))},0.5)
+							Library:tween(Slider["32"], {Color = addColors(Theme.SliderStrokeAll,Color3.fromRGB(38,38,38))},0.5)
+							Library:tween(Slider["35"], {Color = addColors(Theme.SliderStrokeAll,Color3.fromRGB(38,38,38))},0.5)
+						else
+							Library:tween(Slider["2c"], {Color = addColors(Theme.SliderStrokeAll,Color3.fromRGB(-38,-38,-38))},0.5)
+							Library:tween(Slider["32"], {Color = addColors(Theme.SliderStrokeAll,Color3.fromRGB(-38,-38,-38))},0.5)
+							Library:tween(Slider["35"], {Color = addColors(Theme.SliderStrokeAll,Color3.fromRGB(-38,-38,-38))},0.5)
+						end
 					end)
 
 					Slider["2a"].MouseLeave:Connect(function()
 						Slider.Hover = false
 
 						if not Slider.MouseDown then
+							
 							Library:tween(Slider["2c"], {Color = Theme.SliderStrokeAll},0.5)
 							Library:tween(Slider["32"], {Color = Theme.SliderStrokeAll},0.5)
 							Library:tween(Slider["35"], {Color = Theme.SliderStrokeAll},0.5)
@@ -1506,12 +2075,17 @@ function Library:new(options)
 						if input.UserInputType == Enum.UserInputType.MouseButton1 and Slider.Hover then
 							Slider.MouseDown = true
 
-
+						if Theme.isDark then
 							Library:tween(Slider["2a"], {BackgroundColor3 = addColors(Theme.SliderColor, Color3.fromRGB(20,20,20))},0.5)
 							Library:tween(Slider["2c"], {Color =  addColors(Theme.SliderStrokeAll,Color3.fromRGB(68,68,68))},0.5)
 							Library:tween(Slider["32"], {Color =  addColors(Theme.SliderStrokeAll,Color3.fromRGB(68,68,68))},0.5)
 							Library:tween(Slider["35"], {Color = addColors(Theme.SliderStrokeAll,Color3.fromRGB(68,68,68))},0.5)
-
+						else
+							Library:tween(Slider["2a"], {BackgroundColor3 = addColors(Theme.SliderColor, Color3.fromRGB(-20,-20,-20))},0.5)
+							Library:tween(Slider["2c"], {Color =  addColors(Theme.SliderStrokeAll,Color3.fromRGB(-68,-68,-68))},0.5)
+							Library:tween(Slider["32"], {Color =  addColors(Theme.SliderStrokeAll,Color3.fromRGB(-68,-68,-68))},0.5)
+							Library:tween(Slider["35"], {Color = addColors(Theme.SliderStrokeAll,Color3.fromRGB(-68,-68,-68))},0.5)
+						end
 							if  not Slider.Connection then
 								Slider.Connection = runServices.RenderStepped:Connect(function()
 									Slider:SetValue()
@@ -1527,17 +2101,22 @@ function Library:new(options)
 						if input.UserInputType == Enum.UserInputType.MouseButton1 then
 							Slider.MouseDown = false
 							if Slider.Hover then
-								Library:tween(Slider["2a"], {BackgroundColor3 = Theme.SliderColor},0.5)
-								Library:tween(Slider["2c"], {Color =  addColors(Theme.SliderStrokeAll,Color3.fromRGB(38,38,38))},0.5)
-								Library:tween(Slider["32"], {Color =  addColors(Theme.SliderStrokeAll,Color3.fromRGB(38,38,38))},0.5)
-								Library:tween(Slider["35"], {Color =  addColors(Theme.SliderStrokeAll,Color3.fromRGB(38,38,38))},0.5)
+								if Theme.isDark then
+									Library:tween(Slider["2c"], {Color = addColors(Theme.SliderStrokeAll,Color3.fromRGB(38,38,38))},0.5)
+									Library:tween(Slider["32"], {Color = addColors(Theme.SliderStrokeAll,Color3.fromRGB(38,38,38))},0.5)
+									Library:tween(Slider["35"], {Color = addColors(Theme.SliderStrokeAll,Color3.fromRGB(38,38,38))},0.5)
+								else
+									Library:tween(Slider["2c"], {Color = addColors(Theme.SliderStrokeAll,Color3.fromRGB(-38,-38,-38))},0.5)
+									Library:tween(Slider["32"], {Color = addColors(Theme.SliderStrokeAll,Color3.fromRGB(-38,-38,-38))},0.5)
+									Library:tween(Slider["35"], {Color = addColors(Theme.SliderStrokeAll,Color3.fromRGB(-38,-38,-38))},0.5)
+								end
 							else
-								Library:tween(Slider["2a"], {BackgroundColor3 = Theme.SliderColor},0.5)
+								
 								Library:tween(Slider["2c"], {Color = Theme.SliderStrokeAll},0.5)
 								Library:tween(Slider["32"], {Color = Theme.SliderStrokeAll},0.5)
 								Library:tween(Slider["35"], {Color = Theme.SliderStrokeAll},0.5)
 							end
-
+							Library:tween(Slider["2a"], {BackgroundColor3 = Theme.SliderColor},0.5)
 
 							if Slider.Connection then Slider.Connection:Disconnect() end
 							Slider.Connection = nil
@@ -1588,7 +2167,12 @@ function Library:new(options)
 					DropDown["3b"]["TextStrokeTransparency"] = 1
 					DropDown["3b"]["AutoButtonColor"] = false
 
-
+					if GUI.Style == "Classic" then
+						DropDown["3b"]["Size"] = UDim2.new(1/1.15, 0, 0, 50/1.1)
+					else
+						DropDown["3b"]["Size"] = UDim2.new(1, 0, 0, 50)
+					end
+					
 					-- StarterGui.s.Main.MainContent.HomeTab.DropDown.UICorner
 					DropDown["3c"] = Instance.new("UICorner", DropDown["3b"]);
 
@@ -1608,8 +2192,8 @@ function Library:new(options)
 					DropDown["3e"]["BorderSizePixel"] = 0;
 					DropDown["3e"]["TextXAlignment"] = Enum.TextXAlignment.Left;
 					DropDown["3e"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
-					DropDown["3e"]["TextSize"] = 20;
-					DropDown["3e"]["FontFace"] = Font.new([[rbxasset://fonts/families/Ubuntu.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
+					DropDown["3e"]["TextSize"] = fontSize;
+					DropDown["3e"]["Font"] =fontall;
 					DropDown["3e"]["TextColor3"] = Theme.TextColor;
 					DropDown["3e"]["BackgroundTransparency"] = 1;
 					DropDown["3e"]["Size"] = UDim2.new(1, -26, 0, 25);
@@ -1679,8 +2263,8 @@ function Library:new(options)
 						DropDown.Items[id].instance["43"]["TextWrapped"] = true;
 						DropDown.Items[id].instance["43"]["BorderSizePixel"] = 0;
 						DropDown.Items[id].instance["43"]["BackgroundColor3"] = Theme.DropDownOptionsColor;
-						DropDown.Items[id].instance["43"]["TextSize"] = 18;
-						DropDown.Items[id].instance["43"]["FontFace"] = Font.new([[rbxasset://fonts/families/Ubuntu.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
+						DropDown.Items[id].instance["43"]["TextSize"] = 21;
+						DropDown.Items[id].instance["43"]["Font"] =fontall;
 						DropDown.Items[id].instance["43"]["TextColor3"] = Theme.TextColor;
 						DropDown.Items[id].instance["43"]["Size"] = UDim2.new(1, 0, 0, 28);
 						DropDown.Items[id].instance["43"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
@@ -1751,7 +2335,7 @@ function Library:new(options)
 						end
 						
 						if DropDown.open then
-							Library:tween(DropDown["3b"], {Size = UDim2.new(1,0,0,40)}, 0.5, Enum.EasingStyle.Quint, Enum.EasingDirection.InOut, function()
+							Library:tween(DropDown["3b"], {Size = UDim2.new(DropDown["3b"].Size.X.Scale,0,0,40)}, 0.5, Enum.EasingStyle.Quint, Enum.EasingDirection.InOut, function()
 								DropDown.open = false
 
 								DropDown.debounce = false
@@ -1766,7 +2350,7 @@ function Library:new(options)
 								end
 							end
 
-							Library:tween(DropDown["3b"], {Size = UDim2.new(1,0,0,40 +(count *(68-40)) + 14)}, 0.5, Enum.EasingStyle.Quint, Enum.EasingDirection.InOut, function()
+							Library:tween(DropDown["3b"], {Size = UDim2.new(DropDown["3b"].Size.X.Scale,0,0,40 +(count *(68-40)) + 14)}, 0.5, Enum.EasingStyle.Quint, Enum.EasingDirection.InOut, function()
 								DropDown.open = true
 								DropDown.debounce = false
 							end)
@@ -1821,7 +2405,6 @@ function Library:new(options)
 						callbackButtonLeft = function() end,
 
 					},options or {})
-
 					
 				if not GUI.IsAPopUpCreated  then
 					GUI.IsAPopUpCreated = true
@@ -1849,26 +2432,65 @@ function Library:new(options)
 						PopUp.Name = "PopUp"
 						PopUp.Parent = GUI["14"]
 						PopUp.AnchorPoint = Vector2.new(0.5, 0.5)
-						PopUp.BackgroundColor3 = Theme.PopUpColor
+						PopUp.BackgroundColor3 = Color3.fromRGB(200,200,200)
 						PopUp.BorderColor3 = Color3.fromRGB(0, 0, 0)
 						PopUp.BorderSizePixel = 0
-						PopUp.Position = UDim2.new(0.5, 0, 0.5, 0)
+						
+						local UIGradient = Instance.new("UIGradient")
+						
+						local startColor = nil
+						if Theme.isDark then
+							startColor = ColorSequenceKeypoint.new(0.00, Color3.fromRGB(0, 0, 0))
+						else
+							startColor = ColorSequenceKeypoint.new(0.00, Color3.fromRGB(255, 255, 255))
+						end
+
+						UIGradient.Color = ColorSequence.new{startColor,
+							ColorSequenceKeypoint.new(0.73, addColors(Theme.PopUpColor,Color3.fromRGB(-10,-10,-10))),
+							ColorSequenceKeypoint.new(1.00, Theme.PopUpColor)}
+						UIGradient.Parent = PopUp
+						
 						if isFixed  then
 							PopUp.Size = UDim2.new(0, 350, 0, 260)
 						else
+							if GUI.Style == "Classic" then
+								PopUp.Size = UDim2.new(0, 350, 0, 225) -  UDim2.new(0, 60, 0, 60) 
+							else
 							PopUp.Size = UDim2.new(0, 350, 0, 225) -  UDim2.new(0, 50, 0, 50) 
+							end	
+						end
+						
+						if GUI.Style == "Classic" then
+							PopUp.Position = UDim2.new(0.4, 0, 0.5, 0)
+						else
+							PopUp.Position = UDim2.new(0.5, 0, 0.5, 0)
 						end
 						
 						PopUp.Transparency = 1
+						
 						Library:tween(PopUp, {Transparency = PopUpTransparency},0.5,Enum.EasingStyle.Quint,Enum.EasingDirection.Out)
 
 						PopUpUIStroke.Name = "PopUpUIPadding"
 						PopUpUIStroke.Parent = PopUp
 						PopUpUIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
-						PopUpUIStroke.Color = addColors(Theme.PopUpColor, Color3.fromRGB(20,20,20))
+						PopUpUIStroke.Color = Color3.fromRGB(200,200,200)
 						PopUpUIStroke.LineJoinMode = Enum.LineJoinMode.Round
 						PopUpUIStroke.Thickness = 0
 						Library:tween(PopUpUIStroke, {Thickness = 4},0.5,Enum.EasingStyle.Quint,Enum.EasingDirection.Out)
+						local UIGradient = Instance.new("UIGradient")
+						
+						local startColor = nil
+						if Theme.isDark then
+							startColor = ColorSequenceKeypoint.new(0.00, Color3.fromRGB(0, 0, 0))
+						else
+							startColor = ColorSequenceKeypoint.new(0.00, Color3.fromRGB(255, 255, 255))
+						end
+
+						UIGradient.Color = ColorSequence.new{startColor,
+							ColorSequenceKeypoint.new(0.73, addColors(Theme.PopUpStroke,Color3.fromRGB(-10,-10,-10))),
+							ColorSequenceKeypoint.new(1.00, Theme.PopUpColor)}
+						UIGradient.Parent = PopUpUIStroke
+
 
 						Seperator.Name = "Seperator"
 						Seperator.Parent = PopUp
@@ -1880,6 +2502,7 @@ function Library:new(options)
 						Seperator.Position = UDim2.new(0, 0, 0, 40)
 						Seperator.Size = UDim2.new(1, 0, 0, 5)
 						Seperator.Transparency = 1
+						Seperator.Visible = false
 
 						Library:tween(Seperator, {Transparency = 0},0.5,Enum.EasingStyle.Quint,Enum.EasingDirection.Out)
 
@@ -1905,7 +2528,7 @@ function Library:new(options)
 						Button1.BorderSizePixel = 0
 						Button1.Position = UDim2.new(0.5, -30, 1, -10)
 						Button1.Size = UDim2.new(0, 50, 0, 50)
-						Button1.Font = Enum.Font.Ubuntu
+						Button1["Font"] =fontall;
 						Button1.Text = options.ButtonLeftText
 						Button1.TextColor3 = Theme.TextColor
 						Button1.TextSize = 20.000
@@ -1931,7 +2554,7 @@ function Library:new(options)
 						Button2.BorderSizePixel = 0
 						Button2.Position = UDim2.new(0.5, -30, 1, -10)
 						Button2.Size = UDim2.new(0, 50, 0, 50)
-						Button2.Font = Enum.Font.Ubuntu
+						Button2["Font"] =fontall;
 						Button2.Text = options.ButtonRightText
 						Button2.TextColor3 = Theme.TextColor
 						Button2.TextSize = 20.000
@@ -1958,7 +2581,7 @@ function Library:new(options)
 						Maintext.BorderSizePixel = 0
 						Maintext.Position = UDim2.new(0, 0, 0.289999992, 0)
 						Maintext.Size = UDim2.new(1, 0, 1.18461537, -50)
-						Maintext.Font = Enum.Font.Ubuntu
+						Maintext["Font"] =fontall;
 						Maintext.Text = options.Text
 						Maintext.TextColor3 = Theme.TextColor
 						Maintext.TextSize = 21.000
@@ -1984,7 +2607,7 @@ function Library:new(options)
 						Title.BorderColor3 = Color3.fromRGB(0, 0, 0)
 						Title.BorderSizePixel = 0
 						Title.Size = UDim2.new(1, 0, 0, 40)
-						Title.Font = Enum.Font.Ubuntu
+						Title["Font"] =fontall;
 						Title.Text = options.TitleText
 						Title.TextColor3 = Theme.TextColor
 						Title.TextSize = 30.000
@@ -2047,10 +2670,15 @@ function Library:new(options)
 					TextInput["2"]["TextTruncate"] = Enum.TextTruncate.AtEnd;
 					TextInput["2"]["BorderSizePixel"] = 0;
 					TextInput["2"]["BackgroundColor3"] = Theme.TextInputColor
-					TextInput["2"]["TextSize"] = 20;
-					TextInput["2"]["FontFace"] = Font.new([[rbxasset://fonts/families/Ubuntu.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
+					TextInput["2"]["TextSize"] = 21;
+					TextInput["2"]["Font"] =fontall;
 					TextInput["2"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
 					TextInput["2"]["Size"] = UDim2.new(1, 0, 0, 60);
+					if GUI.Style == "Classic" then
+						TextInput["2"]["Size"] = UDim2.new(1/1.15, 0, 0, 60)
+					else
+						TextInput["2"]["Size"] = UDim2.new(1, 0, 0, 60)
+					end
 					TextInput["2"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
 					TextInput["2"]["Text"] = [[]];
 					TextInput["2"]["Selectable"] = true;
@@ -2083,8 +2711,8 @@ function Library:new(options)
 					TextInput["6"]["TextXAlignment"] = Enum.TextXAlignment.Left;
 					TextInput["6"]["TextYAlignment"] = Enum.TextYAlignment.Top;
 					TextInput["6"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
-					TextInput["6"]["TextSize"] = 20;
-					TextInput["6"]["FontFace"] = Font.new([[rbxasset://fonts/families/Ubuntu.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
+					TextInput["6"]["TextSize"] = fontSize;
+					TextInput["6"]["Font"] =fontall;
 					TextInput["6"]["TextColor3"] = Theme.TextColor;
 					TextInput["6"]["BackgroundTransparency"] = 1;
 					TextInput["6"]["Size"] = UDim2.new(0, 310, 1, -5);
@@ -2112,14 +2740,14 @@ function Library:new(options)
 					TextInput["8"]["TextColor3"] = Theme.TextColor;
 					TextInput["8"]["BorderSizePixel"] = 0;
 					TextInput["8"]["TextXAlignment"] = Enum.TextXAlignment.Right;
-					TextInput["8"]["TextSize"] = 20;
+					TextInput["8"]["TextSize"] = 21;
 					if Theme.isDark then
 						TextInput["8"]["BackgroundColor3"] = addColors(Theme.TextInputColor, Color3.fromRGB(15,15,15));
 					else
 						TextInput["8"]["BackgroundColor3"] = addColors(Theme.TextInputColor, Color3.fromRGB(-15,-15,-15));
 					end
 
-					TextInput["8"]["FontFace"] = Font.new([[rbxasset://fonts/families/SourceSansPro.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
+					TextInput["8"]["Font"] = fontall
 					TextInput["8"]["AutomaticSize"] = Enum.AutomaticSize.X;
 					TextInput["8"]["AnchorPoint"] = Vector2.new(1, 0);
 					TextInput["8"]["Size"] = UDim2.new(0, 10, 0, 25);
@@ -2180,10 +2808,15 @@ function Library:new(options)
 					KeyBind["2"]["TextTruncate"] = Enum.TextTruncate.AtEnd;
 					KeyBind["2"]["BorderSizePixel"] = 0;
 					KeyBind["2"]["BackgroundColor3"] = Theme.TextInputColor
-					KeyBind["2"]["TextSize"] = 20;
-					KeyBind["2"]["FontFace"] = Font.new([[rbxasset://fonts/families/Ubuntu.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
+					KeyBind["2"]["TextSize"] = 21;
+					KeyBind["2"]["Font"] =fontall;
 					KeyBind["2"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
 					KeyBind["2"]["Size"] = UDim2.new(1, 0, 0, 60);
+					if GUI.Style == "Classic" then
+						KeyBind["2"]["Size"] = UDim2.new(1/1.15, 0, 0, 60)
+					else
+						KeyBind["2"]["Size"] = UDim2.new(1, 0, 0, 60)
+					end
 					KeyBind["2"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
 					KeyBind["2"]["Text"] = [[]];
 					KeyBind["2"]["Selectable"] = true;
@@ -2216,8 +2849,8 @@ function Library:new(options)
 					KeyBind["6"]["TextXAlignment"] = Enum.TextXAlignment.Left;
 					KeyBind["6"]["TextYAlignment"] = Enum.TextYAlignment.Top;
 					KeyBind["6"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
-					KeyBind["6"]["TextSize"] = 20;
-					KeyBind["6"]["FontFace"] = Font.new([[rbxasset://fonts/families/Ubuntu.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
+					KeyBind["6"]["TextSize"] = fontSize;
+					KeyBind["6"]["Font"] =fontall;
 					KeyBind["6"]["TextColor3"] = Theme.TextColor;
 					KeyBind["6"]["BackgroundTransparency"] = 1;
 					KeyBind["6"]["Size"] = UDim2.new(0, 310, 1, -5);
@@ -2225,7 +2858,6 @@ function Library:new(options)
 					KeyBind["6"]["Name"] = ("TextInput " .. options.Title);
 					KeyBind["6"]["Position"] = UDim2.new(0, 0, 0, -15);
 					KeyBind["6"]["Text"] = options.Title
-
 
 					-- StarterGui.ScreenGui.TextInput.Icon
 					KeyBind["7"] = Instance.new("ImageLabel", KeyBind["2"]);
@@ -2245,14 +2877,14 @@ function Library:new(options)
 					KeyBind["8"]["TextColor3"] = Theme.TextColor;
 					KeyBind["8"]["BorderSizePixel"] = 0;
 					KeyBind["8"]["TextXAlignment"] = Enum.TextXAlignment.Right;
-					KeyBind["8"]["TextSize"] = 20;
+					KeyBind["8"]["TextSize"] = 21;
 					if Theme.isDark then
 						KeyBind["8"]["BackgroundColor3"] = addColors(Theme.TextInputColor, Color3.fromRGB(15,15,15));
 					else
 						KeyBind["8"]["BackgroundColor3"] = addColors(Theme.TextInputColor, Color3.fromRGB(-15,-15,-15));
 					end
 
-					KeyBind["8"]["FontFace"] = Font.new([[rbxasset://fonts/families/SourceSansPro.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
+					KeyBind["8"]["Font"] =fontall;
 					KeyBind["8"]["AutomaticSize"] = Enum.AutomaticSize.X;
 					KeyBind["8"]["AnchorPoint"] = Vector2.new(1, 0);
 					KeyBind["8"]["Size"] = UDim2.new(0, 10, 0, 25);
@@ -2268,9 +2900,6 @@ function Library:new(options)
 
 					-- StarterGui.ScreenGui.TextInput.TextBox.UICorner
 					KeyBind["9"] = Instance.new("UICorner", KeyBind["8"]);
-
-
-
 					-- StarterGui.ScreenGui.TextInput.TextBox.UIPadding
 					KeyBind["a"] = Instance.new("UIPadding", KeyBind["8"]);
 					KeyBind["a"]["PaddingTop"] = UDim.new(0, 7);
@@ -2296,7 +2925,7 @@ function Library:new(options)
 					KeyBind["8"].Text = "..."
 					local connection
 					connection = game:GetService("UserInputService").InputBegan:Connect(function(input)
-							if input.KeyCode ~= options.ToggleKey and input.KeyCode ~= Enum.KeyCode.Unknown then
+							if input.KeyCode ~= GUI.currentKey and input.KeyCode ~= Enum.KeyCode.Unknown then
 							KeyBind["8"].Text = "Keybind:" .. input.KeyCode.Name
 							KeyBind.CurrentKeyBind = input.KeyCode
 							KeyBind["8"]:ReleaseFocus()
@@ -2353,10 +2982,10 @@ function Library:new(options)
 				sound.Parent = game:GetService("SoundService")
 				sound:Play()
 
-				Notificaton.Size = UDim2.new(0, (350/1.2), 0, (100/1.2))
+				Notificaton.Size = UDim2.new(0, (350/1.15), 0, (100/1.15))
 				Notificaton.Name = "Notification"
 				Notificaton.Parent = NotificationHolder
-				Notificaton.BackgroundColor3 = Theme.NotificationColor
+				Notificaton.BackgroundColor3 = Color3.new(200,200,200)
 				Notificaton.BorderColor3 = Color3.fromRGB(0, 0, 0)
 				Notificaton.BorderSizePixel = 0
 				Notificaton.AnchorPoint = Vector2.new(1, 1)
@@ -2366,6 +2995,19 @@ function Library:new(options)
 				-- animate to final position
 				Library:tween(Notificaton, {Position = UDim2.new(1, -30, 1, -10 - offset)}, 1, Enum.EasingStyle.Quint, Enum.EasingDirection.InOut)
 				table.insert(allthings, Notificaton)
+
+                local UIGradient = Instance.new("UIGradient")
+						
+						local startColor = nil
+						if Theme.isDark then
+							startColor = ColorSequenceKeypoint.new(0.00, Color3.fromRGB(0, 0, 0))
+						else
+							startColor = ColorSequenceKeypoint.new(0.00, Color3.fromRGB(200, 200, 200))
+						end
+						UIGradient.Color = ColorSequence.new{startColor,
+							ColorSequenceKeypoint.new(0.73, Theme.NotificationColor),
+							ColorSequenceKeypoint.new(1.00, Theme.PopUpColor)}
+						UIGradient.Parent = Notificaton
 
 				UIStrokeNotif.Name = "PopUpUIPadding"
 				UIStrokeNotif.Parent = Notificaton
@@ -2397,7 +3039,7 @@ function Library:new(options)
 				MainText.Position = UDim2.new(1, 0, 1.07000005, 0)
 				MainText.Selectable = true
 				MainText.Size = UDim2.new(1, 0, 0.99000001, -20)
-				MainText.Font = Enum.Font.Ubuntu
+				MainText.Font = fontall
 				MainText.Text = options.Text
 				MainText.TextColor3 = Theme.TextColor
 				MainText.TextSize = 20.000
@@ -2441,7 +3083,7 @@ function Library:new(options)
 				Title.Position = UDim2.new(1, 0, 0, 0)
 				Title.Selectable = true
 				Title.Size = UDim2.new(1, 0, 0.100000001, 20)
-				Title.Font = Enum.Font.Ubuntu
+				Title["Font"] =fontall;
 				Title.Text = options.Title
 				Title.TextColor3 = Theme.TextColor
 				Title.TextSize = 30.000
@@ -2504,6 +3146,11 @@ function Library:new(options)
 				Seperator["2"]["BorderSizePixel"] = 0;
 				Seperator["2"]["BackgroundColor3"] = Theme.SeperatorColor;
 				Seperator["2"]["Size"] = UDim2.new(1, 0, 0, 5);
+				if GUI.Style == "Classic" then
+					Seperator["2"].Size = UDim2.new(1/1.15, 0, 0, 5)
+				else
+					Seperator["2"].Size = UDim2.new(1, 0, 0, 5)
+				end
 				Seperator["2"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
 				Seperator["2"]["Name"] = [[Seperator]];
 
@@ -2521,31 +3168,30 @@ function Library:new(options)
 				
 			end
 			
-			--Exit
+			--Exit and minimise
 			do
-				local Minimise = Instance.new("ImageButton")
+				--exit
+				do
+				local Exit = Instance.new("ImageButton")
 
-				--Properties:
-
-				Minimise.Name = "Exit"
-				Minimise.Parent = GUI["4"]
-				Minimise.Active = false
-				Minimise.AnchorPoint = Vector2.new(1, 0.5)
-				Minimise.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-				Minimise.BackgroundTransparency = 1.000
-				Minimise.BorderColor3 = Color3.fromRGB(0, 0, 0)
-				Minimise.BorderSizePixel = 0
-				Minimise.Position = UDim2.new(1, -6, 0.5, 0)
-				Minimise.Selectable = false
-				Minimise.Size = UDim2.new(0, 22, 0, 22)
-				Minimise.Image = "rbxassetid://101632078875960"
-				Minimise.ImageColor3 = Theme.TextColor
-
-
-
+				Exit.Name = "Exit"
+				Exit.Parent = GUI["4"]
+				Exit.Active = false
+				Exit.AnchorPoint = Vector2.new(1, 0.5)
+				Exit.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+				Exit.BackgroundTransparency = 1.000
+				Exit.BorderColor3 = Color3.fromRGB(0, 0, 0)
+				Exit.BorderSizePixel = 0
+				Exit.Position = UDim2.new(1, -6, 0.5, 0)
+				Exit.Selectable = false
+					Exit.Size = UDim2.new(0, 22, 0, 22)
+					
+				Exit.Image = "rbxassetid://101632078875960"
+				Exit.ImageColor3 = Theme.TextColor
+					
 				local Hover = false
 				local IsClicked = false
-				Minimise.MouseButton1Click:Connect(function()
+				Exit.MouseButton1Click:Connect(function()
 					if not IsClicked then
 						IsClicked = true
 						Tab:CreatePopUp({
@@ -2562,10 +3208,37 @@ function Library:new(options)
 						})
 					end
 
-				end)
+					end)
+				end
+				--Minimise
+				do
+					local Minimise = Instance.new("ImageButton")
+
+					Minimise.Name = "Minimise"
+					Minimise.Parent = GUI["4"]
+					Minimise.Active = false
+					Minimise.AnchorPoint = Vector2.new(1, 0.5)
+					Minimise.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+					Minimise.BackgroundTransparency = 1.000
+					Minimise.BorderColor3 = Color3.fromRGB(0, 0, 0)
+					Minimise.BorderSizePixel = 0
+					Minimise.Position = UDim2.new(1, -29, 0.5, 0)
+					Minimise.Selectable = false
+					Minimise.Size = UDim2.new(0, 22, 0, 22)
+					Minimise.Image = "rbxassetid://98939068367813"
+					Minimise.ImageColor3 = Theme.TextColor
+					
+					local IsClicked = false
+					
+					Minimise.MouseButton1Click:Connect(function()
+						GUI:_ToggleVisibility()
+					end)
+				end
 			end
+			
 			return Tab
 		end
+
 	end
 	
 	--make settings
@@ -2579,25 +3252,60 @@ function Library:new(options)
 		--make settings button
 		do
 			Settings["1"] = Instance.new("ImageButton", GUI["b"]);
+			if GUI.Style == "Classic" then
+				Settings["1"].Parent = GUI["4"]
+			end
 			Settings["1"]["BorderSizePixel"] = 0;
 			Settings["1"]["BackgroundColor3"] = Theme.DockColor;
-			Settings["1"]["AnchorPoint"] = Vector2.new(0, 0.5);
+			if GUI.Style ~= "Classic" then
+				Settings["1"]["AnchorPoint"] = Vector2.new(0, 0.5);
+			else
+				Settings["1"]["AnchorPoint"] = Vector2.new(1, 0.5);
+			end
+			
 			Settings["1"]["Image"] = [[]];
-			Settings["1"]["Size"] = UDim2.new(0, 45, 0, 45);
+			if GUI.Style == "Classic" then
+				Settings["1"]["Size"] = UDim2.new(0, 22, 0, 22);
+			else
+				if not isFixed then
+					Settings["1"]["Size"] = UDim2.new(0, 45, 0, 45);
+				else
+					Settings["1"]["Size"] = UDim2.new(0, 45, 0, 45);
+				end
+				
+			end
+			
 			Settings["1"]["HoverImage"] = [[]];
 			Settings["1"]["Name"] = [[Settings]];
 			Settings["1"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
-			Settings["1"]["Position"] = UDim2.new(1, 10, 0.5, 0);
-			Settings["1"]["BackgroundTransparency"] = 0.2
+			if GUI.Style ~= "Classic" then
+				Settings["1"]["Position"] = UDim2.new(1, 10, 0.5, 0);
+			else
+				Settings["1"].Position = UDim2.new(1, -58, 0.5, 0)
+			end
+			if GUI.Style ~= "Classic" then
+				Settings["1"]["BackgroundTransparency"] = 0.2
+			else
+				Settings["1"]["BackgroundTransparency"] = 1
+			end
+			
 			Settings["1"].AutoButtonColor = false
+			
 			Settings["1"].ImageColor3 = Theme.TextColor
+			
+			
 
 			Settings["2"] = Instance.new("UICorner", Settings["1"]);
 			Settings["2"]["CornerRadius"] = UDim.new(0, 20);
 			
 			Settings["icon"] = Instance.new("ImageLabel", Settings["1"]);
 			Settings["icon"]["BorderSizePixel"] = 0;
-			Settings["icon"]["BackgroundColor3"] = Theme.DockColor;
+			if GUI.Style == "Classic" then
+				Settings["icon"]["BackgroundColor3"] = Theme.TopBar ;
+			else
+				Settings["icon"]["BackgroundColor3"] = Theme.DockColor;
+			end
+			
 			Settings["icon"]["AnchorPoint"] = Vector2.new(0, 0);
 			Settings["icon"]["Image"] = [[rbxassetid://138554176123976]];
 			Settings["icon"]["Size"] = UDim2.new(1,0,1,0);
@@ -2605,7 +3313,13 @@ function Library:new(options)
 			Settings["icon"]["Name"] = [[Settings]];
 			Settings["icon"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
 			Settings["icon"]["Position"] = UDim2.new(0,0,0,0);
-			Settings["icon"]["BackgroundTransparency"] = 0.2
+			
+			if GUI.Style ~= "Classic" then
+				Settings["icon"]["BackgroundTransparency"] = 1
+			else
+				Settings["icon"]["BackgroundTransparency"] = 1
+			end
+			
 			--Settings["icon"].AutoButtonColor = false
 			Settings["icon"].ImageColor3 = Theme.TextColor
 
@@ -2636,7 +3350,7 @@ function Library:new(options)
 			Settings["Scrollable"]["Name"] = [[Scrollable]];
 			Settings["Scrollable"]["Selectable"] = false;
 			--Settings["Scrollable"]["ClipsDescendants"] = false;
-			Settings["Scrollable"]["Size"] = UDim2.new(1, 0, 0.9, 0);
+			Settings["Scrollable"]["Size"] = UDim2.new(1, 0, 1, -30);
 			Settings["Scrollable"]["ScrollBarImageColor3"] = Color3.fromRGB(112, 112, 112);
 			Settings["Scrollable"]["Position"] = UDim2.new(0, 0, 0.1, 0);
 			Settings["Scrollable"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
@@ -2644,29 +3358,29 @@ function Library:new(options)
 			Settings["Scrollable"]["BackgroundTransparency"] = 1;
 			Settings["Scrollable"].ZIndex = 0
 			Settings["Scrollable"].CanvasSize = UDim2.new(1,0,1,0)
+			Settings["Scrollable"].AutomaticCanvasSize = Enum.AutomaticSize.Y
 			Settings["Scrollable"]["VerticalScrollBarInset"] = Enum.ScrollBarInset.Always;
 			Settings["Scrollable"].ScrollingDirection = Enum.ScrollingDirection.Y
 			
 			Settings["ScrollableL"] = Instance.new("UIListLayout", Settings["Scrollable"]);
-			Settings["ScrollableL"]["Padding"] = UDim.new(0, 8);
+			Settings["ScrollableL"]["Padding"] = UDim.new(0, 11);
 			Settings["ScrollableL"]["SortOrder"] = Enum.SortOrder.LayoutOrder;
 
 			Settings["ScrollableP"] = Instance.new("UIPadding", Settings["Scrollable"]);
-			Settings["ScrollableP"]["PaddingRight"] = UDim.new(0, 15);
+			Settings["ScrollableP"]["PaddingRight"] = UDim.new(0, 20);
 			Settings["ScrollableP"]["PaddingBottom"] = UDim.new(0, 10);
-			Settings["ScrollableP"]["PaddingLeft"] = UDim.new(0, 10);
+			Settings["ScrollableP"]["PaddingLeft"] = UDim.new(0, 14);
 			Settings["ScrollableP"]["PaddingTop"] = UDim.new(0, 10);
 
 			-- StarterGui.ScreenGui.Settings.UICorner
 			Settings["4"] = Instance.new("UICorner", Settings["3"]);
 			Settings["4"]["CornerRadius"] = UDim.new(0, 10);
-			
 
 			-- StarterGui.ScreenGui.Settings.TopBar
 			Settings["5"] = Instance.new("Frame", Settings["3"]);
 			Settings["5"]["BorderSizePixel"] = 0;
 			Settings["5"]["BackgroundColor3"] = Theme.TopBar;
-			Settings["5"]["Size"] = UDim2.new(1, 0, 0.1, 0);
+			Settings["5"]["Size"] = UDim2.new(1, 0, 0, 30);
 			Settings["5"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
 			Settings["5"]["Name"] = [[TopBar]];
 			Settings["5"].ZIndex = 0;
@@ -2691,8 +3405,8 @@ function Library:new(options)
 			Settings["8"]["BorderSizePixel"] = 0;
 			Settings["8"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
 			Settings["8"]["TextSize"] = 21;
-			Settings["8"]["FontFace"] = Font.new([[rbxasset://fonts/families/Ubuntu.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
-			Settings["8"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
+			Settings["8"]["Font"] =fontall;
+			Settings["8"]["TextColor3"] = Theme.TextColor
 			Settings["8"]["BackgroundTransparency"] = 1;
 			Settings["8"]["Size"] = UDim2.new(1, 0, 1, 0);
 			Settings["8"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
@@ -2720,7 +3434,7 @@ function Library:new(options)
 				}
 
 				do
-					Toggle["1t"] = Instance.new("TextButton", Settings["Scrollable"]);
+					Toggle["1t"] = Instance.new("Frame", Settings["Scrollable"]);
 					Toggle["1t"]["BorderSizePixel"] = 0;
 					Toggle["1t"]["BackgroundColor3"] = Theme.ToggleColor;
 					Toggle["1t"]["AnchorPoint"] = Vector2.new(0.5, 0);
@@ -2728,10 +3442,7 @@ function Library:new(options)
 					Toggle["1t"]["Position"] = UDim2.new(0.5, 0, 0, 0);
 					Toggle["1t"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
 					Toggle["1t"]["Name"] = [[ToggleInactive]];
-					Toggle["1t"]["Text"] = "" --NONE
-					Toggle["1t"].AutoButtonColor = false
-					Toggle["1t"].ZIndex = 0;
-					Toggle["1t"].ClipsDescendants = true
+					Toggle["1t"]["ClipsDescendants"] = true
 
 					-- StarterGui.s.Main.MainContent.HomeTab.ToggleInactive.UICorner
 					Toggle["dx"] = Instance.new("UICorner", Toggle["1t"]);
@@ -2748,35 +3459,33 @@ function Library:new(options)
 					Toggle["2x"]["BorderSizePixel"] = 0;
 					Toggle["2x"]["TextXAlignment"] = Enum.TextXAlignment.Left;
 					Toggle["2x"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
-					Toggle["2x"]["TextSize"] = 20;
-					Toggle["2x"]["FontFace"] = Font.new([[rbxasset://fonts/families/Ubuntu.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
+					Toggle["2x"]["TextSize"] = 21;
+					Toggle["2x"]["Font"] =fontall;
 					Toggle["2x"]["TextColor3"] = Theme.TextColor;
 					Toggle["2x"]["BackgroundTransparency"] = 1;
 					Toggle["2x"]["Size"] = UDim2.new(1, -120, 1, 0);
 					Toggle["2x"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
 					Toggle["2x"]["Text"] = options.Name;
 					Toggle["2x"]["Name"] = [[Title]];
-					Toggle["2x"].ZIndex = 0;
 
 
 					-- StarterGui.s.Main.MainContent.HomeTab.ToggleInactive.UIPadding
 					Toggle["4x"] = Instance.new("UIPadding", Toggle["1t"]);
-					Toggle["4x"]["PaddingTop"] = UDim.new(0, 6);
+					Toggle["4x"]["PaddingTop"] = UDim.new(0, 0);
 					Toggle["4x"]["PaddingRight"] = UDim.new(0, 8);
 					Toggle["4x"]["PaddingLeft"] = UDim.new(0, 6);
-					Toggle["4x"]["PaddingBottom"] = UDim.new(0, 6);
+					Toggle["4x"]["PaddingBottom"] = UDim.new(0, 0);
 
 
 					-- StarterGui.s.Main.MainContent.HomeTab.ToggleInactive.CheckMarkHolder
 					Toggle["1z"] = Instance.new("Frame", Toggle["1t"]);
 					Toggle["1z"]["BorderSizePixel"] = 0;
 					Toggle["1z"]["BackgroundColor3"] = Theme.ToggleCheckColorInactive;
-					Toggle["1z"]["AnchorPoint"] = Vector2.new(1, 0);
+					Toggle["1z"]["AnchorPoint"] = Vector2.new(1, 0.5);
 					Toggle["1z"]["Size"] = UDim2.new(0, 20, 0, 20);
-					Toggle["1z"]["Position"] = UDim2.new(1, -5, 0, 5);
+					Toggle["1z"]["Position"] = UDim2.new(1, -5, 0.5,0);
 					Toggle["1z"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
 					Toggle["1z"]["Name"] = [[CheckMarkHolder]];
-					Toggle["1z"].ZIndex = 0;
 
 
 					-- StarterGui.s.Main.MainContent.HomeTab.ToggleInactive.CheckMarkHolder.checkmark
@@ -2790,7 +3499,7 @@ function Library:new(options)
 					Toggle["1e"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
 					Toggle["1e"]["BackgroundTransparency"] = 1;
 					Toggle["1e"]["Name"] = [[checkmark]];
-					Toggle["1e"].ZIndex = 0;
+
 
 					-- StarterGui.s.Main.MainContent.HomeTab.ToggleInactive.CheckMarkHolder.UIStroke
 					Toggle["1v"] = Instance.new("UIStroke", Toggle["1z"]);
@@ -2821,6 +3530,8 @@ function Library:new(options)
 						options.callback(Toggle.State)
 					end
 
+
+
 				end
 				--logic
 				do
@@ -2839,30 +3550,35 @@ function Library:new(options)
 						end
 					end)
 
-					Toggle["1t"].MouseButton1Down:Connect(function()
+					uis.InputBegan:Connect(function(input,gpe)
+						if gpe then return end
 
-						Toggle.MouseDown = true
-						Library:tween(Toggle["1t"], {BackgroundColor3 =  addColors(Theme.ToggleColor, Color3.fromRGB(30,30,30))},0.5)
-						Library:tween(Toggle["3x"], {Color = Theme.ButtonInputStrokeColor},0.5)
-						Toggle:UpdateToggle()
+						if input.UserInputType == Enum.UserInputType.MouseButton1 and Toggle.Hover then
+							Toggle.MouseDown = true
+							Library:tween(Toggle["1t"], {BackgroundColor3 =  addColors(Theme.ToggleColor, Color3.fromRGB(30,30,30))},0.5)
+							Library:tween(Toggle["3x"], {Color = Theme.ButtonInputStrokeColor},0.5)
+							Toggle:UpdateToggle()
+						end
 
 					end)
 
-					Toggle["1t"].MouseButton1Up:Connect(function()
+					uis.InputEnded:Connect(function(input,gpe)
+						if gpe then return end
 
-						Toggle.MouseDown = false
-						if Toggle.Hover then
-							Library:tween(Toggle["3x"], {Color = Theme.ButtonInputStrokeColor},0.5)
-							Library:tween(Toggle["1t"], {BackgroundColor3 = Theme.ToggleColor},0.5)
-						else
-							Library:tween(Toggle["1t"], {BackgroundColor3 = Theme.ToggleColor},0.5)
-							Library:tween(Toggle["3x"], {Color = Theme.ButtonInputStrokeColor},0.5)
+						if input.UserInputType == Enum.UserInputType.MouseButton1 then
+							Toggle.MouseDown = false
+							if Toggle.Hover then
+								Library:tween(Toggle["3x"], {Color = Theme.ButtonInputStrokeColor},0.5)
+								Library:tween(Toggle["1t"], {BackgroundColor3 = Theme.ToggleColor},0.5)
+							else
+								Library:tween(Toggle["1t"], {BackgroundColor3 = Theme.ToggleColor},0.5)
+								Library:tween(Toggle["3x"], {Color = Theme.ButtonInputStrokeColor},0.5)
+							end
 						end
 
 					end)
 
 				end
-				
 				return Toggle
 			end
 			--reusable keybind
@@ -2885,8 +3601,8 @@ function Library:new(options)
 					KeyBind["2"]["TextTruncate"] = Enum.TextTruncate.AtEnd;
 					KeyBind["2"]["BorderSizePixel"] = 0;
 					KeyBind["2"]["BackgroundColor3"] = Theme.TextInputColor
-					KeyBind["2"]["TextSize"] = 20;
-					KeyBind["2"]["FontFace"] = Font.new([[rbxasset://fonts/families/Ubuntu.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
+					KeyBind["2"]["TextSize"] = 21;
+					KeyBind["2"]["Font"] =fontall;
 					KeyBind["2"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
 					KeyBind["2"]["Size"] = UDim2.new(1, 0, 0, 60);
 					KeyBind["2"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
@@ -2919,8 +3635,8 @@ function Library:new(options)
 					KeyBind["6"]["TextXAlignment"] = Enum.TextXAlignment.Left;
 					KeyBind["6"]["TextYAlignment"] = Enum.TextYAlignment.Top;
 					KeyBind["6"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
-					KeyBind["6"]["TextSize"] = 20;
-					KeyBind["6"]["FontFace"] = Font.new([[rbxasset://fonts/families/Ubuntu.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
+					KeyBind["6"]["TextSize"] = 21;
+					KeyBind["6"]["Font"] =fontall;
 					KeyBind["6"]["TextColor3"] = Theme.TextColor;
 					KeyBind["6"]["BackgroundTransparency"] = 1;
 					KeyBind["6"]["Size"] = UDim2.new(0, 310, 1, -5);
@@ -2948,14 +3664,14 @@ function Library:new(options)
 					KeyBind["8"]["TextColor3"] = Theme.TextColor;
 					KeyBind["8"]["BorderSizePixel"] = 0;
 					KeyBind["8"]["TextXAlignment"] = Enum.TextXAlignment.Right;
-					KeyBind["8"]["TextSize"] = 20;
+					KeyBind["8"]["TextSize"] = 21;
 					if Theme.isDark then
 						KeyBind["8"]["BackgroundColor3"] = addColors(Theme.TextInputColor, Color3.fromRGB(15,15,15));
 					else
 						KeyBind["8"]["BackgroundColor3"] = addColors(Theme.TextInputColor, Color3.fromRGB(-15,-15,-15));
 					end
 
-					KeyBind["8"]["FontFace"] = Font.new([[rbxasset://fonts/families/SourceSansPro.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
+					KeyBind["8"]["Font"] =fontall;
 					KeyBind["8"]["AutomaticSize"] = Enum.AutomaticSize.X;
 					KeyBind["8"]["AnchorPoint"] = Vector2.new(1, 0);
 					KeyBind["8"]["Size"] = UDim2.new(0, 10, 0, 25);
@@ -3055,12 +3771,10 @@ function Library:new(options)
 					DropDown["3b"]["TextTransparency"] = 1
 					DropDown["3b"]["TextStrokeTransparency"] = 1
 					DropDown["3b"]["AutoButtonColor"] = false
-
+					DropDown["3b"]["ClipsDescendants"] = true
 
 					-- StarterGui.s.Main.MainContent.HomeTab.DropDown.UICorner
 					DropDown["3c"] = Instance.new("UICorner", DropDown["3b"]);
-
-
 
 					-- StarterGui.s.Main.MainContent.HomeTab.DropDown.UIStroke
 					DropDown["3d"] = Instance.new("UIStroke", DropDown["3b"]);
@@ -3076,8 +3790,8 @@ function Library:new(options)
 					DropDown["3e"]["BorderSizePixel"] = 0;
 					DropDown["3e"]["TextXAlignment"] = Enum.TextXAlignment.Left;
 					DropDown["3e"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
-					DropDown["3e"]["TextSize"] = 20;
-					DropDown["3e"]["FontFace"] = Font.new([[rbxasset://fonts/families/Ubuntu.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
+					DropDown["3e"]["TextSize"] = 21;
+					DropDown["3e"]["Font"] =fontall;
 					DropDown["3e"]["TextColor3"] = Theme.TextColor;
 					DropDown["3e"]["BackgroundTransparency"] = 1;
 					DropDown["3e"]["Size"] = UDim2.new(1, -26, 0, 25);
@@ -3147,8 +3861,8 @@ function Library:new(options)
 						DropDown.Items[id].instance["43"]["TextWrapped"] = true;
 						DropDown.Items[id].instance["43"]["BorderSizePixel"] = 0;
 						DropDown.Items[id].instance["43"]["BackgroundColor3"] = Theme.DropDownOptionsColor;
-						DropDown.Items[id].instance["43"]["TextSize"] = 18;
-						DropDown.Items[id].instance["43"]["FontFace"] = Font.new([[rbxasset://fonts/families/Ubuntu.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
+						DropDown.Items[id].instance["43"]["TextSize"] = 21;
+						DropDown.Items[id].instance["43"]["Font"] =fontall;
 						DropDown.Items[id].instance["43"]["TextColor3"] = Theme.TextColor;
 						DropDown.Items[id].instance["43"]["Size"] = UDim2.new(1, 0, 0, 28);
 						DropDown.Items[id].instance["43"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
@@ -3295,8 +4009,6 @@ function Library:new(options)
 					Settings["3"].Visible = false
 					Settings.isToggled = false
 					Settings.CoolDown = false
-					
-					
 				end)
 			else if not Settings.isToggled and Settings.CoolDown == false then
 					Library:tween(Settings["icon"], {Rotation = 90}, 1,Enum.EasingStyle.Quint, Enum.EasingDirection.InOut)
@@ -3304,7 +4016,7 @@ function Library:new(options)
 					Settings.CoolDown = true
 					Settings["3"].Visible = true
 					Library:tween(Settings["3"], {Position = UDim2.new(1, 10, 0.5, 0)}, 1,Enum.EasingStyle.Quint, Enum.EasingDirection.InOut)
-					Library:tween(Settings["3"], {Size = UDim2.new(0, 250, 1, 0)}, 1,Enum.EasingStyle.Quint, Enum.EasingDirection.InOut,function()
+					Library:tween(Settings["3"], {Size = UDim2.new(0, 300, 1, 0)}, 1,Enum.EasingStyle.Quint, Enum.EasingDirection.InOut,function()
 						Settings.isToggled = true
 						Settings.CoolDown = false
 					end)
@@ -3373,10 +4085,12 @@ function Library:new(options)
 						Name = "Transparency",
 						callback = function(visible) 
 							if visible then
-								GUI["2"].Transparency = AllTransparentValues["guitwo"]
-								Settings["1"].Transparency = AllTransparentValues["settingsone"]
-								Settings["3"].Transparency = AllTransparentValues["guitwo"]
-								GUI["b"].Transparency = AllTransparentValues["dock"]
+								if GUI.Style ~= "Classic" then
+									GUI["2"].Transparency = AllTransparentValues["guitwo"]
+									GUI["b"].Transparency = AllTransparentValues["dock"]
+									Settings["1"].Transparency = AllTransparentValues["settingsone"]
+									Settings["3"].Transparency = AllTransparentValues["guitwo"]
+								end
 								NotifTransparency = 0.3
 								PopUpTransparency = 0.02
 								for _, child in ipairs(NotificationHolder:GetChildren()) do
@@ -3390,10 +4104,14 @@ function Library:new(options)
 									end
 								end
 							else
-								GUI["2"].Transparency = 0
-								Settings["1"].Transparency = 0
-								Settings["3"].Transparency = 0
-								GUI["b"].Transparency = 0
+								if GUI.Style ~= "Classic" then
+									GUI["2"].Transparency = 0
+									GUI["b"].Transparency = 0
+									Settings["1"].Transparency = 0
+									Settings["3"].Transparency = 0
+								else
+									
+								end
 								NotifTransparency = 0
 								PopUpTransparency= 0
 								for _, child in ipairs(NotificationHolder:GetChildren()) do
@@ -3406,6 +4124,7 @@ function Library:new(options)
 										child.Transparency = 0
 									end
 								end
+								
 							end
 						end
 
@@ -3427,59 +4146,170 @@ function Library:new(options)
 						end
 					})
 					transparencytg:UpdateToggle(true)
-					local current = GUI.DockPos
-					local d = Settings:DropDown({
-						Name = "Style",
-						callback = function(option) 
-							if option == "Fixed" and GUI.DockPos ~= "Fixed" then
-								--GUI["2"].Size = UDim2.new(0, 601.5, 0, 450);
-								Library:tween(GUI["2"], {Size =  UDim2.new(0, 601.5, 0, 450)}, 0.8, Enum.EasingStyle.Quint)
-								GUI["b"].Parent = GUI["1"];
-								GUI["b"]["Size"] = UDim2.new(0,650, 0, 60);
-								do
-								GUI["b"].Visible = not GUI["b"].Visible
-								GUI["b"].Position = UDim2.new(0.5,0,1, -60);
-								wait(0.4)
-								GUI["b"].Visible = not GUI["b"].Visible
+					local current = GUI.Style		
+					--[[
+					local ThemeDD = Settings:DropDown({
+						Name = "Themes",
+						callback = function(option)
+							local function applyTheme(theme)
+								Theme = theme
+								CurrentTheme = Theme
+								
+								for _, child in pairs(buttonStrokeRef) do
+									child.Color = theme.ButtonInputStrokeColor
 								end
-								GUI["b"].AnchorPoint = Vector2.new(0.5,0.5)
-								isFixed = true
-								GUI.DockPos = "Fixed"
-							elseif option == "Dock Bellow" and GUI.DockPos ~= "Bottom" then
-								isFixed = false
-								Library:tween(GUI["2"], {Size =UDim2.new(0, 401, 0, 300)}, 0.8, Enum.EasingStyle.Quint)
-								GUI["b"].Parent = GUI["2"];
-								GUI["b"]["Size"] = UDim2.new(1,0, 0, 60);
-								GUI["b"].AnchorPoint = Vector2.new(0,0)
-								do
-									GUI["b"].Visible = not GUI["b"].Visible
-									GUI["b"].Position = UDim2.new(0, 0,0, 350);
-									wait(0.4)
-									GUI["b"].Visible = not GUI["b"].Visible
+								for _, child in pairs(buttonRef) do
+									child.BackgroundColor3 = theme.ButtonColor
 								end
-								GUI.DockPos = "Bottom"
-							elseif option == "Dock Top"  and GUI.DockPos ~= "Top" then
-								isFixed = false
-								GUI["b"].Parent = GUI["2"];
-								Library:tween(GUI["2"], {Size =UDim2.new(0, 401, 0, 300)}, 0.8, Enum.EasingStyle.Quint)
-								GUI["b"]["Size"] = UDim2.new(1,0, 0, 60);
-								GUI["b"].AnchorPoint = Vector2.new(0,0)
-								do
-									GUI["b"].Visible = not GUI["b"].Visible
-									GUI["b"].Position = UDim2.new(0, 0,0,-100);
-									wait(0.4)
-									GUI["b"].Visible = not GUI["b"].Visible
+								for _, child in pairs(sliderRef) do
+									child.BackgroundColor3 = Theme.SliderColor;
+								end
+								GUI["2"]["BackgroundColor3"] = theme.BackgroundColor
+								GUI["4"]["BackgroundColor3"] = theme.TopBar
+								GUI["6"]["BackgroundColor3"] = theme.TopBar
+								GUI["Time"]["TextColor3"] = theme.TextColor
+								GUI["7"]["TextColor3"] = theme.TextColor
+								GUI["b"]["BackgroundColor3"] = theme.DockColor
+								if GUI["Ext"] ~= nil then
+									GUI["Ext"].BackgroundColor3 = theme.BackgroundColor
+									GUI["Sep"].BackgroundColor3 = theme.TopBarInputStrokeColor
+								end
+								for _, child in pairs(TabRef) do
+									if child ~= tabcur or GUI.CurrentTab then
+										if Theme.isDark == false then 
+											child.ImageColor3 = addColors(Theme.TextColor, Color3.fromRGB(-80,-80,-80))
+										else 
+											child.ImageColor3 = addColors(Theme.TextColor, Color3.fromRGB(80,80,80))
+										end
+									else
+										child["ImageColor3"] = Theme.TextColor;
+									end
+									
+								end
+								for _, child in pairs(TabTextRef) do
+									child["TextColor3"] = Theme.TextColor
 								end
 								
-								GUI.DockPos = "Top"
+								for _, child in pairs(toggleCheckMarkRef) do
+									child["BackgroundColor3"] = Theme.ToggleCheckColorInactive;
+									
+								end
+								
+								for _, child in pairs(toggleRef) do
+									child["BackgroundColor3"] = Theme.ToggleColor;
+									
+								end
+								
+								for _, child in pairs(toggleThirdRef) do
+									child["ImageColor3"]  = Theme.TextColor;
+								end
+								for _, child in pairs(toggleStrokeRef) do
+									child["Color"] = Theme.ButtonInputStrokeColor;
+								end
 							end
 
+							if option == "Dark" then
+								applyTheme(Themes.Black)
+							elseif option == "Dark Blue" then
+								applyTheme(Themes.DarkBlue)
+							elseif option == "Dark Red" then
+								applyTheme(Themes.DarkRed)
+							elseif option == "Dark Green" then
+								applyTheme(Themes.DarkGreen)
+							elseif option == "Light Blue" then
+								applyTheme(Themes.LightBlue)
+							elseif option == "Light Yellow" then
+								applyTheme(Themes.LightYellow)
+							end
+							
 						end
 					})
-					d:Add("Fixed", 1)
-					d:Add("Dock Bellow", 2)
-					d:Add("Dock Top", 3)
-				end
+
+					ThemeDD:Add("Dark", 1)
+					ThemeDD:Add("Dark Blue", 2)
+					ThemeDD:Add("Dark Red", 3)
+					ThemeDD:Add("Dark Green", 4)
+					ThemeDD:Add("Light Blue", 5)
+					ThemeDD:Add("Light Yellow", 6)
+					]]
+					
+					if GUI.Style ~= "Classic" then
+					
+						local d = Settings:DropDown({
+							Name = "Style",
+							callback = function(option) 
+								if option == "Fixed" and GUI.Style ~= "Fixed" then
+									--GUI["2"].Size = UDim2.new(0, 601.5, 0, 450);
+									Library:tween(GUI["2"], {Size =  UDim2.new(0, 601.5, 0, 450)}, 0.8, Enum.EasingStyle.Quint)
+									GUI["b"].Parent = GUI["1"];
+									GUI["b"]["Size"] = UDim2.new(0,650, 0, 60);
+									do
+										GUI["b"].Visible = not GUI["b"].Visible
+										GUI["b"].Position = UDim2.new(0.5,0,1, -60);
+										wait(0.4)
+										GUI["b"].Visible = not GUI["b"].Visible
+									end
+									GUI["b"].AnchorPoint = Vector2.new(0.5,0.5)
+									Settings["Scrollable"]["Size"] = UDim2.new(1, 0, 0.9, 0);
+									isFixed = true
+									--print(isFixed)
+								GUI.Style = "Fixed"
+								
+								elseif option == "Dock Bellow" and GUI.Style ~= "Bottom" then
+								isFixed = false
+								
+									Library:tween(GUI["2"], {Size =UDim2.new(0, 401, 0, 300)}, 0.8, Enum.EasingStyle.Quint)
+									GUI["b"].Parent = GUI["2"];
+									GUI["b"]["Size"] = UDim2.new(1,0, 0, 60);
+									GUI["b"].AnchorPoint = Vector2.new(0,0)
+									if GUI.Style == "Fixed" then
+										do
+											GUI["b"].Visible = not GUI["b"].Visible
+											GUI["b"].Position = UDim2.new(0, 0,0, 350);
+											wait(0.4)
+											GUI["b"].Visible = not GUI["b"].Visible
+										end
+									else
+										Library:tween(GUI["b"], {Position = UDim2.new(0, 0,0, 350)}, 0.8, Enum.EasingStyle.Quint)
+									end
+									print(isFixed)
+									Settings["Scrollable"]["Size"] = UDim2.new(1, 0, 0.9, 0);
+									GUI.Style = "Bottom"
+								elseif option == "Dock Top"  and GUI.Style ~= "Top" then
+								isFixed = false
+								
+									GUI["b"].Parent = GUI["2"];
+									Library:tween(GUI["2"], {Size =UDim2.new(0, 401, 0, 300)}, 0.8, Enum.EasingStyle.Quint)
+									GUI["b"]["Size"] = UDim2.new(1,0, 0, 60);
+									GUI["b"].AnchorPoint = Vector2.new(0,0)
+									if GUI.Style == "Fixed" then
+										do
+											GUI["b"].Visible = not GUI["b"].Visible
+											GUI["b"].Position = UDim2.new(0, 0,0,-100);
+											wait(0.4)
+											GUI["b"].Visible = not GUI["b"].Visible
+										end
+									else
+										Library:tween(GUI["b"], {Position = UDim2.new(0, 0,0, -100)}, 0.8, Enum.EasingStyle.Quint)
+									end
+									print(isFixed)
+
+									GUI.Style = "Top"
+								end
+
+								if isFixed then
+									GUI2PosLOl = UDim2.new(0, 601.5, 0, 450);
+								else
+									GUI2PosLOl= UDim2.new(0, 401, 0, 300);
+								end
+							end
+						})
+						d:Add("Fixed", 1)
+						d:Add("Dock Bellow", 2)
+						d:Add("Dock Top", 3)
+						
+						end
+					end
 			end
 		end
 		return Settings
@@ -3504,31 +4334,31 @@ function Library:new(options)
 			local UIPadding = Instance.new("UIPadding")
 			local TextButton = Instance.new("TextButton")
 			local DraggableFrame = Instance.new("Frame")
-			
+
 			DraggableFrame.Parent = KeySystem
 			DraggableFrame.Name = "DraggableFrame"
-			DraggableFrame.Size = UDim2.new(1, 0,0.1, 0)
-			DraggableFrame.Position = UDim2.new(0,0,0,0)
-			DraggableFrame.AnchorPoint = Vector2.new(0,0)
-			DraggableFrame.Transparency = 1
+			DraggableFrame.Size = UDim2.new(1, 0, 0.1, 0)
+			DraggableFrame.Position = UDim2.new(0, 0, 0, 0)
+			DraggableFrame.AnchorPoint = Vector2.new(0, 0)
+			DraggableFrame.BackgroundTransparency = 1
 
 			local UICorner_3 = Instance.new("UICorner")
 			local UIPadding_2 = Instance.new("UIPadding")
 			local UIListLayout = Instance.new("UIListLayout")
-			--Properties:
 
+			-- Properties:
 			KeySystem.Name = "KeySystem"
 			KeySystem.Parent = GUI["1"]
 			KeySystem.AnchorPoint = Vector2.new(0.5, 0.5)
-			KeySystem.BackgroundColor3 = Color3.fromRGB(32, 15, 15)
+			KeySystem.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
 			KeySystem.BorderColor3 = Color3.fromRGB(0, 0, 0)
 			KeySystem.BorderSizePixel = 0
-			KeySystem.Size = UDim2.new(0, 400, 0, 180)
-			KeySystem.Position = UDim2.new(0.5,0,1,100)
-			KeySystem.Transparency = 0.1
+			KeySystem.Size = UDim2.new(0, 420, 0, 200)
+			KeySystem.Position = UDim2.new(0.5, 0, 1.5, 0)
+			KeySystem.BackgroundTransparency = 0.1
 
-			local Pos = UDim2.new(0.5,0,0.5,0)
-			Library:tween(KeySystem, {Position = Pos}, 1.5,Enum.EasingStyle.Quint, Enum.EasingDirection.InOut)
+			local Pos = UDim2.new(0.5, 0, 0.5, 0)
+			Library:tween(KeySystem, {Position = Pos}, 1.5, Enum.EasingStyle.Quint, Enum.EasingDirection.InOut)
 
 			ImageButton.Parent = KeySystem
 			ImageButton.AnchorPoint = Vector2.new(1, 0)
@@ -3536,11 +4366,11 @@ function Library:new(options)
 			ImageButton.BackgroundTransparency = 1.000
 			ImageButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
 			ImageButton.BorderSizePixel = 0
-			ImageButton.Position = UDim2.new(1, -8, 0, 8)
-			ImageButton.Size = UDim2.new(0.0560000017, 0, 0.143999994, 0)
+			ImageButton.Position = UDim2.new(1, -10, 0, 10)
+			ImageButton.Size = UDim2.new(0,22, 0,22)
 			ImageButton.Image = "rbxassetid://101632078875960"
 
-			UICorner.CornerRadius = UDim.new(0, 15)
+			UICorner.CornerRadius = UDim.new(0, 12)
 			UICorner.Parent = KeySystem
 
 			TextHolder.Name = "TextHolder"
@@ -3558,14 +4388,13 @@ function Library:new(options)
 			MainName.BackgroundTransparency = 1.000
 			MainName.BorderColor3 = Color3.fromRGB(0, 0, 0)
 			MainName.BorderSizePixel = 0
-			MainName.Position = UDim2.new(0.5, 0, 0, 10)
-			MainName.Size = UDim2.new(0, 200, 0, 50)
-			MainName.Font = Enum.Font.Ubuntu
+			MainName.Position = UDim2.new(0.5, 0, 0, 15)
+			MainName.Size = UDim2.new(0, 300, 0, 40)
+			MainName.Font = Enum.Font.GothamBold
 			MainName.Text = options.KeySystemConfig.KeySystemText.Title
 			MainName.TextColor3 = Color3.fromRGB(255, 255, 255)
-			MainName.TextSize = 22.000
-			MainName.TextTruncate = Enum.TextTruncate.AtEnd
-			MainName.TextXAlignment = Enum.TextXAlignment.Left
+			MainName.TextSize = 24.000
+			MainName.TextXAlignment = Enum.TextXAlignment.Center
 
 			MainText.Name = "Main Text"
 			MainText.Parent = TextHolder
@@ -3574,15 +4403,15 @@ function Library:new(options)
 			MainText.BackgroundTransparency = 1.000
 			MainText.BorderColor3 = Color3.fromRGB(0, 0, 0)
 			MainText.BorderSizePixel = 0
-			MainText.Position = UDim2.new(0.465, 0, 0.49, 0)
-			MainText.Size = UDim2.new(1, -70, 0, 40)
-			MainText.Font = Enum.Font.Ubuntu
+			MainText.Position = UDim2.new(0.5, 0, 0.45, 0)
+			MainText.Size = UDim2.new(1, -80, 0, 50)
+			MainText.Font = Enum.Font.Gotham
 			MainText.Text = options.KeySystemConfig.KeySystemText.Text
-			MainText.TextColor3 = Color3.fromRGB(255, 255, 255)
+			MainText.TextColor3 = Color3.fromRGB(200, 200, 200)
 			MainText.TextSize = 18.000
-			MainText.TextXAlignment = Enum.TextXAlignment.Left
-			MainText.TextYAlignment = Enum.TextYAlignment.Top
 			MainText.TextWrapped = true
+			MainText.TextXAlignment = Enum.TextXAlignment.Center
+			MainText.TextYAlignment = Enum.TextYAlignment.Top
 
 			SmallTitle.Name = "SmallTitle"
 			SmallTitle.Parent = TextHolder
@@ -3591,14 +4420,15 @@ function Library:new(options)
 			SmallTitle.BackgroundTransparency = 1.000
 			SmallTitle.BorderColor3 = Color3.fromRGB(0, 0, 0)
 			SmallTitle.BorderSizePixel = 0
-			SmallTitle.Position = UDim2.new(0.278, 0, 0.45, -25)
-			SmallTitle.Size = UDim2.new(0, 180, 0, 20)
-			SmallTitle.Font = Enum.Font.Ubuntu
-			SmallTitle.Text = options.KeySystemConfig.KeySystemText.SmallTitle
-			SmallTitle.TextColor3 = Color3.fromRGB(200, 200, 200)
-			SmallTitle.TextSize = 14.000
-			SmallTitle.TextXAlignment = Enum.TextXAlignment.Left
-			SmallTitle.TextYAlignment = Enum.TextYAlignment.Top
+			SmallTitle.Position = UDim2.new(0.5, 0, 0.35, 0)
+			SmallTitle.Size = UDim2.new(0, 200, 0, 20)
+			SmallTitle.Font = Enum.Font.Gotham
+			SmallTitle.Text = [[]]
+			SmallTitle.TextColor3 = Color3.fromRGB(150, 150, 150)
+			SmallTitle.TextSize = 16.000
+			SmallTitle.TextXAlignment = Enum.TextXAlignment.Center
+			SmallTitle.Visible = false
+			
 
 			Frame.Parent = KeySystem
 			Frame.AnchorPoint = Vector2.new(0, 1)
@@ -3607,24 +4437,23 @@ function Library:new(options)
 			Frame.BorderColor3 = Color3.fromRGB(0, 0, 0)
 			Frame.BorderSizePixel = 0
 			Frame.Position = UDim2.new(0, 0, 1, 0)
-			Frame.Size = UDim2.new(1, 0, 0, 70)
+			Frame.Size = UDim2.new(1, 0, 0, 80)
 			Frame.Name = "Holder"
 
 			TextBox.Parent = Frame
 			TextBox.AnchorPoint = Vector2.new(0.5, 0.5)
-			TextBox.BackgroundColor3 = Color3.fromRGB(59, 32, 32)
+			TextBox.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
 			TextBox.BorderColor3 = Color3.fromRGB(0, 0, 0)
 			TextBox.BorderSizePixel = 0
-			TextBox.Position = UDim2.new(0.27, 0, 0.6, 0)
-			TextBox.Size = UDim2.new(0.449999988, 0, 0, 40)
-			TextBox.Font = Enum.Font.Ubuntu
+			TextBox.Position = UDim2.new(0.4, 0, 0.5, 0)
+			TextBox.Size = UDim2.new(0.5, 0, 0, 40)
+			TextBox.Font = Enum.Font.Gotham
 			TextBox.PlaceholderColor3 = Color3.fromRGB(178, 178, 178)
-			TextBox.PlaceholderText = "Input Key"
+			TextBox.PlaceholderText = "Enter Key"
 			TextBox.Text = ""
 			TextBox.TextColor3 = Color3.fromRGB(255, 255, 255)
-			TextBox.TextSize = 15.000
+			TextBox.TextSize = 16.000
 			TextBox.TextXAlignment = Enum.TextXAlignment.Left
-			
 
 			UICorner_2.Parent = TextBox
 
@@ -3632,28 +4461,26 @@ function Library:new(options)
 			UIPadding.PaddingLeft = UDim.new(0, 10)
 			UIPadding.PaddingRight = UDim.new(0, 10)
 
-			TextButton.Name = "TextButton"
+			TextButton.Name = "Sumbit"
 			TextButton.Parent = Frame
-			TextButton.AnchorPoint = Vector2.new(1,1)
-			TextButton.BackgroundColor3 = Color3.fromRGB(59, 32, 32)
+			TextButton.AnchorPoint = Vector2.new(1, 0.5)
+			TextButton.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
 			TextButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
 			TextButton.BorderSizePixel = 0
-			TextButton.Position = UDim2.new(0.62,0,0.9,0)
-			TextButton.Size = UDim2.new(0, 40, 0, 40)
-			TextButton.Font = Enum.Font.Ubuntu
-			TextButton.Text = "Get Key"
+			TextButton.Position = UDim2.new(0.9, 0, 0.5, 0)
+			TextButton.Size = UDim2.new(0, 100, 0, 40)
+			TextButton.Font = Enum.Font.GothamBold
+			TextButton.Text = "Submit"
 			TextButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-			TextButton.TextScaled = true
-			TextButton.TextSize = 15.000
+			TextButton.TextSize = 16.000
 			TextButton.TextWrapped = true
-			TextButton.TextXAlignment = Enum.TextXAlignment.Left
+
 			UICorner_3.Parent = TextButton
-			
+
 			UIPadding_2.Parent = TextButton
 			UIPadding_2.PaddingLeft = UDim.new(0, 10)
 			UIPadding_2.PaddingRight = UDim.new(0, 10)
-			
-			
+
 			local SmallTextKey = Instance.new("TextLabel")
 
 			SmallTextKey.Parent = Frame
@@ -3663,13 +4490,12 @@ function Library:new(options)
 			SmallTextKey.BorderColor3 = Color3.fromRGB(0, 0, 0)
 			SmallTextKey.BorderSizePixel = 0
 			SmallTextKey.Position = UDim2.new(0.08, 0, 0.25, 0)
-			SmallTextKey.Size = UDim2.new(0.100000001, 0, 0, 10)
-			SmallTextKey.Font = Enum.Font.SourceSans
+			SmallTextKey.Size = UDim2.new(0.1, 0, 0, 15)
+			SmallTextKey.Font = Enum.Font.Gotham
 			SmallTextKey.Text = "Key"
-			SmallTextKey.TextColor3 = Color3.fromRGB(2554, 255, 255)
-			SmallTextKey.TextSize = 15.000
+			SmallTextKey.TextColor3 = Color3.fromRGB(255, 255, 255)
+			SmallTextKey.TextSize = 14.000
 			SmallTextKey.TextWrapped = true
-			
 			
 			--logic
 			do
@@ -3679,7 +4505,7 @@ function Library:new(options)
 
 			local function CheckKey(InputtedKey)
 				if options.KeySystemConfig.Key == InputtedKey then
-						Library:tween(KeySystem, {Position = UDim2.new(KeySystem.Position.X.Scale,KeySystem.Position.X.Offset,-0.5,0)}, 1,Enum.EasingStyle.Quint, Enum.EasingDirection.InOut)
+					Library:tween(KeySystem, {Position = UDim2.new(KeySystem.Position.X.Scale,KeySystem.Position.X.Offset,-0.5,0)}, 1,Enum.EasingStyle.Quint, Enum.EasingDirection.InOut)
 					wait(1.2)
 					GUI["2"]["Visible"] = true
 					GUI:Move()
@@ -3694,23 +4520,20 @@ function Library:new(options)
 								return
 							end)
 						end)
+						--[[
 						Library:tween(SmallTextKey, {Position = UDim2.new(SmallTextKey.Position.X.Scale, -15, SmallTextKey.Position.Y.Scale, 0)}, 0.1, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut,function()
 							Library:tween(SmallTextKey, {Position = UDim2.new(SmallTextKey.Position.X.Scale, 15,SmallTextKey.Position.Y.Scale, 0)}, 0.1, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut,function()
 								Library:tween(SmallTextKey, {Position = UDim2.new(SmallTextKey.Position.X.Scale, 0, SmallTextKey.Position.Y.Scale, 0)}, 0.1, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut)
 								return
 							end)
 						end)
+						]]
 				end
 			end
 			
-			TextBox.FocusLost:Connect(function(enterPressed)
-				if enterPressed then
-					CheckKey(TextBox.Text)
-				end
-			end)
-
 			TextButton.MouseButton1Click:Connect(function()
-				setclipboard(options.KeySystemConfig.KeyLink)
+					CheckKey(TextBox.Text)
+					
 			end)
 
 			ImageButton.MouseButton1Click:Connect(function()
@@ -3774,7 +4597,6 @@ function Library:new(options)
 		GUI:KeySystem()
 	end
 	
-	
 	return GUI
 end
-return Library,Themes
+return Library
