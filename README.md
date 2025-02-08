@@ -26,7 +26,7 @@ local Library,themes =  loadstring(game:HttpGet("https://raw.githubusercontent.c
 
 - Me(trinyx) I Coded it alone :)
 
-##License
+## License
 
 MIT License
 
